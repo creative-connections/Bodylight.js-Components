@@ -1,0 +1,21 @@
+{
+  "summary":"Dobrý den pane doktore. Pacient, pan Novák, věk 41, je stabilizovaný a všechny životní funkce jsou v normě.",
+  "kidney":"Ledvina je orgán, který zabezpečuje stálost vnitřního prostředí a vylučování odpadních látek rozpuštěných v krvi. ",
+  "heart":"Funkce srdce v normě. Puls 120, Tlak stodvacet na 80.",
+  "title": "Virtuální pacient",
+  "title-apps":"Ukázky simulátorů",
+  "title-physiomodel": "Physiome Model simulátor",
+  "title-elearning": "E-Learning",
+  "title-scenarios": "Scénáře",
+  "title-settings": "Nastavení",
+  "title-summary": "Report celkoveho stavu",
+  "title-kidney": "Report stavu ledvin",
+  "title-heart": "Report stavu srdce",
+  "settings-currentvoice": "Nastavený hlas",
+  "settings-langdialogs": "Jazyk dialogů",
+  "settings-langtts": "Jazyk a hlas pro generování hlasu z textu",
+  "settings-pixelratioinfo":"Pro mobilní zařízení, zkuste změnit pixel ratio na 1.75 nebo 2 pro lepší rozlišení 3D vizualizace",
+  "settings-enterfullscreen": "Zapnout plnou obrazovku",
+  "settings-exitfullscreen": "Vypnout plnou obrazovku"
+
+}

@@ -1,0 +1,20 @@
+{
+  "summary":"Good morning doctor Koolhaaneck. Patient, Mr. Smith, age 41,  is currently stable and vital signs are within normal limits.",
+  "kidney":"All kidney function within normal limits. Serum Creatinine, 90, Estimated, GFR 95.",
+  "heart":"Heart function is normal. Pulse 120 bets per minute. Pressure 120 over 80 .",
+  "title": "Dashboard Virtual Patient",
+  "title-apps": "Demo simulators",
+  "title-physiomodel": "Physiome Model Simulator",
+  "title-elearning": "E-Learning",
+  "title-scenarios":"Scenarios",
+  "title-settings": "Settings",
+  "title-summary": "Summary report",
+  "title-kidney": "Report of kidney function",
+  "title-heart": "Report of heart function",
+  "settings-currentvoice": "Current voice",
+  "settings-langdialogs": "Dialog language",
+  "settings-langtts": "Text to speech language and voices",
+  "settings-pixelratioinfo":"For android devices try different pixel ratio e.g. 1.75 or 2 to get better resolution in 3D visualisation",
+  "settings-enterfullscreen": "Enter FullScreen",
+  "settings-exitfullscreen": "Exit FullScreen"
+}
