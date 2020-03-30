@@ -17,9 +17,12 @@
     "dygraphs": "^2.1.0",
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
+    "highlightjs": "^9.16.2",
     "i18next-resource-store-loader": "^0.1.2",
     "i18next-xhr-backend": "^3.2.2",
     "libgif": "0.0.3",
+    "markdown-it": "^10.0.0",
+    "markdown-it-footnote": "^3.0.2",
     "showdown": "^1.9.1"
   },
   "devDependencies": {

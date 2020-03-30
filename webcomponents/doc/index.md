@@ -10,7 +10,7 @@ This section describes how to use and customize web components of Bodylight.js.
 
 Web Components is a suite of different technologies allowing you to create reusable 
 custom elements — with their functionality encapsulated away from the rest of your code.
-More info at [1].
+More info at [^1].
 
 Web components of Bodylight library are exported as custom elements.
 In pure HTML, use with `bdl-` prefix. In an already preloaded component of markdown, use it without prefix.
@@ -19,7 +19,7 @@ Available are these components:
 * MD:`<range></range>` HTML: `<bdl-range></bdl-range>` Renders a range input which may trigger a value
 * MD:`<bind2previous></bind2previous>` HTML:`<bdl-bind2previous></bdl-bind2previous>` Binds values of 2 components 
 * MD:`<fmi></fmi>` HTML:`<bdl-fmi></bdl-fmi>` Creates control buttons in order to control simulation of the model
-* MD:`<dygraph></dygraph>` HTML:`<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [2]
+* MD:`<dygraph></dygraph>` HTML:`<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
 
 ## Developer's guide 
 
@@ -129,6 +129,6 @@ For components inside markdown use direct connection via shared variable name
 
 # References
 
-[1]:# Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
+[^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
 
-[2]:# Dygraph: https://dygraphs.com
+[^2]: Dygraph: https://dygraphs.com
