@@ -1,19 +1,10 @@
 <template>
   <require from="components/composite/markdown"></require>
-  <require from="components/composite/markdownit2"></require>
   <require from="components/receptacle.html"></require>
   <require from="components/range.html"></require>
   <require from="components/bind2previous"></require>
   <h1>Bodylight components</h1>
-  <!--h3>showdown</h3>
-  <markdown src="doc/index.md"></markdown-->
-  <h3>markdown-it</h3>
 
-  <markdownit2 src="doc/index.md"></markdownit2>
-  <h3>test component binding</h3>
-
-  <receptacle id="id21" hx="100" hy="100" px="50" py="50" value="50" value.bind="valueid31"></receptacle>
-  <range id="id31" min="10" max="100" step="2" default="50" value.two-way="valueid31"></range>
-  <!--bind2previous fromid="id31" toid="id21"></bind2previous-->
+  <markdown src="doc/index.md"></markdown>
 
 </template>
