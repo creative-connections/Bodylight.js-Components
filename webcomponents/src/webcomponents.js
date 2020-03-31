@@ -12,7 +12,7 @@ import {PLATFORM} from 'aurelia-pal';
 import * as environment from '../config/environment.json';
 
 export function configure(aurelia) {
-  console.log('mainwebcomponent configure');
+  //console.log('mainwebcomponent configure');
   aurelia.use
     .basicConfiguration()
   //.plugin(PLATFORM.moduleName('aurelia-html-import-template-loader'))
@@ -29,17 +29,18 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/beaker.html'))
     .globalResources(PLATFORM.moduleName('components/composite/beakercontrols.html'))
     .globalResources(PLATFORM.moduleName('components/composite/markdown'))
+    //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html
+    .globalResources(PLATFORM.moduleName('components/composite/simplegif'))
     .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))
     .globalResources(PLATFORM.moduleName('components/chartjs'))
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
-    .globalResources(PLATFORM.moduleName('components/physiology/animatedheart1'))
     .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))
     .globalResources(PLATFORM.moduleName('components/fmi'));
 
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
-
+  // here define start and register prefix bdl-
   aurelia.start().then(() => {
     const registry = aurelia.container.get(CustomElementRegistry);
     registry.fallbackPrefix = 'bdl-';

@@ -23,7 +23,7 @@ const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '';
 
 const cssRules = [
-  { loader: 'css-loader' },
+  { loader: 'css-loader' }
 ];
 
 
@@ -42,15 +42,15 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   output: {
     path: outDir,
     publicPath: baseUrl,
-    filename: production ? 'bodylight.bundle.js' : 'bodylight.bundle.js',
-    sourceMapFilename: production ? 'bodylight.bundle.map' : 'bodylight.bundle.map',
-    chunkFilename: production ? 'bodylight.[chunkhash].chunk.js' : 'bodylight.[hash].chunk.js'
-  },
-  optimization: {
-    //minimizer:[ new UglifyJsPlugin()],
-    minimize: true
+    filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
+    sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
+    chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
   },
   /*optimization: {
+    //minimizer:[ new UglifyJsPlugin()],
+    minimize: true
+  },*/
+  optimization: {
     runtimeChunk: true,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
@@ -59,7 +59,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     // https://webpack.js.org/plugins/split-chunks-plugin/
     splitChunks: {
       hidePathInfo: true, // prevents the path from being used in the filename when using maxSize
-      chunks: "initial",
+      chunks: 'initial',
       // sizes are compared against source before minification
       maxSize: 20000000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
       cacheGroups: {
@@ -106,7 +106,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         }
       }
     }
-  },*/
+  },
   performance: { hints: false },
   devServer: {
     contentBase: outDir,
@@ -127,7 +127,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         use: extractCss ? [{
           loader: MiniCssExtractPlugin.loader
         },
-          'css-loader'
+        'css-loader'
         ] : ['style-loader', ...cssRules]
       },
       {
@@ -144,13 +144,13 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       },
       // embed small images and fonts as Data Urls and larger ones as files:
       { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
-      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000000, mimetype: 'application/font-woff2' } },
-      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000000, mimetype: 'application/font-woff' } },
+      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 100000, mimetype: 'application/font-woff2' } },
+      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 100000, mimetype: 'application/font-woff' } },
       // load these fonts normally, as files:
       { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
       { test: /environment\.json$/i, use: [
-          {loader: "app-settings-loader", options: {env: production ? 'production' : 'development' }},
-        ]},
+        {loader: 'app-settings-loader', options: {env: production ? 'production' : 'development' }}
+      ]}
     ]
   },
   plugins: [
@@ -179,7 +179,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     })),
     ...when(!tests, new CopyWebpackPlugin([
       { from: 'static', to: outDir, ignore: ['.*'] },
-      { from: 'doc', to: outDir+'/doc', ignore: ['.*'] }
+      { from: 'doc', to: outDir + '/doc', ignore: ['.*'] }
     ])), // ignore dot (hidden) files
     ...when(analyze, new BundleAnalyzerPlugin()),
     /**

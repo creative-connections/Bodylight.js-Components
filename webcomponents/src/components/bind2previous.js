@@ -18,7 +18,7 @@ export class Bind2previous {
         document.getElementById("id${window.ids - 1}").value = event.target.value;
    }*/
     this.handleValueChange = e => {
-      console.log('handleValueChange, e,fromid,toid', e);
+      //console.log('handleValueChange, e,fromid,toid', e);
       if (this.toattribute) { document.getElementById(this.toid)[this.toattribute] = e.target.value;}
       else { document.getElementById(this.toid).value = e.target.value;}
     };

@@ -1,5 +1,5 @@
 {
-  "name": "webcomponents",
+  "name": "bodylight",
   "type": "project:application",
   "paths": {
     "root": "src",
