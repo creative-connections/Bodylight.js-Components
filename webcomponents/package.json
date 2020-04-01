@@ -26,6 +26,8 @@
     "libgif": "0.0.3",
     "markdown-it": "^10.0.0",
     "markdown-it-footnote": "^3.0.2",
+    "markdown-it-mathjax": "^2.0.0",
+    "mathjax": "^3.0.1",
     "showdown": "^1.9.1"
   },
   "devDependencies": {

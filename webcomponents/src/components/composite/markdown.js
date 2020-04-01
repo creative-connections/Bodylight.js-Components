@@ -1,3 +1,4 @@
+//import Mathjax from 'mathjax';
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -5,6 +6,7 @@ import {Markdownaurelia} from './markdownaurelia';
 
 /**
  * Enables markdown for web components - instead of updating dynamic html, updates directly the innerHTML
+ * Inherits MD rendering from markdownaurelia component
  */
 
 @inject(I18N, HttpClient)
@@ -15,7 +17,8 @@ export class Markdown extends Markdownaurelia {
   }
 
   update() {
-    console.log('markdown2 update called by OOP polymorphism mydiv, html', this.mydiv,this.html);
+    //console.log('markdown2 update called by OOP polymorphism mydiv, html', this.mydiv,this.html);
     this.mydiv.innerHTML = this.html;
+    //Mathjax.typesetPromise(); //update mathjax
   }
 }

@@ -13,7 +13,21 @@ to build application internally in aurelia framework. However, web components wa
 
 ## Developer's guide 
 
-Further webcomponents can be exported by ammending the `src/mainwebcomponent.js` and building the bodylight.bundle.js.
+To add a new webcomponent:
+ 1. create component definition in `src/components`, either only HTML or HTML and JS
+ 2. register component as webcomponent in `src/webcomponents.js` adding a row
+    ```javascript
+    export function configure(aurelia) {
+      aurelia.use
+      ...
+      //use this routine to register HTML only component as web component
+      .globalResources(PLATFORM.moduleName('components/mycomponent.html'))
+      //use this routine to register component (JS and HTML) as web component
+      .globalResources(PLATFORM.moduleName('components/mycomponent'))
+      ...
+    ```
+ 3. build the bodylight.bundle.js using `au build`
+ 4. add documentation section about new component into User's guide
 
 ## User's guide 
 
@@ -25,7 +39,7 @@ These webcomponents are available:
 * `<bdl-fmi></bdl-fmi>` Creates control buttons in order to control simulation of the model
 * `<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
 
-### Adding web component into web page
+### Adding web component into HTML web page
 
 Web components are supported by modern browsers. 
 Script with bundle `bodylight.bundle.js` can be used to add bodylight web components into any web application or web page.
@@ -59,6 +73,33 @@ The following HTML snippet loads first the `bodylight.bundle.js` script and use 
 -->
 </body>
 </html>
+```
+
+### Adding web component into Markdown web page
+Markdown component `<bdl-markdown></bdl-markdown>` can be used to create interactive web content with web components.
+
+HTML `index.html`:
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Bodylight web component</title>
+     <script type="module" src="bodylight.bundle.js"></script>
+     <script type="module" src="modelfmi.js"></script>
+  </head>
+<body aurelia-app="mainwebcomponent">
+  <bdl-markdown src="index.md"></bdl-markdown>
+</body>
+</html>
+```
+
+any HTML and custom elements are interpretted:
+
+MARKDOWN `index.md`:
+```markdown
+# This chapter describes usage of web components
+select value from range: <bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
 ```
 
 ### Webcomponent details
@@ -124,6 +165,11 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
 
 ### Markdown
 `<bdl-markdown src="[filename.md]"></bdl-markdown>` renders markdown - which may contain all the above webcomponents.
+Markdown-it is used to render markdown with following plugins enabled: 
+* highlight.js to highlight source code specifying language, e.g. Python 
+    ` ```python ... some python code ``` ` or ` ```javascript ... some javascript code ``` `
+* mathjax.js to render math formula between `$ $` or multiline `$$ $$`
+`$ a = \frac{b}{c} $` is rendered as $ a = \frac{b}{c} $        
 
 
 # References
