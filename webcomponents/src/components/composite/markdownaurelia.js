@@ -1,7 +1,7 @@
 import Markdownit from 'markdown-it';
 import Markdownitfootnote from 'markdown-it-footnote';
 import markdownitMathjax from 'markdown-it-mathjax';
-//import Mathjax from 'mathjax';
+import Mathjax from 'mathjax';
 import hljs from 'highlightjs';
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
