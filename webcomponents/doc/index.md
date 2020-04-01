@@ -159,6 +159,11 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
   
 ### Beaker, bdl-beaker, bdl-beakercontrols
 `<bdl-beaker></bdl-beaker>` Creates a beaker with controllable width and height
+
+### Capillary, bdl-capillary
+`<bdl-capillary></bdl-capillary>` Creates a capillary component with adjustable stoke
+
+<bdl-capillary width="200" height="100" color="red" strokew="3"></bdl-capillary>
     
 ### Simplegif, bdl-simplegif
 `<bdl-simplegif src="[filename.gif]" fromid="[id_to_listen]">` creates animated gif which is stopped by default and playing is enabled/disabled when an custom event 'fmistart'/'fmistop' are received from an element with id 'fromid'.
