@@ -1,9 +1,8 @@
 import Markdownit from 'markdown-it';
 import Markdownitfootnote from 'markdown-it-footnote';
-import MarkdownitMath from 'markdown-it-math';
-//import markdownitMathjax from 'markdown-it-mathjax';
-//import MathJax from 'mathjax/es5/tex-chtml';
-import hljs from 'highlightjs';
+//import MarkdownitMath from 'markdown-it-math';
+import mk from '@iktakahiro/markdown-it-katex'; //iktakahiro version seems to be most updated - works with latest katex
+import hljs from 'highlight.js';
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -37,8 +36,9 @@ export class Markdownaurelia {
         return ''; // use external default escaping
       }
     }).use(Markdownitfootnote) //footnote - extension to MD - otherwise no link between [^1] and [^1]:
-      .use(MarkdownitMath);  //math - mathml extension
-//    this.mj = MathJax;
+      .use(mk, {'throwOnError': true, 'errorColor': ' #cc0000'}); //math-> katex - should be faster than mathjax and crossbrowser compatible when chrom do not support mathml
+    //.use(MarkdownitMath);  //math - mathml extension
+    //    this.mj = MathJax;
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
     //fetch md source from src attribute
     this.client.fetch(this.src)
@@ -50,10 +50,9 @@ export class Markdownaurelia {
         this.html = this.md.render(this.text);
         this.update();
       });
-    
   }
   update() {
     //if (this.mj)this.mj.typesetPromise();
-    if (window.MathJax) window.MathJax.typeset();
+    //if (window.MathJax) window.MathJax.typeset();
   }
 }

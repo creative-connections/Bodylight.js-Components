@@ -183,7 +183,7 @@ Markdown-it is used to render markdown with following plugins enabled:
     //some python code
     ```
 ```
-* markdown-it-math to render math formula between `$$` or multiline `$$$` into MathML W3C standard.
+* markdown-it-math to render math formula between `$` or multiline `$$` into KaTEX and HTML.
 
 Example:
 ```markdown
@@ -192,17 +192,30 @@ Example:
   Bayes theorem:
 
   $$$
-  P(A | B) = (P(B | A)P(A)) / P(B)
+  P(A | B) = \frac{P(B | A)P(A)}{P(B)}
   $$$
 ```
 is rendered as:
-Pythagoran theorem is $$a^2 + b^2 = c^2$$.
+Pythagoran theorem is $a^2 + b^2 = c^2$.
 
 Bayes theorem:
 
-$$$
-P(A | B) = (P(B | A)P(A)) / P(B)
-$$$
+$$
+P(A | B) = \frac{P(B | A)P(A)}{P(B)}
+$$
+
+Some electricity:
+
+$$\begin{array}{c}
+
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
+= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+
+\nabla \cdot \vec{\mathbf{B}} & = 0
+
+\end{array}$$
 
 # References
 

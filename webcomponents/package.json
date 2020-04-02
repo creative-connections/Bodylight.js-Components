@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@iktakahiro/markdown-it-katex": "^3.1.0",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-dynamic-html": "^0.3.1",
@@ -20,15 +21,14 @@
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
     "gifffer": "^1.5.4",
-    "highlightjs": "^9.16.2",
+    "highlight.js": "^9.16.2",
     "i18next-resource-store-loader": "^0.1.2",
     "i18next-xhr-backend": "^3.2.2",
+    "katex": "^0.11.1",
     "libgif": "0.0.3",
     "markdown-it": "^10.0.0",
     "markdown-it-footnote": "^3.0.2",
-    "markdown-it-mathjax": "^2.0.0",
-    "mathjax": "^3.0.1",
-    "showdown": "^1.9.1"
+    "markdown-it-katex": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
