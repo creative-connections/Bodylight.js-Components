@@ -1,7 +1,8 @@
 import Markdownit from 'markdown-it';
 import Markdownitfootnote from 'markdown-it-footnote';
-import markdownitMathjax from 'markdown-it-mathjax';
-import Mathjax from 'mathjax';
+import MarkdownitMath from 'markdown-it-math';
+//import markdownitMathjax from 'markdown-it-mathjax';
+//import MathJax from 'mathjax/es5/tex-chtml';
 import hljs from 'highlightjs';
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
@@ -36,7 +37,8 @@ export class Markdownaurelia {
         return ''; // use external default escaping
       }
     }).use(Markdownitfootnote) //footnote - extension to MD - otherwise no link between [^1] and [^1]:
-      .use(markdownitMathjax);  //mathjax - extension ???
+      .use(MarkdownitMath);  //math - mathml extension
+//    this.mj = MathJax;
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
     //fetch md source from src attribute
     this.client.fetch(this.src)
@@ -48,9 +50,10 @@ export class Markdownaurelia {
         this.html = this.md.render(this.text);
         this.update();
       });
-    //this.mj = Mathjax({})
+    
   }
   update() {
-    //Mathjax.typesetPromise();
+    //if (this.mj)this.mj.typesetPromise();
+    if (window.MathJax) window.MathJax.typeset();
   }
 }

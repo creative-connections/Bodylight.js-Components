@@ -3,6 +3,7 @@ import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {Markdownaurelia} from './markdownaurelia';
+//import Mathjax from "mathjax";
 
 /**
  * Enables markdown for web components - instead of updating dynamic html, updates directly the innerHTML
@@ -19,6 +20,6 @@ export class Markdown extends Markdownaurelia {
   update() {
     //console.log('markdown2 update called by OOP polymorphism mydiv, html', this.mydiv,this.html);
     this.mydiv.innerHTML = this.html;
-    //Mathjax.typesetPromise(); //update mathjax
+    super.update();
   }
 }

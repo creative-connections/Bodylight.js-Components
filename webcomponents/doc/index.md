@@ -172,10 +172,37 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
 `<bdl-markdown src="[filename.md]"></bdl-markdown>` renders markdown - which may contain all the above webcomponents.
 Markdown-it is used to render markdown with following plugins enabled: 
 * highlight.js to highlight source code specifying language, e.g. Python 
-    ` ```python ... some python code ``` ` or ` ```javascript ... some javascript code ``` `
-* mathjax.js to render math formula between `$ $` or multiline `$$ $$`
-`$ a = \frac{b}{c} $` is rendered as $ a = \frac{b}{c} $        
+ ```markdown
+    ```javascript
+     // some javascript code
+    ``` 
+```
 
+```markdown
+    ```python
+    //some python code
+    ```
+```
+* markdown-it-math to render math formula between `$$` or multiline `$$$` into MathML W3C standard.
+
+Example:
+```markdown
+  Pythagoran theorem is $$a^2 + b^2 = c^2$$.
+  
+  Bayes theorem:
+
+  $$$
+  P(A | B) = (P(B | A)P(A)) / P(B)
+  $$$
+```
+is rendered as:
+Pythagoran theorem is $$a^2 + b^2 = c^2$$.
+
+Bayes theorem:
+
+$$$
+P(A | B) = (P(B | A)P(A)) / P(B)
+$$$
 
 # References
 

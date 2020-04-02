@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
     <!-- imported CSS are concatenated and added automatically -->
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-      MathJax = {
-        tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
-      };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   </head>
   <body aurelia-app="webcomponents">
   <h1>Bodylight components</h1>
   <bdl-markdown src="doc/index.md"></bdl-markdown>
+
+  <h3>MathML</h3>
+  <math display="block"><mi>P</mi><mfenced open="(" close=")"><mrow><mi>A</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>B</mi></mrow></mfenced><mo>=</mo><mfrac><mrow><mi>P</mi><mfenced open="(" close=")"><mrow><mi>B</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>A</mi></mrow></mfenced><mi>P</mi><mfenced open="(" close=")"><mi>A</mi></mfenced></mrow><mrow><mi>P</mi><mfenced open="(" close=")"><mi>B</mi></mfenced></mrow></mfrac></math>
+
 
   </body>
 </html>
