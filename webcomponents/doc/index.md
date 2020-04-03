@@ -1,3 +1,4 @@
+
 This section describes how to use and customize web components of Bodylight.js.
 
 # Introduction
@@ -159,7 +160,35 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
   
 ### Beaker, bdl-beaker, bdl-beakercontrols
 `<bdl-beaker></bdl-beaker>` Creates a beaker with controllable width and height
+  * `bwidht` - width of the beaker in pixels, number 
+  * `bheight` - height of the beaker in pixels, number
+  * `width` -  width of the canvas view, number
+  * `height` -  height of the canvas view, number
+  * `color` - color, can be text or css style color
 
+Example:
+
+`<bdl-beaker bwidth="10" bheight="50" id="id8" color="pink" width="100" height="100"></bdl-beaker>`
+
+<bdl-beaker bwidth="10" bheight="50" id="id8" color="pink" width="100" height="100"></bdl-beaker>
+
+`<bdl-beakercontrols></bdl-beakercontrols>` creates ranges for beaker width and height
+  * `bwidht` - width of the beaker in pixels, number
+  * `bwidhtmin` - minimum width of the beaker in pixels, number
+  * `bwidhtmax` - maximum width of the beaker in pixels, number 
+  * `bheight` - height of the beaker in pixels, number
+  * `bheightmin` - minimum height of the beaker in pixels, number
+  * `bheightmax` - maximum height of the beaker in pixels, number
+  * `width` -  width of the canvas view, number
+  * `height` -  height of the canvas view, number
+  * `color` - color, can be text or css style color
+  
+Example:
+
+`<bdl-beakercontrols bwidth="10" bwidthmin="5" bwidthmax="100" bheight="50" bheightmin="10" bheightmax="100" id="id8" color="pink"  width="100" height="100"></bdl-beakercontrols>`
+
+<bdl-beakercontrols bwidth="10" bwidthmin="5" bwidthmax="100" bheight="50" bheightmin="10" bheightmax="100" id="id8" color="pink" width="100" height="100"></bdl-beakercontrols>  
+  
 ### Capillary, bdl-capillary
 `<bdl-capillary></bdl-capillary>` Creates a capillary component with adjustable stoke
 
@@ -183,19 +212,33 @@ Markdown-it is used to render markdown with following plugins enabled:
     //some python code
     ```
 ```
-* markdown-it-math to render math formula between `$` or multiline `$$` into KaTEX and HTML.
+* markdown-it-katex to render math formula between `$` or multiline `$$` using KaTEX and HTML.
 
 Example:
 ```markdown
-  Pythagoran theorem is $$a^2 + b^2 = c^2$$.
+  Pythagoran theorem is $a^2 + b^2 = c^2$.
   
   Bayes theorem:
 
-  $$$
+  $$
   P(A | B) = \frac{P(B | A)P(A)}{P(B)}
-  $$$
+  $$
+  
+  $$\begin{array}{c}
+
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
+= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+
+\nabla \cdot \vec{\mathbf{B}} & = 0
+
+\end{array}
+  $$
+  
 ```
 is rendered as:
+
 Pythagoran theorem is $a^2 + b^2 = c^2$.
 
 Bayes theorem:
@@ -205,7 +248,6 @@ P(A | B) = \frac{P(B | A)P(A)}{P(B)}
 $$
 
 Some electricity:
-
 $$\begin{array}{c}
 
 \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &

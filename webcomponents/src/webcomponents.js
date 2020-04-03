@@ -28,6 +28,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/beaker.html'))
     .globalResources(PLATFORM.moduleName('components/composite/beakercontrols.html'))
     .globalResources(PLATFORM.moduleName('components/composite/markdown'))
+    .globalResources(PLATFORM.moduleName('components/composite/markdownnav'))
     //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html
     .globalResources(PLATFORM.moduleName('components/composite/simplegif'))
     .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))

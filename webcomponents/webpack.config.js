@@ -42,16 +42,16 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   output: {
     path: outDir,
     publicPath: baseUrl,
-    filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
-    sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-    chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
+    filename: production ? 'bodyligth.bundle.js' : '[name].[hash].bundle.js',
+    sourceMapFilename: production ? 'bodylight.bundle.map' : '[name].[hash].bundle.map',
+    chunkFilename: production ? 'bodylight.chunk.js' : '[name].[hash].chunk.js'
   },
   /*optimization: {
     //minimizer:[ new UglifyJsPlugin()],
     minimize: true
   },*/
   optimization: {
-    runtimeChunk: true,  // separates the runtime chunk, required for long term cacheability
+    runtimeChunk: false,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
     moduleIds: 'hashed',
@@ -143,11 +143,11 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         options: tests ? { sourceMap: 'inline', plugins: ['istanbul'] } : {}
       },
       // embed small images and fonts as Data Urls and larger ones as files:
-      { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
-      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 100000, mimetype: 'application/font-woff2' } },
-      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 100000, mimetype: 'application/font-woff' } },
+      { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192000 } },
+      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000000, mimetype: 'application/font-woff2' } },
+      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000000, mimetype: 'application/font-woff' } },
       // load these fonts normally, as files:
-      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
+      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000000, mimetype: 'application/octet-stream' } },
       { test: /environment\.json$/i, use: [
         {loader: 'app-settings-loader', options: {env: production ? 'production' : 'development' }}
       ]}

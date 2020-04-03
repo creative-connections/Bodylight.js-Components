@@ -24,11 +24,12 @@
     "highlight.js": "^9.16.2",
     "i18next-resource-store-loader": "^0.1.2",
     "i18next-xhr-backend": "^3.2.2",
-    "katex": "^0.11.1",
     "libgif": "0.0.3",
     "markdown-it": "^10.0.0",
+    "markdown-it-anchor": "^5.2.7",
     "markdown-it-footnote": "^3.0.2",
-    "markdown-it-katex": "^2.0.3"
+    "markdown-it-katex": "^2.0.3",
+    "markdown-it-toc-done-right": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -49,6 +50,7 @@
     "babel-loader": "^8.0.5",
     "babel-plugin-istanbul": "^5.1.1",
     "clean-webpack-plugin": "^1.0.1",
+    "compression-webpack-plugin": "^3.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^1.0.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",

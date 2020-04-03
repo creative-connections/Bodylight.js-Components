@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
     <!-- imported CSS are concatenated and added automatically -->
+    <!-- markdown-it-toc ... CSS smooth scroll-->
+    <style type="text/css">
+      body { scroll-behavior: smooth; }
+    </style>
   </head>
   <body aurelia-app="webcomponents">
-  <h1>Bodylight components</h1>
+
+
+  <strong style="float:left; padding:0.9em">Bodylight components</strong> <bdl-markdownnav src="doc/summary.md"></bdl-markdownnav>
+
+  <br/>
+  <br/>
   <bdl-markdown src="doc/index.md"></bdl-markdown>
   </body>
 </html>

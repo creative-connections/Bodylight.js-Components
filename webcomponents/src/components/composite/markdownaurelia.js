@@ -1,8 +1,10 @@
 import Markdownit from 'markdown-it';
-import Markdownitfootnote from 'markdown-it-footnote';
+import Markdownitfootnote from 'markdown-it-footnote'; //footnote in MD
 //import MarkdownitMath from 'markdown-it-math';
-import mk from '@iktakahiro/markdown-it-katex'; //iktakahiro version seems to be most updated - works with latest katex
-import hljs from 'highlight.js';
+import mk from '@iktakahiro/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
+import hljs from 'highlight.js'; //highlights in MD source blocks
+//import markdownitTocDoneRight from 'markdown-it-toc-done-right'; //TOC on top of the page
+//import markdownitAnchor from 'markdown-it-anchor'; //MD anchors
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -20,6 +22,8 @@ export class Markdownaurelia {
   attached() {
     //console.log('makdownit attached hljs:', hljs);
     // eslint-disable-next-line new-cap
+    this.mdtoc = Markdownit({});
+    this.mdtoc.renderer.rules.list_item_open = function() { return '<li class="navitem">'; };
     this.md = Markdownit({
       html: true, //enable html tags - this enables also custom elements of components/webcomponents
       linkify: true,
@@ -37,9 +41,12 @@ export class Markdownaurelia {
       }
     }).use(Markdownitfootnote) //footnote - extension to MD - otherwise no link between [^1] and [^1]:
       .use(mk, {'throwOnError': true, 'errorColor': ' #cc0000'}); //math-> katex - should be faster than mathjax and crossbrowser compatible when chrom do not support mathml
-    //.use(MarkdownitMath);  //math - mathml extension
-    //    this.mj = MathJax;
+    //TODO make local TOC configurable
+    //  .use( markdownitAnchor, { permalink: true, permalinkBefore: true, permalinkSymbol: '§' } )
+    //  .use( markdownitTocDoneRight, {itemClass: 'nav-item', listType: 'ul'} );
+
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
+
     //fetch md source from src attribute
     this.client.fetch(this.src)
       .then(response => response.text())
