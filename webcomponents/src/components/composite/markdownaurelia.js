@@ -12,18 +12,28 @@ import {HttpClient} from 'aurelia-fetch-client';
 @inject(I18N, HttpClient)
 export class Markdownaurelia {
   @bindable src;
+  @bindable watchhash;
 
   constructor(i18n, httpclient) {
     this.i18n = i18n;
     this.client = httpclient;
     this.html = '';
+
+    //event listener function needs to be declared this way - they have access to 'this'
+    this.handleHashChange = e => {
+      //console.log('handleValueChange, e,fromid,toid', e);
+      this.hashsrc = window.location.hash.substr(1);
+      if (this.hashsrc.length > 0) {
+        this.src = this.hashsrc;
+        
+        this.readmd();
+      }
+    };
   }
 
   attached() {
     //console.log('makdownit attached hljs:', hljs);
     // eslint-disable-next-line new-cap
-    this.mdtoc = Markdownit({});
-    this.mdtoc.renderer.rules.list_item_open = function() { return '<li class="navitem">'; };
     this.md = Markdownit({
       html: true, //enable html tags - this enables also custom elements of components/webcomponents
       linkify: true,
@@ -46,7 +56,17 @@ export class Markdownaurelia {
     //  .use( markdownitTocDoneRight, {itemClass: 'nav-item', listType: 'ul'} );
 
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
+    if (this.watchhash) {
+      this.hashsrc = window.location.hash.substr(1);
+      if (this.hashsrc.length > 0) {
+        this.src = this.hashsrc;
+      }
+      window.addEventListener('hashchange', this.handleHashChange);
+    }
+    this.readmd();
+  }
 
+  readmd() {
     //fetch md source from src attribute
     this.client.fetch(this.src)
       .then(response => response.text())
@@ -58,6 +78,11 @@ export class Markdownaurelia {
         this.update();
       });
   }
+
+  detached() {
+    window.removeEventListener('hashchange', this.handleHashChange);
+  }
+
   update() {
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();

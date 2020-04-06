@@ -10,6 +10,7 @@ export class Fmi {
   @bindable otherinputs;
   @bindable valuereferences;
   @bindable ticksToUpdate = 200;
+  @bindable src;
 
   cosimulation=1;
   stepSize=0.01;//0.0078125;
@@ -52,6 +53,7 @@ export class Fmi {
   }
 
   attached() {
+    console.log('fmi attached');
     this.mydata = [0, 0];
     //split references by ,
     this.references = this.valuereferences.split(',');
@@ -73,6 +75,37 @@ export class Fmi {
       for (let target of otherinputtargets) document.getElementById(target).addEventListener('fmiinput', this.handleDetailChange);
     }
 
+    //if src is not specified - then expects that fmi scripts is loaded in HTML page prior thus should be available
+    if (this.src && this.src.length > 0) {
+      console.log('loading script first, then init fmi');
+      this.getScript(this.src, this.initfmi);
+    } else { //src is specified, thus load it - browser loads it at the end, thus adding the rest as callback after loaded
+      console.log('init fmi without loading script: fminame, this:', this.fminame, this);
+      this.initfmi();
+    }
+  }
+
+  getScript(source, callback) {
+    console.log('fmi getscript()');
+    let script = document.createElement('script');
+    let prior = document.getElementsByTagName('script')[0];
+    script.async = 1;
+
+    script.onload = script.onreadystatechange = function( _, isAbort ) {
+      if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState) ) {
+        script.onload = script.onreadystatechange = null;
+        script = undefined;
+
+        if (!isAbort && callback) setTimeout(callback, 0);
+      }
+    };
+
+    script.src = source;
+    prior.parentNode.insertBefore(script, prior);
+  }
+
+  initfmi() {
+    console.log('fmi initfmi() src',this.src );
     //set the fminame and JS WASM function references
     let separator = '_';
     let prefix = this.fminame;
@@ -84,14 +117,15 @@ export class Fmi {
     }
 
     //create instance
-    this.inst = new window[this.fminame];
+    this.inst = window[this.fminame]();
+    //or? this.inst = new window[this.fminame];
     //console.log('instantiate, this.inst', this.inst);
     //create function methods using emscripten recommended cwrap
     this.fmiCreateCallback = this.inst.cwrap('createFmi2CallbackFunctions', 'number', ['number']);
     this.fmiReset = this.inst.cwrap(prefix + separator + this.sReset, 'number', ['number']);
     this.fmiInstantiate = this.inst.cwrap(prefix + separator + this.sInstantiate, 'number', ['string', 'number', 'string', 'string', 'number', 'number', 'number']);
     this.fmiSetup = this.inst.cwrap(prefix + separator + this.sSetup, 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
-    this.fmiEnterInit =  this.inst.cwrap(prefix + separator + this.sEnterinit, 'number', ['number']);
+    this.fmiEnterInit = this.inst.cwrap(prefix + separator + this.sEnterinit, 'number', ['number']);
     this.fmiExitInit = this.inst.cwrap(prefix + separator + this.sExitinit, 'number', ['number']);
     this.fmiSetReal = this.inst.cwrap(prefix + separator + this.sSetreal, 'number', ['number', 'number', 'number', 'number']);
     this.fmiGetReal = this.inst.cwrap(prefix + separator + this.sGetreal, 'number', ['number', 'number', 'number', 'number']);
@@ -256,7 +290,6 @@ export class Fmi {
       document.getElementById(this.id).dispatchEvent(event);
 
       if (this.measurefps) {
-
         if (this.fpstick === 0) {this.startfpstime = Date.now(); }
         this.fpstick++;
         if (this.fpstick >= this.ticksToUpdate) {

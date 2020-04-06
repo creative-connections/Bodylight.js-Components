@@ -13,6 +13,7 @@ import {Markdownaurelia} from './markdownaurelia';
 @inject(I18N, HttpClient)
 export class Markdown extends Markdownaurelia {
   @bindable src;
+  @bindable watchhash;
   constructor(i18n, httpclient) {
     super(i18n, httpclient);
   }
