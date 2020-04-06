@@ -78,6 +78,8 @@ export class Fmi {
     //if src is not specified - then expects that fmi scripts is loaded in HTML page prior thus should be available
     if (this.src && this.src.length > 0) {
       console.log('loading script first, then init fmi');
+      //keep 'this' reference in global for callback
+      window.thisfmi = this;
       this.getScript(this.src, this.initfmi);
     } else { //src is specified, thus load it - browser loads it at the end, thus adding the rest as callback after loaded
       console.log('init fmi without loading script: fminame, this:', this.fminame, this);
@@ -105,11 +107,18 @@ export class Fmi {
   }
 
   initfmi() {
-    console.log('fmi initfmi() src',this.src );
+    let that;
+    if (window.thisfmi) {
+      that = window.thisfmi;
+      console.log('using global fmi initfmi() fminame', that.fminame );
+    } else {
+      that = this;
+      console.log('using local fmi initfmi() fminame', that.fminame );
+    }
     //set the fminame and JS WASM function references
     let separator = '_';
-    let prefix = this.fminame;
-    //console.log('attached fminame:', this.fminame);
+    let prefix = that.fminame;
+    //console.log('attached fminame:', that.fminame);
     // OpenModelica exported function names
     if (typeof window._fmi2GetVersion === 'function') {
       prefix = '';
@@ -117,27 +126,27 @@ export class Fmi {
     }
 
     //create instance
-    this.inst = window[this.fminame]();
-    //or? this.inst = new window[this.fminame];
-    //console.log('instantiate, this.inst', this.inst);
+    that.inst = window[that.fminame]();
+    //or? that.inst = new window[that.fminame];
+    //console.log('instantiate, that.inst', that.inst);
     //create function methods using emscripten recommended cwrap
-    this.fmiCreateCallback = this.inst.cwrap('createFmi2CallbackFunctions', 'number', ['number']);
-    this.fmiReset = this.inst.cwrap(prefix + separator + this.sReset, 'number', ['number']);
-    this.fmiInstantiate = this.inst.cwrap(prefix + separator + this.sInstantiate, 'number', ['string', 'number', 'string', 'string', 'number', 'number', 'number']);
-    this.fmiSetup = this.inst.cwrap(prefix + separator + this.sSetup, 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
-    this.fmiEnterInit = this.inst.cwrap(prefix + separator + this.sEnterinit, 'number', ['number']);
-    this.fmiExitInit = this.inst.cwrap(prefix + separator + this.sExitinit, 'number', ['number']);
-    this.fmiSetReal = this.inst.cwrap(prefix + separator + this.sSetreal, 'number', ['number', 'number', 'number', 'number']);
-    this.fmiGetReal = this.inst.cwrap(prefix + separator + this.sGetreal, 'number', ['number', 'number', 'number', 'number']);
-    this.fmiSetBoolean = this.inst.cwrap(prefix + separator + this.sSetboolean, 'number', ['number', 'number', 'number', 'number']);
-    this.fmiGetBoolean = this.inst.cwrap(prefix + separator + this.sGetboolean, 'number', ['number', 'number', 'number', 'number']);
-    this.fmiDoStep = this.inst.cwrap(prefix + separator + this.sDostep, 'number', ['number', 'number', 'number', 'number']);
-    this.fmiGetVersion = this.inst.cwrap(prefix + separator + 'fmi2GetVersion', 'string');
-    this.fmiGetTypesPlatform = this.inst.cwrap(prefix + separator + 'fmi2GetTypesPlatform', 'string');
-    this.fmi2FreeInstance = this.inst.cwrap(prefix + separator + 'fmi2FreeInstance', 'number', ['number']);
-    this.instantiated = false;
+    that.fmiCreateCallback = that.inst.cwrap('createFmi2CallbackFunctions', 'number', ['number']);
+    that.fmiReset = that.inst.cwrap(prefix + separator + that.sReset, 'number', ['number']);
+    that.fmiInstantiate = that.inst.cwrap(prefix + separator + that.sInstantiate, 'number', ['string', 'number', 'string', 'string', 'number', 'number', 'number']);
+    that.fmiSetup = that.inst.cwrap(prefix + separator + that.sSetup, 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
+    that.fmiEnterInit = that.inst.cwrap(prefix + separator + that.sEnterinit, 'number', ['number']);
+    that.fmiExitInit = that.inst.cwrap(prefix + separator + that.sExitinit, 'number', ['number']);
+    that.fmiSetReal = that.inst.cwrap(prefix + separator + that.sSetreal, 'number', ['number', 'number', 'number', 'number']);
+    that.fmiGetReal = that.inst.cwrap(prefix + separator + that.sGetreal, 'number', ['number', 'number', 'number', 'number']);
+    that.fmiSetBoolean = that.inst.cwrap(prefix + separator + that.sSetboolean, 'number', ['number', 'number', 'number', 'number']);
+    that.fmiGetBoolean = that.inst.cwrap(prefix + separator + that.sGetboolean, 'number', ['number', 'number', 'number', 'number']);
+    that.fmiDoStep = that.inst.cwrap(prefix + separator + that.sDostep, 'number', ['number', 'number', 'number', 'number']);
+    that.fmiGetVersion = that.inst.cwrap(prefix + separator + 'fmi2GetVersion', 'string');
+    that.fmiGetTypesPlatform = that.inst.cwrap(prefix + separator + 'fmi2GetTypesPlatform', 'string');
+    that.fmi2FreeInstance = that.inst.cwrap(prefix + separator + 'fmi2FreeInstance', 'number', ['number']);
+    that.instantiated = false;
     //calculate pow, power of stepsize
-    this.pow = this.stepSize < 1 ? -Math.ceil(-Math.log10(this.stepSize)) : Math.ceil(Math.log10(this.stepSize));
+    that.pow = that.stepSize < 1 ? -Math.ceil(-Math.log10(that.stepSize)) : Math.ceil(Math.log10(that.stepSize));
   }
 
   bind() {}

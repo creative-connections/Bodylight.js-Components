@@ -15,7 +15,7 @@ Nastavte tepovou frekvenci srdce
 Nyní můžete pustit nebo zastavit simulaci
 `<bdl-fmisource src="MeursFMI.js"></bdl-fmisource>`
 
-<bdl-fmi id="id4" fminame="MeursHemodynamics_Model_vanMeursHemodynamicsModel"
+<bdl-fmi id="id4" src="MeursFMI.js" fminame="MeursHemodynamics_Model_vanMeursHemodynamicsModel"
                tolerance="0.001" starttime="0" guid="{1cd90fb1-006b-4957-b1f2-012702efe021}"
                valuereferences="637534215,637534232,33554436,33554438,33554442,33554440,33554441,33554443"
                valuelabels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume, Extrathoracic Veins volume, Pulmonary Veins Volume,"
