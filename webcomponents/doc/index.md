@@ -149,6 +149,7 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
 ### FMI, bdl-fmi
 `<bdl-fmi></bdl-fmi>` Creates control buttons in order to control simulation of the model. With these attributes:
   * `fminame` name of the model as it exactly appears in exported JS,WASM code
+  * `src` (optional) specifies script with FMU JS to be loaded.  If not specified, it is expected that some `<script src='fmi.js'>` is already included in HTML head. FMU JS is output of FMU compiler.
   * `tolerance` tolerance of the solver (default 0.001)
   * `starttime` start time of the simulation (default 0)
   * `guid` guid as it appears in FMU model description
@@ -197,8 +198,14 @@ Example:
 ### Simplegif, bdl-simplegif
 `<bdl-simplegif src="[filename.gif]" fromid="[id_to_listen]">` creates animated gif which is stopped by default and playing is enabled/disabled when an custom event 'fmistart'/'fmistop' are received from an element with id 'fromid'.
 
+### Markdownnav
+`<bdl-markdownnav src=""></bdl-markdownnav>"` renders navigation menu based on MD list. MD should contain only list.
+All links should
+
 ### Markdown
-`<bdl-markdown src="[filename.md]"></bdl-markdown>` renders markdown - which may contain all the above webcomponents.
+`<bdl-markdown src="[filename.md]" watchhash="true|false"></bdl-markdown>` renders markdown - which may contain all the above webcomponents.
+* `watchhash` if specified, then parameter in URL after hash is scanned and taken loaded instead `src`. The changes in hash are listened and document is replaced on change.
+
 Markdown-it is used to render markdown with following plugins enabled: 
 * highlight.js to highlight source code specifying language, e.g. Python 
  ```markdown
