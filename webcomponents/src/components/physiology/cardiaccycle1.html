@@ -7,7 +7,7 @@
     <require from="../chartjs"></require>
     <require from="./animatedheart"></require>
 
-    <h2>cardiac cycle</h2>
+    <h2>Cardiac Cycle</h2>
 
     <range id="id1" min="40" max="180" step="1" default="60" title="Heart rate"></range><!-- slidervalue.bind="${myvalue}" ly.bind="${myvalue}"-->
     <receptacle id="id2" hx="100" hy="100" px="50" py="50"></receptacle>
@@ -20,6 +20,6 @@
              inputs="id1,16777216"></fmi>
     <dygraphchart width="600" height="300" fromid="id4" inputs="time,aorta pressure,ventricle pressure" refindex="0" refvalues="2"></dygraphchart>
     <chartjs id="id9" width="300" height="500" fromid="id4" type="doughnut" labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins" refindex="2" refvalues="6"></chartjs>
-    <animatedheart fromid="id4"></animatedheart>
+    <animatedheart src="./CG_Heart.gif" fromid="id4"></animatedheart>
 
 </template>

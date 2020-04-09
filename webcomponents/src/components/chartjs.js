@@ -19,7 +19,10 @@ export class Chartjs {
       //if (this.data.length > this.maxdata) this.data.shift();
       //console.log('Dygraphchar data', this.data);
       //this.dygraph.updateOptions( { 'file': this.data } );
-      this.chart.data.datasets[0].data = e.detail.data.slice(this.refindex, this.refindex + this.refvalues);
+      //console.log('chartjs handlevaluechange() e.detail,refindex,refendindex', e.detail, this.refindex, this.refendindex);
+
+      this.chart.data.datasets[0].data = e.detail.data.slice(this.refindex, this.refendindex);
+      //console.log('chartjs handlevaluechange() chart.data.datasets[0].data', this.chart.data.datasets[0].data);
       this.chart.update();
     };
   }
@@ -30,6 +33,7 @@ export class Chartjs {
   }
 
   attached() {
+    this.refendindex = parseInt(this.refindex, 10) + parseInt(this.refvalues, 10);
     //listening to custom event fmidata
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
 
@@ -62,5 +66,9 @@ export class Chartjs {
         }
       }
     });
+  }
+
+  detached() {
+    document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
   }
 }

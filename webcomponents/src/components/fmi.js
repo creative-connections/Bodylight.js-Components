@@ -2,7 +2,7 @@ import {bindable} from 'aurelia-framework';
 
 export class Fmi {
   @bindable fminame='N/A';
-  @bindable tolerance=0.001;//0.000030517578
+  @bindable tolerance=0.000001;//0.000030517578
   @bindable starttime=0;
   @bindable guid='N/A';
   @bindable id;
@@ -21,24 +21,14 @@ export class Fmi {
   fpstick=0;
   stepi=0;
 
-  sReset='fmi2Reset';
-  sInstantiate = 'fmi2Instantiate';
-  sSetup='fmi2SetupExperiment';
-  sEnterinit = 'fmi2EnterInitializationMode';
-  sExitinit = 'fmi2ExitInitializationMode';
-  sSetreal = 'fmi2SetReal';
-  sSetboolean = 'fmi2SetBoolean';
-  sGetreal = 'fmi2GetReal';
-  sGetboolean = 'fmi2GetBoolean';
-  sDostep = 'fmi2DoStep';
-  sCreateCallback='createFmi2CallbackFunctions';
 
   constructor() {
     //create lambda function which is added as listener later
     this.changeinputs = [];
     this.handleValueChange = e => {
       //e.target; //triggered the event
-      let targetid = e.target.parent().parent().id;
+      console.log('handlevaluechange', e, e.target);
+      let targetid = e.target.parentElement.parentElement.id;
       let targetvalue = e.target.value;
       this.changeinputs.push({id: targetid, value: targetvalue}); //detail will hold the value being changed
       console.log('fmi handle value change', this.changeinputs);
@@ -48,8 +38,9 @@ export class Fmi {
       //let targetid = e.target.parent().parent().id;
       //let targetvalue = e.target.value;
       this.changeinputs.push({valuereference: e.detail.valuereference, value: e.detail.value}); //detail will hold the value being changed
-      console.log('fmi handle value change', this.changeinputs);
+      console.log('fmi handle detail change', this.changeinputs);
     };
+    this.inst = {};
   }
 
   attached() {
@@ -64,7 +55,9 @@ export class Fmi {
       this.inputreferences = [];
       for (let inputpart of inputparts) {
         let myinputs = inputpart.split(','); //splits reference and id by ,
-        this.inputreferences[myinputs[0]] = myinputs[1]; //first is id second is reference
+        let numerator = (myinputs.length>2)?myinputs[2]:1;
+        let denominator = (myinputs.length>3)?myinputs[3]:1;
+        this.inputreferences[myinputs[0]] = {ref: myinputs[1], numerator: numerator, denominator: denominator}; //first is id second is reference
         //register change event - the alteration is commited
         document.getElementById(myinputs[0]).addEventListener('change', this.handleValueChange);
       }
@@ -106,47 +99,26 @@ export class Fmi {
     prior.parentNode.insertBefore(script, prior);
   }
 
+  //make inst object globally - in case of globals (non-src) declaration
   initfmi() {
-    let that;
+    //TODO make the instance global and take it when button is pressed and instantiate is callsed()
+    let that = {};
     if (window.thisfmi) {
-      that = window.thisfmi;
+      that.fminame = window.thisfmi.fminame;
       console.log('using global fmi initfmi() fminame', that.fminame );
     } else {
-      that = this;
+      that.fminame = this.fminame;
       console.log('using local fmi initfmi() fminame', that.fminame );
-    }
-    //set the fminame and JS WASM function references
-    let separator = '_';
-    let prefix = that.fminame;
-    //console.log('attached fminame:', that.fminame);
-    // OpenModelica exported function names
-    if (typeof window._fmi2GetVersion === 'function') {
-      prefix = '';
-      separator = '';
     }
 
     //create instance
     that.inst = window[that.fminame]();
+    console.log('fmi callback that, that.inst', that, that.inst);
     //or? that.inst = new window[that.fminame];
     //console.log('instantiate, that.inst', that.inst);
     //create function methods using emscripten recommended cwrap
-    that.fmiCreateCallback = that.inst.cwrap('createFmi2CallbackFunctions', 'number', ['number']);
-    that.fmiReset = that.inst.cwrap(prefix + separator + that.sReset, 'number', ['number']);
-    that.fmiInstantiate = that.inst.cwrap(prefix + separator + that.sInstantiate, 'number', ['string', 'number', 'string', 'string', 'number', 'number', 'number']);
-    that.fmiSetup = that.inst.cwrap(prefix + separator + that.sSetup, 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
-    that.fmiEnterInit = that.inst.cwrap(prefix + separator + that.sEnterinit, 'number', ['number']);
-    that.fmiExitInit = that.inst.cwrap(prefix + separator + that.sExitinit, 'number', ['number']);
-    that.fmiSetReal = that.inst.cwrap(prefix + separator + that.sSetreal, 'number', ['number', 'number', 'number', 'number']);
-    that.fmiGetReal = that.inst.cwrap(prefix + separator + that.sGetreal, 'number', ['number', 'number', 'number', 'number']);
-    that.fmiSetBoolean = that.inst.cwrap(prefix + separator + that.sSetboolean, 'number', ['number', 'number', 'number', 'number']);
-    that.fmiGetBoolean = that.inst.cwrap(prefix + separator + that.sGetboolean, 'number', ['number', 'number', 'number', 'number']);
-    that.fmiDoStep = that.inst.cwrap(prefix + separator + that.sDostep, 'number', ['number', 'number', 'number', 'number']);
-    that.fmiGetVersion = that.inst.cwrap(prefix + separator + 'fmi2GetVersion', 'string');
-    that.fmiGetTypesPlatform = that.inst.cwrap(prefix + separator + 'fmi2GetTypesPlatform', 'string');
-    that.fmi2FreeInstance = that.inst.cwrap(prefix + separator + 'fmi2FreeInstance', 'number', ['number']);
-    that.instantiated = false;
-    //calculate pow, power of stepsize
-    that.pow = that.stepSize < 1 ? -Math.ceil(-Math.log10(that.stepSize)) : Math.ceil(Math.log10(that.stepSize));
+    if (!window.fmiinst) { window.fmiinst = [];}
+    window.fmiinst[that.fminame] = that;
   }
 
   bind() {}
@@ -171,10 +143,8 @@ export class Fmi {
       return ptr;
     };
 
-    console.log('FMU(' + this.inst.UTF8ToString(instanceName) +
-      ':' + status + ':' +
-      this.inst.UTF8ToString(category) +
-      ') msg: ' + this.inst.UTF8ToString(formatMessage(message, other))
+    // eslint-disable-next-line new-cap
+    console.log('FMU(' + this.inst.UTF8ToString(instanceName) +  ':' + status + ':' + this.inst.UTF8ToString(category) + ') msg: ' + this.inst.UTF8ToString(formatMessage(message, other))
     );
 
     this.inst._free(formatMessage);
@@ -186,9 +156,49 @@ export class Fmi {
   }
 
   instantiate() {
+    const sReset = 'fmi2Reset';
+    const sInstantiate = 'fmi2Instantiate';
+    const sSetup = 'fmi2SetupExperiment';
+    const sEnterinit = 'fmi2EnterInitializationMode';
+    const sExitinit = 'fmi2ExitInitializationMode';
+    const sSetreal = 'fmi2SetReal';
+    const sSetboolean = 'fmi2SetBoolean';
+    const sGetreal = 'fmi2GetReal';
+    const sGetboolean = 'fmi2GetBoolean';
+    const sDostep = 'fmi2DoStep';
+    const sCreateCallback = 'createFmi2CallbackFunctions';
     this.stepTime = 0;
     this.mystep = this.stepSize;
     //console callback ptr, per emsripten create int ptr with signature viiiiii
+    this.inst = window.fmiinst[this.fminame].inst; //if (window.thisfmi) {this.inst = window.thisfmi.inst;}
+    console.log('instantiate() this.inst', this.inst);
+    //set the fminame and JS WASM function references
+    let separator = '_';
+    let prefix = this.fminame;
+    //console.log('attached fminame:', that.fminame);
+    // OpenModelica exported function names
+    if (typeof window._fmi2GetVersion === 'function') {
+      prefix = '';
+      separator = '';
+    }
+    this.fmiCreateCallback = this.inst.cwrap(sCreateCallback, 'number', ['number']);
+    this.fmiReset = this.inst.cwrap(prefix + separator + sReset, 'number', ['number']);
+    this.fmiInstantiate = this.inst.cwrap(prefix + separator + sInstantiate, 'number', ['string', 'number', 'string', 'string', 'number', 'number', 'number']);
+    this.fmiSetup = this.inst.cwrap(prefix + separator + sSetup, 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
+    this.fmiEnterInit = this.inst.cwrap(prefix + separator + sEnterinit, 'number', ['number']);
+    this.fmiExitInit = this.inst.cwrap(prefix + separator + sExitinit, 'number', ['number']);
+    this.fmiSetReal = this.inst.cwrap(prefix + separator + sSetreal, 'number', ['number', 'number', 'number', 'number']);
+    this.fmiGetReal = this.inst.cwrap(prefix + separator + sGetreal, 'number', ['number', 'number', 'number', 'number']);
+    this.fmiSetBoolean = this.inst.cwrap(prefix + separator + sSetboolean, 'number', ['number', 'number', 'number', 'number']);
+    this.fmiGetBoolean = this.inst.cwrap(prefix + separator + sGetboolean, 'number', ['number', 'number', 'number', 'number']);
+    this.fmiDoStep = this.inst.cwrap(prefix + separator + sDostep, 'number', ['number', 'number', 'number', 'number']);
+    this.fmiGetVersion = this.inst.cwrap(prefix + separator + 'fmi2GetVersion', 'string');
+    this.fmiGetTypesPlatform = this.inst.cwrap(prefix + separator + 'fmi2GetTypesPlatform', 'string');
+    this.fmi2FreeInstance = this.inst.cwrap(prefix + separator + 'fmi2FreeInstance', 'number', ['number']);
+    this.instantiated = false;
+    //calculate pow, power of stepsize
+    this.pow = this.stepSize < 1 ? -Math.ceil(-Math.log10(this.stepSize)) : Math.ceil(Math.log10(this.stepSize));
+    console.log('instantiate() this.inst', this.inst);
     this.consoleLoggerPtr = this.inst.addFunction(this.consoleLogger.bind(this), 'viiiiii');
     this.callbackptr = this.fmiCreateCallback(this.consoleLoggerPtr);
     //create instance of model simulation
@@ -202,6 +212,7 @@ export class Fmi {
   simulate() {}
 
   setReal(query, value, count) {
+    console.log('setreal query,value,count', query, value, count);
     return this.fmiSetReal(this.fmiinst, query.byteOffset, count, value.byteOffset);
   }
 
@@ -267,14 +278,17 @@ export class Fmi {
       //changeinputs
       if (this.changeinputs.length > 0) {
         while (this.changeinputs.length > 0) {
+          console.log('changing inputs');
           let myinputs = this.changeinputs.shift(); //remove first item
           //set real - reference is in - one input one reference
           //for (let reference of this.inputs[myinputs.id])
 
           //sets individual values - if id is in input, then reference is taken from inputs definition
-          if (myinputs.id) this.setSingleReal(this.inputs[myinputs.id], myinputs.value);
+          //console.log('changing inputs,id,value', this.inputreferences, myinputs.id, myinputs.value);
+          let normalizedvalue = myinputs.value * this.inputreferences[myinputs.id].numerator / this.inputreferences[myinputs.id].denominator
+          if (myinputs.id) this.setSingleReal(this.inputreferences[myinputs.id].ref, normalizedvalue);
           // if reference is in input, then it is set directly
-          else if (myinputs.valuereference) this.setSingleReal(myinputs.valuereference, myinputs.value);
+          else if (myinputs.valuereference) this.setSingleReal(myinputs.valuereference, normalizedvalue);
         }
         //flush all in one call to fmi
         this.flushRealQueue();
@@ -385,6 +399,7 @@ export class Fmi {
      * Adds a real value to setRealQueue
      */
   setSingleReal(reference, value) {
+    console.log('setSingleReal reference,value', reference, value);
     if (!this.setRealQueue) {
       this.setRealQueue = {
         references: [],

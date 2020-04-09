@@ -9,7 +9,6 @@
   "license": "MIT",
   "dependencies": {
     "@iktakahiro/markdown-it-katex": "^3.1.0",
-    "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.2",
     "aurelia-dynamic-html": "^0.3.1",
     "aurelia-fetch-client": "^1.8.2",
@@ -26,10 +25,7 @@
     "i18next-xhr-backend": "^3.2.2",
     "libgif": "0.0.3",
     "markdown-it": "^10.0.0",
-    "markdown-it-anchor": "^5.2.7",
-    "markdown-it-footnote": "^3.0.2",
-    "markdown-it-katex": "^2.0.3",
-    "markdown-it-toc-done-right": "^4.1.0"
+    "markdown-it-footnote": "^3.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -72,6 +68,7 @@
     "style-loader": "^0.23.1",
     "through2": "^3.0.0",
     "tree-kill": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^1.1.2",
     "vinyl-fs": "^3.0.3",
     "wait-on": "^3.2.0",

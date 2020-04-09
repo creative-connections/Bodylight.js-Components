@@ -1,8 +1,8 @@
 import Markdownit from 'markdown-it';
 import Markdownitfootnote from 'markdown-it-footnote'; //footnote in MD
-//import MarkdownitMath from 'markdown-it-math';
 import mk from '@iktakahiro/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
 import hljs from 'highlight.js'; //highlights in MD source blocks
+//npm install markdown-it-toc-done-right markdown-it-anchor
 //import markdownitTocDoneRight from 'markdown-it-toc-done-right'; //TOC on top of the page
 //import markdownitAnchor from 'markdown-it-anchor'; //MD anchors
 import {I18N} from 'aurelia-i18n';

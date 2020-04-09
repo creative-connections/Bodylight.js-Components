@@ -1,5 +1,5 @@
   * [Components Docs](#doc/index.md)
-  * [Virtualbody](#virtualbody.md)
+  * [Virtualbody](#doc/virtualbody.md)
   * [Hemodynamics](#doc/hemodynamics.md)
     * [Hemo1](#doc/hemo1.md)
     * [Hemo2](#doc/hemo2.md)

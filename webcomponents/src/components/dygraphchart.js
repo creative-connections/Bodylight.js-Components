@@ -54,7 +54,7 @@ export class Dygraphchart {
   }
 
   detached() {
-    document.getElementById(this.fromid).removeEventListener('input', this.handleValueChange);
+    document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
   }
 
   download() {

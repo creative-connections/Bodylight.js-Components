@@ -26,6 +26,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/bind2previous'))
     .globalResources(PLATFORM.moduleName('components/dygraphchart'))
     .globalResources(PLATFORM.moduleName('components/beaker.html'))
+    .globalResources(PLATFORM.moduleName('components/value'))
     .globalResources(PLATFORM.moduleName('components/composite/beakercontrols.html'))
     .globalResources(PLATFORM.moduleName('components/composite/markdown'))
     .globalResources(PLATFORM.moduleName('components/composite/markdownnav'))

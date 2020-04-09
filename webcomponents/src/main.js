@@ -14,8 +14,6 @@ export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName('resources/index'))
-    .plugin(PLATFORM.moduleName('aurelia-animator-css'))
-
     .plugin(PLATFORM.moduleName('aurelia-dynamic-html'))
     .plugin(PLATFORM.moduleName('aurelia-i18n'), (instance) => {
       let aliases = ['t', 'i18n'];

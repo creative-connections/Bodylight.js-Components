@@ -107,6 +107,15 @@ select value from range: <bdl-range id="id1" min="40" max="180" step="1" default
 Each of the following section contains detail description and attributes with example.
 The examples are rendered in markdown component directly - otherwise normal MD do not render them.
 
+### Value, bdl-value
+`<bdl-value>` renders numerical value 
+  * `fromid='id4'` ID of component which will be listened for events `fmidata`
+  * `refindex=8` reference index of value sent by `fmidata` event
+  * `numerator=1` numerator to normalize value
+  * `denominator=1` denominator to normalize value `x=value*numerator/denominator`
+Example: 
+`<bdl-value fromid="id4" refindex="8"></bdl-value>`
+
 ### Range, bdl-range
 `<bdl-range>` Renders a range input which may trigger a value. With following attributes:
   * `id` unique id
@@ -155,7 +164,7 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
   * `guid` guid as it appears in FMU model description
   * `valuereferences` references to variables, custom event 'fmidata' with `event.detail` set to  `{time: number , data:[number,...]}` where time is timepoint of the current simulation step and data is array of values in same order as in 
   valuereferences
-  * `inputs` ids of components and references of values to be set when event 'change' is triggered by the component
+  * `inputs` id of component, value reference, optional nominator,denominator to normalize `value * nominator / denominator` all delimited by coma`,`, other inputs delimited by semicolon `;` e.g. `inputs="id1,1677323,1,60;id2,16725364"` cause that the value from id1 will be converted `x= valueid1 *1/60` and value from id2 `x = valueid2*1/1` ; 
   * `otherinputs` ids of components which triggers custom event 'fmiinput', it is expected that in event.detail contains 
   this structure `{ valuereference: number, value: number }`
   
@@ -225,46 +234,11 @@ Example:
 ```markdown
   Pythagoran theorem is $a^2 + b^2 = c^2$.
   
-  Bayes theorem:
-
-  $$
-  P(A | B) = \frac{P(B | A)P(A)}{P(B)}
-  $$
-  
-  $$\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-  $$
   
 ```
 is rendered as:
 
-Pythagoran theorem is $a^2 + b^2 = c^2$.
-
-Bayes theorem:
-
-$$
-P(A | B) = \frac{P(B | A)P(A)}{P(B)}
-$$
-
-Some electricity:
-$$\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}$$
+Pythagoran theorem is $ a^2 + b^2 = c^2 $.
 
 # References
 
