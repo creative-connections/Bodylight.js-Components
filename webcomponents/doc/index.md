@@ -238,8 +238,26 @@ Example:
 ```
 is rendered as:
 
-Pythagoran theorem is $ a^2 + b^2 = c^2 $.
+Pythagoran theorem is $a^2 + b^2 = c^2$.
+Pythagoran theorem is 
+$$a^2 + b^2 = c^2$$
 
+### Soundon, bdl-soundon
+`<bdl-soundon>` plays MP3 sound when a selected model variable value raises achieves a threshold.
+Attributes:
+  * same as `<bdl-value>`
+  * `src` url to MP3 file to be played
+  * `threshold` value to be achieved, triggers sound play
+Example
+```html
+<bdl-soundon 
+  threshold="0.1"
+  src="heartbeat.mp3"    
+  fromid='id4' 
+  refindex=8>
+</bdl-soundon>
+```
+ 
 # References
 
 [^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components

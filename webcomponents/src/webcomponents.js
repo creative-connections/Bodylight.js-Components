@@ -37,6 +37,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
     .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))
+    .globalResources(PLATFORM.moduleName('components/soundon'))
     .globalResources(PLATFORM.moduleName('components/fmi'));
 
 

@@ -1,6 +1,7 @@
 import Markdownit from 'markdown-it';
 import Markdownitfootnote from 'markdown-it-footnote'; //footnote in MD
-import mk from '@iktakahiro/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
+import mk from '@traptitech/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
+//import mk from '@iktakahiro/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
 import hljs from 'highlight.js'; //highlights in MD source blocks
 //npm install markdown-it-toc-done-right markdown-it-anchor
 //import markdownitTocDoneRight from 'markdown-it-toc-done-right'; //TOC on top of the page
@@ -25,7 +26,7 @@ export class Markdownaurelia {
       this.hashsrc = window.location.hash.substr(1);
       if (this.hashsrc.length > 0) {
         this.src = this.hashsrc;
-        
+
         this.readmd();
       }
     };

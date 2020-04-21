@@ -11,5 +11,8 @@ Poté se cyklus periodicky opakuje.
 
 <bdl-quiz options="1,2,3,4" correct="3">Zvyšte v simulátoru tepovou frekvenci postupně z 
 60 na 180 tepů za minutu. Kolik srdečních cyklů se vejde do zobrazovacího 
-okénka s šířkou 1 s?</bdl-quiz>  
-
+okénka s šířkou 1 s?</bdl-quiz>
+  
+<bdl-soundon src1="doc/monitor-beep.mp3" thresholdvalue="1e+7" fromid="id4" refindex="8">
+  Your browser does not support the audio element.
+</bdl-soundon>

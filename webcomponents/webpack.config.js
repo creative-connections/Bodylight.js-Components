@@ -50,11 +50,12 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     filename: 'bodylight.bundle.js',
     sourceMapFilename: 'bodylight.bundle.map'
   },
-  optimization: {
+  /*optimization: {
     minimizer:[ new UglifyJsPlugin()],
     minimize: false
-  },
-  /*optimization: {
+  },*/
+  /* begin opt */
+  optimization: {
     runtimeChunk: false,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
@@ -65,7 +66,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       hidePathInfo: true, // prevents the path from being used in the filename when using maxSize
       chunks: 'initial',
       // sizes are compared against source before minification
-      maxSize: 40000000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
+      maxSize: 10000000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
       cacheGroups: {
         default: false, // Disable the built-in groups default & vendors (vendors is redefined below)
         // You can insert additional cacheGroup entries here if you want to split out specific modules
@@ -110,7 +111,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         }
       }
     }
-  },*/
+  },/* end opt*/
   performance: { hints: false },
   devServer: {
     contentBase: outDir,
@@ -192,6 +193,6 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
      * remove those before the webpack build. In that case consider disabling the plugin, and instead use something like
      * `del` (https://www.npmjs.com/package/del), or `rimraf` (https://www.npmjs.com/package/rimraf).
      */
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(['dist'])
   ]
 });
