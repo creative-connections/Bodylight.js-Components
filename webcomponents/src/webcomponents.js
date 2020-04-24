@@ -5,11 +5,12 @@
  * @since v2.0
  */
 
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+//import 'core-js/stable';
+//import 'regenerator-runtime/runtime';
 import { CustomElementRegistry } from 'aurelia-web-components';
 import {PLATFORM} from 'aurelia-pal';
 import * as environment from '../config/environment.json';
+//import {BdlAudioOnDecreaseCustomElement} from './components/bdl-audio-on-decrease';
 
 export function configure(aurelia) {
   aurelia.use
@@ -37,7 +38,11 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
     .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))
-    .globalResources(PLATFORM.moduleName('components/soundon'))
+    .globalResources(PLATFORM.moduleName('components/bdl-audio-on-increase'))
+    .globalResources(PLATFORM.moduleName('components/bdl-audio-on-decrease'))
+    .globalResources(PLATFORM.moduleName('components/bdl-sound-on-increase'))
+
+    //.globalResources(BdlAudioOnDecreaseCustomElement)
     .globalResources(PLATFORM.moduleName('components/fmi'));
 
 

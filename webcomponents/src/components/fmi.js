@@ -11,6 +11,7 @@ export class Fmi {
   @bindable valuereferences;
   @bindable ticksToUpdate = 200;
   @bindable src;
+  @bindable fstepsize=0.01;
 
   cosimulation=1;
   stepSize=0.01;//0.0078125;
@@ -55,8 +56,8 @@ export class Fmi {
       this.inputreferences = [];
       for (let inputpart of inputparts) {
         let myinputs = inputpart.split(','); //splits reference and id by ,
-        let numerator = (myinputs.length>2)?myinputs[2]:1;
-        let denominator = (myinputs.length>3)?myinputs[3]:1;
+        let numerator = (myinputs.length > 2) ? myinputs[2] : 1;
+        let denominator = (myinputs.length > 3) ? myinputs[3] : 1;
         this.inputreferences[myinputs[0]] = {ref: myinputs[1], numerator: numerator, denominator: denominator}; //first is id second is reference
         //register change event - the alteration is commited
         document.getElementById(myinputs[0]).addEventListener('change', this.handleValueChange);
@@ -168,6 +169,7 @@ export class Fmi {
     const sDostep = 'fmi2DoStep';
     const sCreateCallback = 'createFmi2CallbackFunctions';
     this.stepTime = 0;
+    this.stepSize = (typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize;
     this.mystep = this.stepSize;
     //console callback ptr, per emsripten create int ptr with signature viiiiii
     this.inst = window.fmiinst[this.fminame].inst; //if (window.thisfmi) {this.inst = window.thisfmi.inst;}
@@ -285,7 +287,7 @@ export class Fmi {
 
           //sets individual values - if id is in input, then reference is taken from inputs definition
           //console.log('changing inputs,id,value', this.inputreferences, myinputs.id, myinputs.value);
-          let normalizedvalue = myinputs.value * this.inputreferences[myinputs.id].numerator / this.inputreferences[myinputs.id].denominator
+          let normalizedvalue = myinputs.value * this.inputreferences[myinputs.id].numerator / this.inputreferences[myinputs.id].denominator;
           if (myinputs.id) this.setSingleReal(this.inputreferences[myinputs.id].ref, normalizedvalue);
           // if reference is in input, then it is set directly
           else if (myinputs.valuereference) this.setSingleReal(myinputs.valuereference, normalizedvalue);
