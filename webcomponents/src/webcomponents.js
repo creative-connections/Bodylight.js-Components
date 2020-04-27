@@ -41,7 +41,8 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-increase'))
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-decrease'))
     .globalResources(PLATFORM.moduleName('components/bdl-sound-on-increase'))
-
+    .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-book.html'))
+    .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-app.html'))
     //.globalResources(BdlAudioOnDecreaseCustomElement)
     .globalResources(PLATFORM.moduleName('components/fmi'));
 

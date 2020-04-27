@@ -1,0 +1,21 @@
+<template bindable="summary,index">
+  <require from="../../w3.css"></require>
+  <require from="./markdownnav"></require>
+  <require from="./markdown"></require>
+  <div class="w3-row" style="display:flex">
+    <div class="w3-col m3 l2">
+      <markdownnav navstyle="vertical" src="${summary}" style="position:sticky;top:0;"></markdownnav>
+    </div>
+    <div class="w3-col m9 l10">
+      <markdown src="${index}" watchhash="true"></markdown>
+    </div>
+  </div>
+  <!--
+    <div style="width:12%">
+      <markdownnav navstyle="vertical" src="${summary}"></markdownnav>
+    </div>
+    <div style="margin-left:12%">
+      <markdown src="${index}" watchhash="true"></markdown>
+    </div>
+-->
+</template>

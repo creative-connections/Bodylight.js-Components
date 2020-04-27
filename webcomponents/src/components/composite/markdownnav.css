@@ -1,32 +1,28 @@
-nav {
-  border-radius:8px!important;
-}
-
-nav ul {
+nav.horizontal ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-nav a:link,
-nav a:visited {
+nav.horizontal a:link,
+nav.horizontal a:visited {
   color: #f0f0f0;
   text-decoration: none;
 }
 
-nav li li a:link,
-nav li li a:visited {
+nav.horizontal li li a:link,
+nav.horizontal li li a:visited {
 /*  color: #303030;*/
   text-decoration: none;
   padding: 6px 8px;
 }
 
-nav a {
+nav.horizontal a {
   display: block;
 
 }
 
-nav li {
+nav.horizontal li {
   float: left;
   background-color: #393b3e;
   color:#f0f0f0 !important;
@@ -34,16 +30,18 @@ nav li {
   position: relative;
   padding: 0.9em;
 }
-/*this adds an arrow to every link*/
-nav li > a:after { content: ' \2193' }
 
 /*this adds an arrow to every link*/
-nav li li > a:after { content: ' \2192' }
+nav.horizontal li > a:after { content: ' \2193' }
+
+/*this adds an arrow to every link*/
+nav.horizontal li li > a:after { content: ' \2192' }
+
 
 /* this removes the arrow when the link is the only child*/
-nav li > a:only-child:after { content: ''; }
+nav.horizontal li > a:only-child:after { content: ''; }
 
-nav li li{
+nav.horizontal li li{
   width: 160px;
   z-index:4;
   /*background-color: #c7f3ff;*/
@@ -51,7 +49,7 @@ nav li li{
   /*border-bottom: solid 1px black;*/
 }
 
-nav li:hover {
+nav.horizontal li:hover {
   background-color: #55afff;
 }
 /*
@@ -59,20 +57,58 @@ nav li li:hover {
   background-color: #757575;
 }*/
 
-nav ul ul  {
+nav.horizontal ul ul  {
   position: absolute;
   visibility: hidden;
   box-shadow: 0 6px 12px rgba(0,0,0,0.175);
   border: solid 1px #474747;
 }
 
-nav ul ul ul{
+nav.horizontal ul ul ul{
   position: absolute;
   left: 100%;
   top: -2px;
   border: solid 1px black;
 }
 
-nav li:hover > ul {
+nav.horizontal li:hover > ul {
   visibility: visible;
 }
+
+nav.vertical {
+  overflow: auto;
+}
+
+nav.vertical ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  height: 100%;
+}
+
+nav.vertical li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+nav.vertical li a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+nav.vertical li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+/*this adds an space to every link*/
+/*nav.vertical li > a:before { content: ' ' }*/
+
+/*this adds two spaces to every link*/
+nav.vertical li li > a:before { content: '\00a0\00a0' }
+
+/*this adds two spaces to every link*/
+nav.vertical li li li > a:before { content: '\00a0\00a0\00a0\00a0' }

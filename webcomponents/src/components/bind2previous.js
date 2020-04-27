@@ -28,6 +28,6 @@ export class Bind2previous {
     document.getElementById(this.fromid).addEventListener('input', this.handleValueChange);
   }
   detached() {
-    document.getElementById(this.fromid).removeEventListener('input', this.handleValueChange);
+    if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('input', this.handleValueChange);
   }
 }

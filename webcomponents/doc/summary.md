@@ -1,4 +1,7 @@
-  * [Components Docs](#doc/index.md)
+  * [Bodylight Components Docs](#doc/index.md)
+    * [Getting Started](#doc/gettingstarted.md)
+    * [User's Guide](#doc/usersguide.md)
+    * [Developer's Guide](#doc/developersguide.md)
   * [Virtualbody](#doc/virtualbody.md)
   * [Hemodynamics](#doc/hemodynamics.md)
     * [Hemo1](#doc/hemo1.md)

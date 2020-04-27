@@ -1,0 +1,10 @@
+<template bindable="summary,index">
+  <require from="../../w3.css"></require>
+  <require from="./markdownnav"></require>
+  <require from="./markdown"></require>
+
+  <markdownnav navstyle="horizontal" src="${summary}"></markdownnav>
+  <br/>
+  <br/>
+  <markdown src="${index}" watchhash="true"></markdown>
+</template>
