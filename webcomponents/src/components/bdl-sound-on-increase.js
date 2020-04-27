@@ -4,6 +4,7 @@ import {BdlTriggerOnIncrease} from './bdl-trigger-on-increase';
 export class BdlSoundOnIncrease extends BdlTriggerOnIncrease {
   @bindable thresholdvalue;
   @bindable freq=440;
+  @bindable volume=0.5;
   constructor() {
     super();
   }
@@ -21,16 +22,17 @@ export class BdlSoundOnIncrease extends BdlTriggerOnIncrease {
     //console.log('soundonincrease trigger');
     //this.triggered = true;
     //if (!this.triggered) {
-      //this.triggered = true;
-      //console.log('soundonincrease generating sound');
-      this.oscillator = this.audioCtx.createOscillator();
-      let  g = this.audioCtx.createGain();
-      this.oscillator.frequency.value = typeof(this.freq) === 'string' ? parseInt(this.freq, 10) : this.freq;
-      this.oscillator.connect(g);
-      this.oscillator.connect(this.audioCtx.destination);
-      this.oscillator.start();
-      this.oscillator.stop(this.audioCtx.currentTime + 0.2); // stop 0.2 seconds after the current time
-      g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.1);
+    //this.triggered = true;
+    //console.log('soundonincrease generating sound');
+    this.oscillator = this.audioCtx.createOscillator();
+    let  g = this.audioCtx.createGain();
+    g.gain.value = typeof(this.volume) === 'string' ? parseFloat(this.volume, 10) : this.volume;/* set volume of sound output 0.5 = 50%*/
+    g.connect(this.audioCtx.destination);
+    this.oscillator.frequency.value = typeof(this.freq) === 'string' ? parseInt(this.freq, 10) : this.freq;
+    this.oscillator.connect(g);
+    this.oscillator.start();
+    this.oscillator.stop(this.audioCtx.currentTime + 0.2); // stop 0.2 seconds after the current time
+    g.gain.exponentialRampToValueAtTime(0.00001, context.currentTime + 0.1);
     //}
   }
 }

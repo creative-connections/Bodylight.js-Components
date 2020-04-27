@@ -185,7 +185,10 @@ Attributes:
 
 `<bdl-sound-on-increase>` plays MP3 sound when a selected model variable value decreases and achieves a threshold. When the threshold is achieved the sound is played once until the value raises above threshold again.
 Attributes:
-  * `threshold`
+  * same as `<bdl-audio-on-increase>`
+  * `freq` frequency in Hz - set integer
+  * `volume` set volume between 0-1. Default 0.5
+  
 Example
 ```html
 
@@ -199,7 +202,7 @@ Example
 </bdl-audio-on-decrease>
 
 <bdl-sound-on-increase 
-  thresholdvalue="1e+7" fromid="id4" refindex="8">
+  thresholdvalue="1e+7" fromid="id4" refindex="8" freq="440" volume="0.3">
   sound-on-decrease not supported
 </bdl-audio-on-increase> 
 
