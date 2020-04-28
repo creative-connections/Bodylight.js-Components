@@ -175,6 +175,18 @@ Pythagoran theorem is $a^2 + b^2 = c^2$.
 Pythagoran theorem is 
 $$a^2 + b^2 = c^2$$
 
+### markdown nav
+`<bdl-markdownnav>` renders navigation
+
+### markdown book, markdown app
+`<bdl-markdown-book>` renders vertical navigation sidebar on the left,
+  * `index` - index MD to be shown as content
+  * `summary` - navigation MD - navigation sidebar is rendered per list in it
+
+`<bdl-markdown-app>` renders horizontal navigation menu on top
+  * `index` - index MD to be shown as content
+  * `summary` - navigation MD - navigation sidebar is rendered per list in it
+
 ### Audio on increase or decrease, bdl-audio-on-increase, bdl-audio-on-decrease
 `<bdl-audio-on-increase>` plays MP3 sound when a selected model variable value increases and achieves a threshold. When the threshold is achieved the sound is played once until the value falls bellow threshold again.
 `<bdl-audio-on-decrease>` plays MP3 sound when a selected model variable value decreases and achieves a threshold. When the threshold is achieved the sound is played once until the value raises above threshold again.
