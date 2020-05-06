@@ -1,3 +1,4 @@
+| EN | [CZ](#doc/index.cs.md&summary=doc/summary.cs.md) |   
   * [Bodylight Components Docs](#doc/index.md)
     * [Getting Started](#doc/gettingstarted.md)
     * [User's Guide](#doc/usersguide.md)

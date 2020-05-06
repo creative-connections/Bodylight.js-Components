@@ -2,12 +2,13 @@
   <require from="../../w3.css"></require>
   <require from="./markdownnav"></require>
   <require from="./markdown"></require>
+  <require from="./watchhash"></require>
   <div class="w3-row" style="display:flex">
     <div class="w3-col m3 l2">
-      <markdownnav navstyle="vertical" src="${summary}" style="position:sticky;top:0;"></markdownnav>
+      <markdownnav navstyle="vertical" src="${summary}" style="position:sticky;top:0;" watchhash="summary,1"></markdownnav>
     </div>
     <div class="w3-col m9 l10">
-      <markdown src="${index}" watchhash="true"></markdown>
+      <markdown src="${index}" watchhash="index,0"></markdown>
     </div>
   </div>
   <!--

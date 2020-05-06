@@ -21,6 +21,10 @@ export class Markdownnav {
     //adds rule to add a class to li item
     this.mdtoc.renderer.rules.list_item_open = function() { return '<li class="navitem">'; };
     //fetch md source from src attribute
+    this.fetchMDSrc();
+  }
+
+  fetchMDSrc() {
     this.client.fetch(this.src)
       .then(response => response.text())
       .then(data => {
@@ -31,7 +35,13 @@ export class Markdownnav {
         this.update();
       });
   }
+
   update() {
     this.mynav.innerHTML = this.html;
+  }
+
+  changesrc(src) {
+    this.src = src;
+    this.fetchMDSrc();
   }
 }

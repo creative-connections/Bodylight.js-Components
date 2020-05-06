@@ -8,7 +8,7 @@ Tato kapitola představí fyziologii pulsujícího kardiovaskulárního systému
 
 Nastavte tepovou frekvenci srdce
 
-<bdl-range id="id1" min="40" max="180" step="1" default="60" title="Heart rate"></bdl-range><!-- slidervalue.bind="${myvalue}" ly.bind="${myvalue}"-->
+<bdl-range id="id1" min="40" max="180" step="1" default="60" title="Heart rate"></bdl-range>
 
 Nyní můžete pustit nebo zastavit simulaci
 `<bdl-fmisource src="MeursFMI.js"></bdl-fmisource>`

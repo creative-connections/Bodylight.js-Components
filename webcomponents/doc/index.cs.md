@@ -1,12 +1,13 @@
 
-# Introduction
+# Úvod
 
-Bodylight Web Components are custom elements following *Web Components standard*[^1] with special functionality to allow
-build interactive web application and document with models exported from Modelica language using Bodylight FMU Compiler.
+Web komponenty Bodylight<sup>TM</sup> - jsou implementované jako tzv. "custom element" podle *Web Components standard*[^1].
+Tyto custom elementy definují speciální funkcionalitu pro tvorbu interaktivních aplikací
+a dokumentů s modely exportovanými z jazyka Modelica pomocí Bodylight FMU Compiler.
 
 Bodylight Web Components are all prefixed with `bdl-` to prevent ambuiguity.
 
-## Integration
+## Propojení
 
 Bodylight web components can be integrated directly into `HTML` source code. E.g.
 ```html
