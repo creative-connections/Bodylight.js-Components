@@ -6,7 +6,6 @@ import hljs from 'highlight.js'; //highlights in MD source blocks
 //npm install markdown-it-toc-done-right markdown-it-anchor
 //import markdownitTocDoneRight from 'markdown-it-toc-done-right'; //TOC on top of the page
 //import markdownitAnchor from 'markdown-it-anchor'; //MD anchors
-import {parseHashParamString} from '../utils';
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -15,22 +14,12 @@ import {HttpClient} from 'aurelia-fetch-client';
 export class Markdownaurelia {
   @bindable src;
   @bindable watchhash;
+  @bindable base='';
 
   constructor(i18n, httpclient) {
     this.i18n = i18n;
     this.client = httpclient;
     this.html = '';
-
-    //event listener function needs to be declared this way - they have access to 'this'
-    /*this.handleHashChange = e => {
-      console.log('handleHashChange');
-      let params = parseHashParamString(window.location.hash);
-      let index = params['index'] ? params['index'] : params[0];//either get index param or first param
-      if (index) {
-        this.src = index;
-        this.readmd();
-      }
-    };*/
   }
 
   attached() {
@@ -58,10 +47,6 @@ export class Markdownaurelia {
     //  .use( markdownitTocDoneRight, {itemClass: 'nav-item', listType: 'ul'} );
 
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
-    /*if (this.watchhash) {
-      this.handleHashChange(null);
-      window.addEventListener('hashchange', this.handleHashChange);
-    }*/
     this.readmd();
   }
 
@@ -72,7 +57,7 @@ export class Markdownaurelia {
 
   readmd() {
     //fetch md source from src attribute
-    this.client.fetch(this.src)
+    this.client.fetch(this.base + this.src)
       .then(response => response.text())
       .then(data => {
         //console.log('fetched md:', data)
@@ -88,7 +73,7 @@ export class Markdownaurelia {
   }
 
   update() {
-    console.log('markdownaurelia update');
+    //console.log('markdownaurelia update');
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();
   }

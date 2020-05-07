@@ -7,6 +7,7 @@ import {HttpClient} from 'aurelia-fetch-client';
 export class Markdownnav {
   @bindable src;
   @bindable navstyle;
+  @bindable base="";
 
   constructor(i18n, httpclient) {
     this.i18n = i18n;
@@ -25,7 +26,7 @@ export class Markdownnav {
   }
 
   fetchMDSrc() {
-    this.client.fetch(this.src)
+    this.client.fetch(this.base + this.src)
       .then(response => response.text())
       .then(data => {
         //console.log('fetched md:', data)

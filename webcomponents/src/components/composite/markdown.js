@@ -14,12 +14,13 @@ import {Markdownaurelia} from './markdownaurelia';
 export class Markdown extends Markdownaurelia {
   @bindable src;
   @bindable watchhash;
+  @bindable base ='';
   constructor(i18n, httpclient) {
     super(i18n, httpclient);
   }
 
   update() {
-    console.log('markdown2 update called by OOP polymorphism mydiv, html', this.mydiv,this.html);
+    //console.log('markdown2 update called by OOP polymorphism mydiv, html', this.mydiv,this.html);
     this.mydiv.innerHTML = this.html;
     super.update();
   }
