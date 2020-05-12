@@ -10,6 +10,10 @@ import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 
+/**
+ * This is markdownaurelia component to be used as aurelia component,
+ * in case of using as web-component, use mardkdown which inherits majority
+ */
 @inject(I18N, HttpClient)
 export class Markdownaurelia {
   @bindable src;

@@ -8,7 +8,8 @@ Bodylight Web Components are all prefixed with `bdl-` to prevent ambuiguity.
 
 ## Integration
 
-Bodylight web components can be integrated directly into `HTML` source code. E.g.
+Bodylight web components can be integrated directly into `HTML` source code. 
+Add 
 ```html
 <p>Set the heart rate</p>
 <bdl-cardiaccycle></bdl-cardiaccycle>

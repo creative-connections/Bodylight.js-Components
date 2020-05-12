@@ -62,11 +62,10 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     moduleIds: 'hashed',
     // Use splitChunks to breakdown the App/Aurelia bundle down into smaller chunks
     // https://webpack.js.org/plugins/split-chunks-plugin/
-    splitChunks: {
+    /*splitChunks: {
       hidePathInfo: true, // prevents the path from being used in the filename when using maxSize
-      chunks: 'initial',
-      // sizes are compared against source before minification
-      maxSize: 10000000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
+      chunks: 'initial',  // sizes are compared against source before minification
+      maxSize: 30000000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
       cacheGroups: {
         default: false, // Disable the built-in groups default & vendors (vendors is redefined below)
         // You can insert additional cacheGroup entries here if you want to split out specific modules
@@ -110,7 +109,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
           minSize: 10000  // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
         }
       }
-    }
+    }*/
   },/* end opt*/
   performance: { hints: false },
   devServer: {
