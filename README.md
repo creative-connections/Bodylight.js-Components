@@ -9,7 +9,7 @@ Reusable components for composing interactive web simulators
   * enhanced markdown rendering with these components
   * ...
 
-# Bodylight web components in HTML
+## Bodylight web components in HTML
  
 Script bundle `bodylight.bundle.js` adds Bodylight Web Components support
 into any web application or web page. It follows [Web Components standards](https://www.webcomponents.org/) supported by all major web browsers.
@@ -51,7 +51,7 @@ and as input from `<bdl-range>`.
 </html>
 ```
 
-# Bodylight Web Components in Markdown
+## Bodylight Web Components in Markdown
 
 Bodylight web components contain special markdown components to read external MD file with components: 
 
@@ -68,8 +68,6 @@ The file `home.md`:
 heart rate can be set here:
 <bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
 ```
-
-Bodylight web components can be into HTML based systems Moodle (TBD) and Adobe Captivate (TBD).
 
 ## Bodylight webcomponents in Moodle
 
