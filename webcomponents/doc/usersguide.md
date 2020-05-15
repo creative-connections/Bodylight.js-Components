@@ -24,7 +24,7 @@ HTML `index.html`:
      <script type="module" src="bodylight.bundle.js"></script>
      <script type="module" src="modelfmi.js"></script>
   </head>
-<body aurelia-app="mainwebcomponent">
+<body aurelia-app="webcomponents">
   <bdl-markdown src="index.md"></bdl-markdown>
 </body>
 </html>

@@ -96,7 +96,7 @@ export class Fmi {
       }
     };
 
-    script.src = source;
+    script.src = window.bdlBaseHref? window.bdlBaseHref + source:source;
     prior.parentNode.insertBefore(script, prior);
   }
 

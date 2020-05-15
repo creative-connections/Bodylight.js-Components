@@ -31,7 +31,7 @@ and as input from `<bdl-range>`.
      <script type="module" src="bodylight.bundle.js"></script>
      <script type="module" src="modelfmi.js"></script>
   </head>
-<body aurelia-app="mainwebcomponent">
+<body aurelia-app="webcomponents">
 <!-- put HTML as well as web components inside -->
 <bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
 
