@@ -14,6 +14,8 @@ Reusable components for composing interactive web simulators
 Script bundle `bodylight.bundle.js` adds Bodylight Web Components support
 into any web application or web page. It follows [Web Components standards](https://www.webcomponents.org/) supported by all major web browsers.
 
+Bodylight Web Components introduce custom elements which are all prefixed with `bdl-` to prevent ambuiguity.
+
 The following HTML snippet loads first the `bodylight.bundle.js` script alongside `modelfmi.js` (Model exported as FMU and then as JS by Bodylight Compiler).
 Then custom-elements with prefix `<bdl-` can be used alongside other standard HTML.
 `<bdl-fmi>` renders as control buttons (play,pause,step) to start stop simulation in FMI.
@@ -33,9 +35,6 @@ and as input from `<bdl-range>`.
 <!-- put HTML as well as web components inside -->
 <bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
 
-<bdl-receptacle id="id2" hx="100" hy="100" px="50" py="50"></bdl-receptacle>
-<bdl-bind2previous fromid="id1" toid="id2"></bdl-bind2previous>
-
 <bdl-fmi id="id4" 
     fminame="MeursHemodynamics_Model_vanMeursHemodynamicsModel" 
     tolerance="0.001" 
@@ -52,5 +51,26 @@ and as input from `<bdl-range>`.
 </html>
 ```
 
-For further details, see User's guide at `doc/usersguide.md` or at [bodylight.physiome.cz/Bodylight.js-Components/](https://bodylight.physiome.cz/Bodylight.js-Components/#index=doc/usersguide.md) 
+# Bodylight Web Components in Markdown
 
+Bodylight web components contain special markdown components to read external MD file with components: 
+
+The file `home.html`:
+```html
+...
+<bdl-markdown src="home.md"></bdl-markdown>
+...
+```
+
+The file `home.md`:
+```markdown
+# Changing Heart Rate
+heart rate can be set here:
+<bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
+```
+
+Bodylight web components can be into HTML based systems Moodle (TBD) and Adobe Captivate (TBD).
+
+[^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
+
+For further details, see User's guide at `doc/usersguide.md` or at [bodylight.physiome.cz/Bodylight.js-Components/](https://bodylight.physiome.cz/Bodylight.js-Components/#index=doc/usersguide.md) 
