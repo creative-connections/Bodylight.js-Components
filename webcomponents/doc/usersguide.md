@@ -2,11 +2,13 @@
 
 These webcomponents are available:
 
-* `<bdl-receptacle></bdl-receptacle>` Renders a receptacle graphics which is full or empty based on the values provided
 * `<bdl-range></bdl-range>` Renders a range input which may trigger a value
+* `<bdl-value></bdl-value>` Renders value of attribute `value` into DOM, it can be bind as output from FMI.
 * `<bdl-bind2previous></bdl-bind2previous>` Binds values of 2 components 
 * `<bdl-fmi></bdl-fmi>` Creates control buttons in order to control simulation of the model
+* `<bdl-receptacle></bdl-receptacle>` Renders a receptacle graphics which is full or empty based on the values provided
 * `<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
+* `<bdl-chartjs></bdl-chartjs>` Creates a chartjs element controlled by Chartjs library.
 
 
 ### Adding web component into Markdown web page
@@ -140,6 +142,13 @@ Example:
 ### Simplegif, bdl-simplegif
 `<bdl-simplegif src="[filename.gif]" fromid="[id_to_listen]">` creates animated gif which is stopped by default and playing is enabled/disabled when an custom event 'fmistart'/'fmistop' are received from an element with id 'fromid'.
 
+### Dygraph
+`<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
+
+### ChartJS
+`<bdl-chartjs></bdl-chartjs>` Creates a chartjs element controlled by Chartjs library.
+
+
 ### Markdownnav
 `<bdl-markdownnav src=""></bdl-markdownnav>"` renders navigation menu based on MD list. MD should contain only list.
 All links should
@@ -171,7 +180,7 @@ Example:
 ```
 is rendered as:
 
-Pythagoran theorem is $a^2 + b^2 = c^2$.
+Inline pythagoran theorem is $a^2 + b^2 = c^2$.
 Pythagoran theorem is 
 $$a^2 + b^2 = c^2$$
 
