@@ -62,7 +62,9 @@ export class Markdownaurelia {
 
   readmd() {
     //fetch md source from src attribute
-    this.client.fetch(this.base + this.src)
+    //relative url - set with base
+    let url = (this.src.startsWith('http'))?this.src:this.base + this.src
+    this.client.fetch(url)
       .then(response => response.text())
       .then(data => {
         //console.log('fetched md:', data)
