@@ -10,8 +10,9 @@ export class BdlMarkdownBook extends WatchHashCore {
     super();
   }
 
-  bind(){
+  bind() {
     //this.value=this.params;//'index,0;summary,1;shownav,2';
+    this.shownav = true;
     super.bind();
   }
   /*attached() {
