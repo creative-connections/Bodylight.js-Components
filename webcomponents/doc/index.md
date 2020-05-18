@@ -100,9 +100,9 @@ For resources in github repo use `cdn.jsdelivr.net/gh/` which is returning corre
    ```
    This allows FMI scripts and MD content to be loaded correctly. 
 
-## Bodylight webcomponents in Adobe Captivate
+## Bodylight.js-Components in Adobe Captivate
 
-TBD
+Adobe Captivate supports high level web content - thus content already 
 
 [^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
 [^2]: CORS

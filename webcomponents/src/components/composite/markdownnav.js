@@ -7,7 +7,7 @@ import {HttpClient} from 'aurelia-fetch-client';
 export class Markdownnav {
   @bindable src;
   @bindable navstyle;
-  @bindable base="";
+  @bindable base='';
 
   constructor(i18n, httpclient) {
     this.i18n = i18n;

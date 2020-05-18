@@ -4,10 +4,10 @@
   <require from="./markdown"></require>
   <require from="./watchhash"></require>
   <div class="w3-row" style="display:flex">
-    <div class="w3-col m3 l2">
+    <div class.bind="shownav ? 'w3-col m3 l2':''" show.bind="shownav">
       <markdownnav navstyle="vertical" base="${base}" src="${summary}" style="position:sticky;top:0;" watchhash="summary,1"></markdownnav>
     </div>
-    <div class="w3-col m9 l10">
+    <div class.bind="shownav? 'w3-col m9 l10':''">
       <markdown base="${base}" src="${index}" watchhash="index,0"></markdown>
     </div>
   </div>
