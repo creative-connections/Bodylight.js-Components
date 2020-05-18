@@ -2,26 +2,27 @@
 # Úvod
 
 Web komponenty Bodylight<sup>TM</sup> - jsou implementované jako tzv. "custom element" podle *Web Components standard*[^1].
-Tyto custom elementy definují speciální funkcionalitu pro tvorbu interaktivních aplikací
-a dokumentů s modely exportovanými z jazyka Modelica pomocí Bodylight FMU Compiler.
+Tyto custom elementy definují speciální funkcionalitu pro tvorbu interaktivních webových aplikací za pomoci syntaxe velice podobné HTML.
+Dokumenty v HTML tak lze obohatit o interaktivní grafiku a modely exportované z jazyka Modelica pomocí Bodylight FMU Compileru do Javascriptu.
 
-Bodylight Web Components are all prefixed with `bdl-` to prevent ambuiguity.
+Všechny custom-elementy jsou s prefixem `bdl-`.
 
 ## Propojení
 
-Bodylight web components can be integrated directly into `HTML` source code. E.g.
+`HTML`:
 ```html
 <p>Set the heart rate</p>
-<bdl-cardiaccycle></bdl-cardiaccycle>
+<bdl-range></bdl-range>
 ```
 
-Bodylight web components can be integrated into Markdown or WIKI. E.g.
+Markdown, WIKI.
 ```markdown
 # some heading
-heart rate can be set here <bdl-range></bdl-range>
+heart rate can be set here 
+<bdl-range></bdl-range>
 ```
 
-Bodylight web components can be integrated into HTML based systems Moodle (TBD) and Adobe Captivate.
+Moodle.
 ```moodle
 
 

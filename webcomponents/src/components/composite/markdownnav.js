@@ -26,7 +26,8 @@ export class Markdownnav {
   }
 
   fetchMDSrc() {
-    this.client.fetch(this.base + this.src)
+    let url = (this.src.startsWith('http')) ? this.src : this.base + this.src;
+    this.client.fetch(url)
       .then(response => response.text())
       .then(data => {
         //console.log('fetched md:', data)

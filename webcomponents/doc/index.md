@@ -9,14 +9,24 @@ Reusable components for composing interactive web simulators
   * enhanced markdown rendering with these components
   * ...
 
-## Bodylight web components in HTML
+## Bodylight.js-Components in HTML
  
-Script bundle `bodylight.bundle.js` adds Bodylight Web Components support
-into any web application or web page. It follows [Web Components standards](https://www.webcomponents.org/) supported by all major web browsers.
+In order to add Bodylight support to HTML do following:
+  * add script module `bodylight.bundle.js` into head or other location:
+  ```html
+  <script type="module" src="bodylight.bundle.js"></script>`
+  ```
+  * add atrribute `aurelia-app="webcomponents"` into div or body containing web components:
+  ```html
+  <body aurelia=app="webcomponents"> ... </body>
+  ```
+     
+Bodylight Web Components introduce custom elements which are all prefixed with `bdl-` to prevent ambuiguity and 
+follow [Web Components standards](https://www.webcomponents.org/) supported by all major web browsers.
 
-Bodylight Web Components introduce custom elements which are all prefixed with `bdl-` to prevent ambuiguity.
+The bundle `bodylight.bundle.js` contains all definition of custom-elements.
 
-The following HTML snippet loads first the `bodylight.bundle.js` script alongside `modelfmi.js` (Model exported as FMU and then as JS by Bodylight Compiler).
+The following example contains additional script `modelfmi.js` (Model exported as FMU and then as JS by Bodylight Compiler).
 Then custom-elements with prefix `<bdl-` can be used alongside other standard HTML.
 `<bdl-fmi>` renders as control buttons (play,pause,step) to start stop simulation in FMI.
 In the background, variables of model are bind as output to dygraph chart in `<bdl-dygraphchart>`
@@ -51,25 +61,26 @@ and as input from `<bdl-range>`.
 </html>
 ```
 
-## Bodylight Web Components in Markdown
+## Bodylight.js-Components in Markdown
 
 Bodylight web components contain special markdown components to read external MD file with components: 
 
-The file `home.html`:
+The file `home.html` will contain only one component:
 ```html
 ...
 <bdl-markdown src="home.md"></bdl-markdown>
 ...
 ```
 
-The file `home.md`:
+This `bdl-markdown` component reads content of the file `home.md`:
 ```markdown
 # Changing Heart Rate
 heart rate can be set here:
 <bdl-range id="id1" min="40" max="180" step="1" default="60"></bdl-range>
 ```
+Note:  Note that `home.md` should be accessible by browser, if hosted in different URL, it should be allowed by CORS to be read inside web application.
 
-## Bodylight webcomponents in Moodle
+## Bodylight.js-Components in Moodle
 
 1. edit moodle page in HTML - use HTML source, click <i class="fa fa-level-down"></i> and then siwtch code - click <i class="fa fa-code"></i>
 2. add the bodylight script
@@ -94,5 +105,5 @@ For resources in github repo use `cdn.jsdelivr.net/gh/` which is returning corre
 TBD
 
 [^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
-
+[^2]: CORS
 For further details, see User's guide at `doc/usersguide.md` or at [bodylight.physiome.cz/Bodylight.js-Components/](https://bodylight.physiome.cz/Bodylight.js-Components/#index=doc/usersguide.md) 

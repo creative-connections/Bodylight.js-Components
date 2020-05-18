@@ -29,7 +29,7 @@ export class Markdownaurelia {
   attached() {
     //console.log('makdownit attached hljs:', hljs);
     // eslint-disable-next-line new-cap
-    if (this.base.length>0) window.bdlBaseHref=this.base; // define bdlbasehref only if not empty string
+    if (this.base.length > 0) window.bdlBaseHref = this.base; // define bdlbasehref only if not empty string
     this.md = Markdownit({
       html: true, //enable html tags - this enables also custom elements of components/webcomponents
       linkify: true,
@@ -63,7 +63,7 @@ export class Markdownaurelia {
   readmd() {
     //fetch md source from src attribute
     //relative url - set with base
-    let url = (this.src.startsWith('http'))?this.src:this.base + this.src
+    let url = (this.src.startsWith('http')) ? this.src : this.base + this.src;
     this.client.fetch(url)
       .then(response => response.text())
       .then(data => {
