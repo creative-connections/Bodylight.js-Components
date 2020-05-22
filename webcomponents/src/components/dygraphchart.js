@@ -59,7 +59,7 @@ export class Dygraphchart {
         //customBars if series is low;middle;high where range between low and high is visualised
         //customBars: true,
         //range selector
-        showRangeSelector: true,
+        //showRangeSelector: true,
         labels: labels
       });
     /*data.push([x, y]);

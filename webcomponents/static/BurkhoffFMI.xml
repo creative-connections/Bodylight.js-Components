@@ -1,0 +1,3703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fmiModelDescription
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  fmiVersion="2.0"
+  modelName="Cardiovascular_Model_Burkhoff_HemodynamicsBurkhoff_0shallow"
+  guid="{b5629132-3ba6-4153-87c2-f3ff108e1920}"
+  generationTool="Dymola Version 2019 (64-bit), 2018-04-11"
+  generationDateAndTime="2020-05-22T13:51:53Z"
+  variableNamingConvention="structured"
+  numberOfEventIndicators="32">
+  <ModelExchange
+    modelIdentifier="Cardiovascular_Model_Burkhoff_HemodynamicsBurkhoff_0shallow"
+    canGetAndSetFMUstate="true"
+    canSerializeFMUstate="true"
+    providesDirectionalDerivative="true">
+    <SourceFiles>
+      <File
+        name="all.c"/>
+    </SourceFiles>
+  </ModelExchange>
+  <CoSimulation
+    modelIdentifier="Cardiovascular_Model_Burkhoff_HemodynamicsBurkhoff_0shallow"
+    canHandleVariableCommunicationStepSize="true"
+    canInterpolateInputs="true"
+    maxOutputDerivativeOrder="1"
+    canGetAndSetFMUstate="true"
+    canSerializeFMUstate="true"
+    providesDirectionalDerivative="true">
+    <SourceFiles>
+      <File
+        name="all.c"/>
+    </SourceFiles>
+  </CoSimulation>
+  <UnitDefinitions>
+    <Unit
+      name="(Pa.s)/m3">
+      <BaseUnit kg="1"
+        m="-4"
+        s="-1"/>
+      <DisplayUnit
+        name="(mmHg.min)/ml"
+        factor="1.250102626409427E-10"/>
+      <DisplayUnit
+        name="(mmHg.s)/ml"
+        factor="7.500615758456563E-09"/>
+    </Unit>
+    <Unit
+      name="1"/>
+    <Unit
+      name="1/m3">
+      <BaseUnit m="-3"/>
+    </Unit>
+    <Unit
+      name="Hz">
+      <BaseUnit s="-1"/>
+      <DisplayUnit
+        name="1/min"
+        factor="60.0"/>
+    </Unit>
+    <Unit
+      name="Pa">
+      <BaseUnit kg="1"
+        m="-1"
+        s="-2"/>
+      <DisplayUnit
+        name="mmHg"
+        factor="0.007500615758456563"/>
+    </Unit>
+    <Unit
+      name="Pa/m3">
+      <BaseUnit kg="1"
+        m="-4"
+        s="-2"/>
+      <DisplayUnit
+        name="mmHg/ml"
+        factor="7.500615758456563E-09"/>
+    </Unit>
+    <Unit
+      name="m3">
+      <BaseUnit m="3"/>
+      <DisplayUnit
+        name="ml"
+        factor="1000000.0"/>
+    </Unit>
+    <Unit
+      name="m3/(Pa.s)">
+      <BaseUnit kg="-1"
+        m="4"
+        s="1"/>
+      <DisplayUnit
+        name="l/(mmHg.min)"
+        factor="7999343.2449"/>
+      <DisplayUnit
+        name="ml/(mmHg.min)"
+        factor="7999343244.900001"/>
+    </Unit>
+    <Unit
+      name="m3/Pa">
+      <BaseUnit kg="-1"
+        m="4"
+        s="2"/>
+      <DisplayUnit
+        name="ml/mmHg"
+        factor="133322387.415"/>
+    </Unit>
+    <Unit
+      name="m3/s">
+      <BaseUnit m="3"
+        s="-1"/>
+      <DisplayUnit
+        name="ml/min"
+        factor="60000000.0"/>
+    </Unit>
+    <Unit
+      name="s">
+      <BaseUnit s="1"/>
+      <DisplayUnit
+        name="min"
+        factor="0.016666666666666666"/>
+      <DisplayUnit
+        name="ms"
+        factor="1000.0"/>
+      <DisplayUnit
+        name="s"/>
+    </Unit>
+  </UnitDefinitions>
+  <TypeDefinitions>
+    <SimpleType
+      name="Modelica.Blocks.Interfaces.RealInput">
+      <Real/>
+    </SimpleType>
+    <SimpleType
+      name="Modelica.Blocks.Interfaces.RealOutput">
+      <Real/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.Frequency">
+      <Real
+        quantity="Frequency"
+        unit="Hz"
+        displayUnit="1/min"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.HydraulicCompliance">
+      <Real
+        quantity="HydraulicCompliance"
+        unit="m3/Pa"
+        displayUnit="ml/mmHg"
+        nominal="7.500615758456563E-09"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.HydraulicConductance">
+      <Real
+        quantity="HydraulicConductance"
+        unit="m3/(Pa.s)"
+        displayUnit="ml/(mmHg.min)"
+        min="0.0"
+        nominal="1.250102626409427E-10"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.HydraulicElastance">
+      <Real
+        quantity="HydraulicElastance"
+        unit="Pa/m3"
+        displayUnit="mmHg/ml"
+        nominal="133322387.41500002"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.HydraulicResistance">
+      <Real
+        quantity="HydraulicConductance"
+        unit="(Pa.s)/m3"
+        displayUnit="(mmHg.min)/ml"
+        min="0.0"
+        nominal="7999343244.900001"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.Pressure">
+      <Real
+        quantity="Pressure"
+        unit="Pa"
+        displayUnit="mmHg"
+        nominal="133.322387415"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.FrequencyInput">
+      <Real
+        quantity="Frequency"
+        unit="Hz"
+        displayUnit="1/min"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.FrequencyOutput">
+      <Real
+        quantity="Frequency"
+        unit="Hz"
+        displayUnit="1/min"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.HydraulicComplianceInput">
+      <Real
+        quantity="HydraulicCompliance"
+        unit="m3/Pa"
+        displayUnit="ml/mmHg"
+        nominal="7.500615758456563E-09"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.HydraulicComplianceOutput">
+      <Real
+        quantity="HydraulicCompliance"
+        unit="m3/Pa"
+        displayUnit="ml/mmHg"
+        nominal="7.500615758456563E-09"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.PressureInput">
+      <Real
+        quantity="Pressure"
+        unit="Pa"
+        displayUnit="mmHg"
+        nominal="133.322387415"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.PressureOutput">
+      <Real
+        quantity="Pressure"
+        unit="Pa"
+        displayUnit="mmHg"
+        nominal="133.322387415"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.VolumeInput">
+      <Real
+        quantity="Volume"
+        unit="m3"
+        displayUnit="ml"
+        min="0.0"
+        nominal="1E-06"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.RealIO.VolumeOutput">
+      <Real
+        quantity="Volume"
+        unit="m3"
+        displayUnit="ml"
+        min="0.0"
+        nominal="1E-06"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.Time">
+      <Real
+        quantity="Time"
+        unit="s"
+        displayUnit="min"
+        nominal="60.0"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.Volume">
+      <Real
+        quantity="Volume"
+        unit="m3"
+        displayUnit="ml"
+        min="0.0"
+        nominal="1E-06"/>
+    </SimpleType>
+    <SimpleType
+      name="Physiolibrary.Types.VolumeFlowRate">
+      <Real
+        quantity="VolumeFlowRate"
+        unit="m3/s"
+        displayUnit="ml/min"
+        nominal="1.6666666666666667E-08"/>
+    </SimpleType>
+  </TypeDefinitions>
+  <DefaultExperiment startTime="0.0"
+    stopTime="1.0"
+    tolerance="0.0001"/>
+  <ModelVariables>
+    <!-- Index for next variable = 1 -->
+    <ScalarVariable
+      name="Cvs.state"
+      valueReference="33554432"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 2 -->
+    <ScalarVariable
+      name="der(Cvs.state)"
+      valueReference="587202560"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 3 -->
+    <ScalarVariable
+      name="Cvs.q_in.pressure"
+      valueReference="637534216"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 4 -->
+    <ScalarVariable
+      name="Cvs.q_in.q"
+      valueReference="587202560"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 5 -->
+    <ScalarVariable
+      name="Cvs.volume_start"
+      valueReference="16777216"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.002701"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 6 -->
+    <ScalarVariable
+      name="Cvs.excessVolume"
+      valueReference="637534217"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 7 -->
+    <ScalarVariable
+      name="Cvs.ZeroPressureVolume"
+      valueReference="16777217"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.00223"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 8 -->
+    <ScalarVariable
+      name="Cvs.CollapsingPressureVolume"
+      valueReference="16777218"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 9 -->
+    <ScalarVariable
+      name="Cvs.Compliance"
+      valueReference="16777219"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="5.2504310309196E-07"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 10 -->
+    <ScalarVariable
+      name="Cvs.ExternalPressure"
+      valueReference="16777220"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 11 -->
+    <ScalarVariable
+      name="Cvs.MinimalCollapsingPressure"
+      valueReference="16777221"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 12 -->
+    <ScalarVariable
+      name="Cvs.volume"
+      valueReference="33554432">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 13 -->
+    <ScalarVariable
+      name="Ras.q_in.pressure"
+      valueReference="637534222"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 14 -->
+    <ScalarVariable
+      name="Ras.q_in.q"
+      valueReference="637534223"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 15 -->
+    <ScalarVariable
+      name="Ras.q_out.pressure"
+      valueReference="637534216"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 16 -->
+    <ScalarVariable
+      name="Ras.q_out.q"
+      valueReference="637534224"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 17 -->
+    <ScalarVariable
+      name="Ras.volumeFlowRate"
+      valueReference="637534223"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 18 -->
+    <ScalarVariable
+      name="Ras.dp"
+      valueReference="905969681"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 19 -->
+    <ScalarVariable
+      name="Ras.Conductance"
+      valueReference="100663315"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 20 -->
+    <ScalarVariable
+      name="Ras.Resistance"
+      valueReference="16777222"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="99991790.56125"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 21 -->
+    <ScalarVariable
+      name="Cas.state"
+      valueReference="33554433"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 22 -->
+    <ScalarVariable
+      name="der(Cas.state)"
+      valueReference="587202561"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="21"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 23 -->
+    <ScalarVariable
+      name="Cas.q_in.pressure"
+      valueReference="637534222"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 24 -->
+    <ScalarVariable
+      name="Cas.q_in.q"
+      valueReference="587202561"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 25 -->
+    <ScalarVariable
+      name="Cas.volume_start"
+      valueReference="16777223"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.000834"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 26 -->
+    <ScalarVariable
+      name="Cas.excessVolume"
+      valueReference="637534236"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 27 -->
+    <ScalarVariable
+      name="Cas.ZeroPressureVolume"
+      valueReference="16777224"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.0007"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 28 -->
+    <ScalarVariable
+      name="Cas.CollapsingPressureVolume"
+      valueReference="16777225"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 29 -->
+    <ScalarVariable
+      name="Cas.Compliance"
+      valueReference="16777226"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1.2751046789376E-08"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 30 -->
+    <ScalarVariable
+      name="Cas.ExternalPressure"
+      valueReference="16777227"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 31 -->
+    <ScalarVariable
+      name="Cas.MinimalCollapsingPressure"
+      valueReference="16777228"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 32 -->
+    <ScalarVariable
+      name="Cas.volume"
+      valueReference="33554433">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 33 -->
+    <ScalarVariable
+      name="Rcs.q_in.pressure"
+      valueReference="637534241"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 34 -->
+    <ScalarVariable
+      name="Rcs.q_in.q"
+      valueReference="637534242"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 35 -->
+    <ScalarVariable
+      name="Rcs.q_out.pressure"
+      valueReference="637534222"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 36 -->
+    <ScalarVariable
+      name="Rcs.q_out.q"
+      valueReference="637534243"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 37 -->
+    <ScalarVariable
+      name="Rcs.volumeFlowRate"
+      valueReference="637534242"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 38 -->
+    <ScalarVariable
+      name="Rcs.dp"
+      valueReference="905969700"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 39 -->
+    <ScalarVariable
+      name="Rcs.Conductance"
+      valueReference="100663334"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 40 -->
+    <ScalarVariable
+      name="Rcs.Resistance"
+      valueReference="16777229"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="3199737.29796"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 41 -->
+    <ScalarVariable
+      name="Caprox.state"
+      valueReference="33554434"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 42 -->
+    <ScalarVariable
+      name="der(Caprox.state)"
+      valueReference="587202562"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="41"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 43 -->
+    <ScalarVariable
+      name="Caprox.q_in.pressure"
+      valueReference="637534241"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 44 -->
+    <ScalarVariable
+      name="Caprox.q_in.q"
+      valueReference="587202562"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 45 -->
+    <ScalarVariable
+      name="Caprox.volume_start"
+      valueReference="16777230"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="3.8E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 46 -->
+    <ScalarVariable
+      name="Caprox.excessVolume"
+      valueReference="637534255"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 47 -->
+    <ScalarVariable
+      name="Caprox.ZeroPressureVolume"
+      valueReference="16777231"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="3E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 48 -->
+    <ScalarVariable
+      name="Caprox.CollapsingPressureVolume"
+      valueReference="16777232"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 49 -->
+    <ScalarVariable
+      name="Caprox.Compliance"
+      valueReference="16777233"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="7.5006157584566E-10"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 50 -->
+    <ScalarVariable
+      name="Caprox.ExternalPressure"
+      valueReference="16777234"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 51 -->
+    <ScalarVariable
+      name="Caprox.MinimalCollapsingPressure"
+      valueReference="16777235"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 52 -->
+    <ScalarVariable
+      name="Caprox.externalPressure"
+      valueReference="234881133">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 53 -->
+    <ScalarVariable
+      name="Caprox.volume"
+      valueReference="33554434">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 54 -->
+    <ScalarVariable
+      name="Rcprox.q_in.pressure"
+      valueReference="637534260"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 55 -->
+    <ScalarVariable
+      name="Rcprox.q_in.q"
+      valueReference="637534261"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 56 -->
+    <ScalarVariable
+      name="Rcprox.q_out.pressure"
+      valueReference="637534241"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 57 -->
+    <ScalarVariable
+      name="Rcprox.q_out.q"
+      valueReference="637534266"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 58 -->
+    <ScalarVariable
+      name="Rcprox.volumeFlowRate"
+      valueReference="637534261"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 59 -->
+    <ScalarVariable
+      name="Rcprox.dp"
+      valueReference="905969718"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 60 -->
+    <ScalarVariable
+      name="Rcprox.Conductance"
+      valueReference="100663352"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 61 -->
+    <ScalarVariable
+      name="Rcprox.Resistance"
+      valueReference="16777236"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="2666447.7483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 62 -->
+    <ScalarVariable
+      name="AOV.q_in.pressure"
+      valueReference="637534265"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 63 -->
+    <ScalarVariable
+      name="AOV.q_in.q"
+      valueReference="637534261"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 64 -->
+    <ScalarVariable
+      name="AOV.q_out.pressure"
+      valueReference="637534260"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 65 -->
+    <ScalarVariable
+      name="AOV.q_out.q"
+      valueReference="637534266"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 66 -->
+    <ScalarVariable
+      name="AOV.volumeFlowRate"
+      valueReference="637534261"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 67 -->
+    <ScalarVariable
+      name="AOV.dp"
+      valueReference="637534267"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 68 -->
+    <ScalarVariable
+      name="AOV.open"
+      valueReference="637534268"
+      description="Switching state"
+      variability="discrete"
+      initial="approx">
+      <Boolean start="true"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 69 -->
+    <ScalarVariable
+      name="AOV.passableVariable"
+      valueReference="637534269"
+      description="Auxiliary variable for actual position on the ideal diode characteristic">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 70 -->
+    <ScalarVariable
+      name="AOV._Gon"
+      valueReference="100663358"
+      description="Forward state-on conductance (open valve conductance)"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 71 -->
+    <ScalarVariable
+      name="AOV._Goff"
+      valueReference="16777237"
+      description="Backward state-off conductance (closed valve conductance)"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"
+        start="1.2501026264094E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 72 -->
+    <ScalarVariable
+      name="AOV.Pknee"
+      valueReference="16777238"
+      description="Forward threshold pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        min="0.0"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 73 -->
+    <ScalarVariable
+      name="AOV._Ron"
+      valueReference="16777239"
+      description="forward state resistance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="266644.77483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 74 -->
+    <ScalarVariable
+      name="LV.state"
+      valueReference="33554435"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 75 -->
+    <ScalarVariable
+      name="der(LV.state)"
+      valueReference="587202563"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="74"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 76 -->
+    <ScalarVariable
+      name="LV.q_in.pressure"
+      valueReference="637534265"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 77 -->
+    <ScalarVariable
+      name="LV.q_in.q"
+      valueReference="587202563"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 78 -->
+    <ScalarVariable
+      name="LV.volume_start"
+      valueReference="16777240"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.000125"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 79 -->
+    <ScalarVariable
+      name="LV.excessVolume"
+      valueReference="637534282"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 80 -->
+    <ScalarVariable
+      name="LV.ZeroPressureVolume"
+      valueReference="16777241"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="5E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 81 -->
+    <ScalarVariable
+      name="LV.CollapsingPressureVolume"
+      valueReference="16777242"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 82 -->
+    <ScalarVariable
+      name="LV.Compliance"
+      valueReference="16777243"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 83 -->
+    <ScalarVariable
+      name="LV.compliance"
+      valueReference="637534286">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 84 -->
+    <ScalarVariable
+      name="LV.ExternalPressure"
+      valueReference="16777244"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 85 -->
+    <ScalarVariable
+      name="LV.MinimalCollapsingPressure"
+      valueReference="16777245"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 86 -->
+    <ScalarVariable
+      name="LV.externalPressure"
+      valueReference="637534287">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 87 -->
+    <ScalarVariable
+      name="LV.volume"
+      valueReference="33554435">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 88 -->
+    <ScalarVariable
+      name="LV.StressedVolume"
+      valueReference="637534289">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 89 -->
+    <ScalarVariable
+      name="MV.q_in.pressure"
+      valueReference="637534290"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 90 -->
+    <ScalarVariable
+      name="MV.q_in.q"
+      valueReference="637534291"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 91 -->
+    <ScalarVariable
+      name="MV.q_out.pressure"
+      valueReference="637534265"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 92 -->
+    <ScalarVariable
+      name="MV.q_out.q"
+      valueReference="637534292"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 93 -->
+    <ScalarVariable
+      name="MV.volumeFlowRate"
+      valueReference="637534291"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 94 -->
+    <ScalarVariable
+      name="MV.dp"
+      valueReference="637534293"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 95 -->
+    <ScalarVariable
+      name="MV.open"
+      valueReference="637534294"
+      description="Switching state"
+      variability="discrete"
+      initial="approx">
+      <Boolean start="true"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 96 -->
+    <ScalarVariable
+      name="MV.passableVariable"
+      valueReference="637534295"
+      description="Auxiliary variable for actual position on the ideal diode characteristic">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 97 -->
+    <ScalarVariable
+      name="MV._Gon"
+      valueReference="100663384"
+      description="Forward state-on conductance (open valve conductance)"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 98 -->
+    <ScalarVariable
+      name="MV._Goff"
+      valueReference="16777246"
+      description="Backward state-off conductance (closed valve conductance)"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"
+        start="1.2501026264094E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 99 -->
+    <ScalarVariable
+      name="MV.Pknee"
+      valueReference="16777247"
+      description="Forward threshold pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        min="0.0"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 100 -->
+    <ScalarVariable
+      name="MV._Ron"
+      valueReference="16777248"
+      description="forward state resistance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="333305.9685375"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 101 -->
+    <ScalarVariable
+      name="LA.state"
+      valueReference="33554436"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 102 -->
+    <ScalarVariable
+      name="der(LA.state)"
+      valueReference="587202564"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="101"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 103 -->
+    <ScalarVariable
+      name="LA.q_in.pressure"
+      valueReference="637534290"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 104 -->
+    <ScalarVariable
+      name="LA.q_in.q"
+      valueReference="587202564"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 105 -->
+    <ScalarVariable
+      name="LA.volume_start"
+      valueReference="16777249"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="8.1E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 106 -->
+    <ScalarVariable
+      name="LA.excessVolume"
+      valueReference="637534308"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 107 -->
+    <ScalarVariable
+      name="LA.ZeroPressureVolume"
+      valueReference="16777250"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="5E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 108 -->
+    <ScalarVariable
+      name="LA.CollapsingPressureVolume"
+      valueReference="16777251"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 109 -->
+    <ScalarVariable
+      name="LA.Compliance"
+      valueReference="16777252"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 110 -->
+    <ScalarVariable
+      name="LA.compliance"
+      valueReference="637534312">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 111 -->
+    <ScalarVariable
+      name="LA.ExternalPressure"
+      valueReference="16777253"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 112 -->
+    <ScalarVariable
+      name="LA.MinimalCollapsingPressure"
+      valueReference="16777254"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 113 -->
+    <ScalarVariable
+      name="LA.externalPressure"
+      valueReference="637534313">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 114 -->
+    <ScalarVariable
+      name="LA.volume"
+      valueReference="33554436">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 115 -->
+    <ScalarVariable
+      name="LA.StressedVolume"
+      valueReference="637534315">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 116 -->
+    <ScalarVariable
+      name="Rvp.q_in.pressure"
+      valueReference="637534316"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 117 -->
+    <ScalarVariable
+      name="Rvp.q_in.q"
+      valueReference="637534317"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 118 -->
+    <ScalarVariable
+      name="Rvp.q_out.pressure"
+      valueReference="637534290"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 119 -->
+    <ScalarVariable
+      name="Rvp.q_out.q"
+      valueReference="637534318"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 120 -->
+    <ScalarVariable
+      name="Rvp.volumeFlowRate"
+      valueReference="637534317"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 121 -->
+    <ScalarVariable
+      name="Rvp.dp"
+      valueReference="905969775"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 122 -->
+    <ScalarVariable
+      name="Rvp.Conductance"
+      valueReference="100663409"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 123 -->
+    <ScalarVariable
+      name="Rvp.Resistance"
+      valueReference="16777255"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="1999835.811225"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 124 -->
+    <ScalarVariable
+      name="Rvs.q_in.pressure"
+      valueReference="637534216"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 125 -->
+    <ScalarVariable
+      name="Rvs.q_in.q"
+      valueReference="637534322"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 126 -->
+    <ScalarVariable
+      name="Rvs.q_out.pressure"
+      valueReference="637534323"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 127 -->
+    <ScalarVariable
+      name="Rvs.q_out.q"
+      valueReference="637534324"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 128 -->
+    <ScalarVariable
+      name="Rvs.volumeFlowRate"
+      valueReference="637534322"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 129 -->
+    <ScalarVariable
+      name="Rvs.dp"
+      valueReference="905969781"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 130 -->
+    <ScalarVariable
+      name="Rvs.Conductance"
+      valueReference="100663415"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 131 -->
+    <ScalarVariable
+      name="Rvs.Resistance"
+      valueReference="16777256"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="2666447.7483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 132 -->
+    <ScalarVariable
+      name="RA.state"
+      valueReference="33554437"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 133 -->
+    <ScalarVariable
+      name="der(RA.state)"
+      valueReference="587202565"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="132"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 134 -->
+    <ScalarVariable
+      name="RA.q_in.pressure"
+      valueReference="637534323"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 135 -->
+    <ScalarVariable
+      name="RA.q_in.q"
+      valueReference="587202565"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 136 -->
+    <ScalarVariable
+      name="RA.volume_start"
+      valueReference="16777257"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="7.3E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 137 -->
+    <ScalarVariable
+      name="RA.excessVolume"
+      valueReference="637534336"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 138 -->
+    <ScalarVariable
+      name="RA.ZeroPressureVolume"
+      valueReference="16777258"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="5E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 139 -->
+    <ScalarVariable
+      name="RA.CollapsingPressureVolume"
+      valueReference="16777259"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 140 -->
+    <ScalarVariable
+      name="RA.Compliance"
+      valueReference="16777260"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 141 -->
+    <ScalarVariable
+      name="RA.compliance"
+      valueReference="637534340">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 142 -->
+    <ScalarVariable
+      name="RA.ExternalPressure"
+      valueReference="16777261"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 143 -->
+    <ScalarVariable
+      name="RA.MinimalCollapsingPressure"
+      valueReference="16777262"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 144 -->
+    <ScalarVariable
+      name="RA.externalPressure"
+      valueReference="637534341">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 145 -->
+    <ScalarVariable
+      name="RA.volume"
+      valueReference="33554437">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 146 -->
+    <ScalarVariable
+      name="RA.StressedVolume"
+      valueReference="637534343">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 147 -->
+    <ScalarVariable
+      name="TV.q_in.pressure"
+      valueReference="637534323"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 148 -->
+    <ScalarVariable
+      name="TV.q_in.q"
+      valueReference="637534344"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 149 -->
+    <ScalarVariable
+      name="TV.q_out.pressure"
+      valueReference="637534345"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 150 -->
+    <ScalarVariable
+      name="TV.q_out.q"
+      valueReference="637534346"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 151 -->
+    <ScalarVariable
+      name="TV.volumeFlowRate"
+      valueReference="637534344"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 152 -->
+    <ScalarVariable
+      name="TV.dp"
+      valueReference="637534347"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 153 -->
+    <ScalarVariable
+      name="TV.open"
+      valueReference="637534348"
+      description="Switching state"
+      variability="discrete"
+      initial="approx">
+      <Boolean start="true"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 154 -->
+    <ScalarVariable
+      name="TV.passableVariable"
+      valueReference="637534349"
+      description="Auxiliary variable for actual position on the ideal diode characteristic">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 155 -->
+    <ScalarVariable
+      name="TV._Gon"
+      valueReference="100663438"
+      description="Forward state-on conductance (open valve conductance)"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 156 -->
+    <ScalarVariable
+      name="TV._Goff"
+      valueReference="16777263"
+      description="Backward state-off conductance (closed valve conductance)"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"
+        start="1.2501026264094E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 157 -->
+    <ScalarVariable
+      name="TV.Pknee"
+      valueReference="16777264"
+      description="Forward threshold pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        min="0.0"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 158 -->
+    <ScalarVariable
+      name="TV._Ron"
+      valueReference="16777265"
+      description="forward state resistance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        displayUnit="(mmHg.s)/ml"
+        start="333305.9685375"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 159 -->
+    <ScalarVariable
+      name="RV.state"
+      valueReference="33554438"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 160 -->
+    <ScalarVariable
+      name="der(RV.state)"
+      valueReference="587202566"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="159"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 161 -->
+    <ScalarVariable
+      name="RV.q_in.pressure"
+      valueReference="637534345"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 162 -->
+    <ScalarVariable
+      name="RV.q_in.q"
+      valueReference="587202566"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 163 -->
+    <ScalarVariable
+      name="RV.volume_start"
+      valueReference="16777266"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.000112"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 164 -->
+    <ScalarVariable
+      name="RV.excessVolume"
+      valueReference="637534362"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 165 -->
+    <ScalarVariable
+      name="RV.ZeroPressureVolume"
+      valueReference="16777267"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="5E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 166 -->
+    <ScalarVariable
+      name="RV.CollapsingPressureVolume"
+      valueReference="16777268"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 167 -->
+    <ScalarVariable
+      name="RV.Compliance"
+      valueReference="16777269"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 168 -->
+    <ScalarVariable
+      name="RV.compliance"
+      valueReference="637534366">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 169 -->
+    <ScalarVariable
+      name="RV.ExternalPressure"
+      valueReference="16777270"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 170 -->
+    <ScalarVariable
+      name="RV.MinimalCollapsingPressure"
+      valueReference="16777271"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 171 -->
+    <ScalarVariable
+      name="RV.externalPressure"
+      valueReference="637534367">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 172 -->
+    <ScalarVariable
+      name="RV.volume"
+      valueReference="33554438">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 173 -->
+    <ScalarVariable
+      name="RV.StressedVolume"
+      valueReference="637534369">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 174 -->
+    <ScalarVariable
+      name="PV.q_in.pressure"
+      valueReference="637534345"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 175 -->
+    <ScalarVariable
+      name="PV.q_in.q"
+      valueReference="637534370"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 176 -->
+    <ScalarVariable
+      name="PV.q_out.pressure"
+      valueReference="637534371"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 177 -->
+    <ScalarVariable
+      name="PV.q_out.q"
+      valueReference="637534372"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 178 -->
+    <ScalarVariable
+      name="PV.volumeFlowRate"
+      valueReference="637534370"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 179 -->
+    <ScalarVariable
+      name="PV.dp"
+      valueReference="637534373"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 180 -->
+    <ScalarVariable
+      name="PV.open"
+      valueReference="637534374"
+      description="Switching state"
+      variability="discrete"
+      initial="approx">
+      <Boolean start="true"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 181 -->
+    <ScalarVariable
+      name="PV.passableVariable"
+      valueReference="637534375"
+      description="Auxiliary variable for actual position on the ideal diode characteristic">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 182 -->
+    <ScalarVariable
+      name="PV._Gon"
+      valueReference="100663464"
+      description="Forward state-on conductance (open valve conductance)"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 183 -->
+    <ScalarVariable
+      name="PV._Goff"
+      valueReference="16777272"
+      description="Backward state-off conductance (closed valve conductance)"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"
+        displayUnit="l/(mmHg.min)"
+        start="1.2501026264094E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 184 -->
+    <ScalarVariable
+      name="PV.Pknee"
+      valueReference="16777273"
+      description="Forward threshold pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        min="0.0"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 185 -->
+    <ScalarVariable
+      name="PV._Ron"
+      valueReference="16777274"
+      description="forward state resistance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="266644.77483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 186 -->
+    <ScalarVariable
+      name="Rcsp.q_in.pressure"
+      valueReference="637534371"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 187 -->
+    <ScalarVariable
+      name="Rcsp.q_in.q"
+      valueReference="637534370"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 188 -->
+    <ScalarVariable
+      name="Rcsp.q_out.pressure"
+      valueReference="637534380"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 189 -->
+    <ScalarVariable
+      name="Rcsp.q_out.q"
+      valueReference="637534372"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 190 -->
+    <ScalarVariable
+      name="Rcsp.volumeFlowRate"
+      valueReference="637534370"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 191 -->
+    <ScalarVariable
+      name="Rcsp.dp"
+      valueReference="905969837"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 192 -->
+    <ScalarVariable
+      name="Rcsp.Conductance"
+      valueReference="100663471"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 193 -->
+    <ScalarVariable
+      name="Rcsp.Resistance"
+      valueReference="16777275"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="2666447.7483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 194 -->
+    <ScalarVariable
+      name="Cap.state"
+      valueReference="33554439"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 195 -->
+    <ScalarVariable
+      name="der(Cap.state)"
+      valueReference="587202567"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="194"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 196 -->
+    <ScalarVariable
+      name="Cap.q_in.pressure"
+      valueReference="637534392"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 197 -->
+    <ScalarVariable
+      name="Cap.q_in.q"
+      valueReference="587202567"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 198 -->
+    <ScalarVariable
+      name="Cap.volume_start"
+      valueReference="16777276"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.000802"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 199 -->
+    <ScalarVariable
+      name="Cap.excessVolume"
+      valueReference="637534393"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 200 -->
+    <ScalarVariable
+      name="Cap.ZeroPressureVolume"
+      valueReference="16777277"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.0006"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 201 -->
+    <ScalarVariable
+      name="Cap.CollapsingPressureVolume"
+      valueReference="16777278"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 202 -->
+    <ScalarVariable
+      name="Cap.Compliance"
+      valueReference="16777279"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="1.5001231516913E-07"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 203 -->
+    <ScalarVariable
+      name="Cap.ExternalPressure"
+      valueReference="16777280"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 204 -->
+    <ScalarVariable
+      name="Cap.MinimalCollapsingPressure"
+      valueReference="16777281"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 205 -->
+    <ScalarVariable
+      name="Cap.externalPressure"
+      valueReference="234881133">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 206 -->
+    <ScalarVariable
+      name="Cap.volume"
+      valueReference="33554439">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 207 -->
+    <ScalarVariable
+      name="Rcp.q_in.pressure"
+      valueReference="637534380"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 208 -->
+    <ScalarVariable
+      name="Rcp.q_in.q"
+      valueReference="637534398"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 209 -->
+    <ScalarVariable
+      name="Rcp.q_out.pressure"
+      valueReference="637534392"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 210 -->
+    <ScalarVariable
+      name="Rcp.q_out.q"
+      valueReference="637534399"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 211 -->
+    <ScalarVariable
+      name="Rcp.volumeFlowRate"
+      valueReference="637534398"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 212 -->
+    <ScalarVariable
+      name="Rcp.dp"
+      valueReference="905969856"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 213 -->
+    <ScalarVariable
+      name="Rcp.Conductance"
+      valueReference="100663490"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 214 -->
+    <ScalarVariable
+      name="Rcp.Resistance"
+      valueReference="16777282"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="2666447.7483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 215 -->
+    <ScalarVariable
+      name="Cvp.state"
+      valueReference="33554440"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 216 -->
+    <ScalarVariable
+      name="der(Cvp.state)"
+      valueReference="587202568"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="215"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 217 -->
+    <ScalarVariable
+      name="Cvp.q_in.pressure"
+      valueReference="637534316"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 218 -->
+    <ScalarVariable
+      name="Cvp.q_in.q"
+      valueReference="587202568"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 219 -->
+    <ScalarVariable
+      name="Cvp.volume_start"
+      valueReference="16777283"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.000154"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 220 -->
+    <ScalarVariable
+      name="Cvp.excessVolume"
+      valueReference="637534411"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 221 -->
+    <ScalarVariable
+      name="Cvp.ZeroPressureVolume"
+      valueReference="16777284"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="0.0001"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 222 -->
+    <ScalarVariable
+      name="Cvp.CollapsingPressureVolume"
+      valueReference="16777285"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 223 -->
+    <ScalarVariable
+      name="Cvp.Compliance"
+      valueReference="16777286"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="5.2504310309196E-08"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 224 -->
+    <ScalarVariable
+      name="Cvp.ExternalPressure"
+      valueReference="16777287"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 225 -->
+    <ScalarVariable
+      name="Cvp.MinimalCollapsingPressure"
+      valueReference="16777288"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 226 -->
+    <ScalarVariable
+      name="Cvp.externalPressure"
+      valueReference="234881133">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 227 -->
+    <ScalarVariable
+      name="Cvp.volume"
+      valueReference="33554440">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 228 -->
+    <ScalarVariable
+      name="Capprox.state"
+      valueReference="33554441"
+      description="This state must be connected in inherited class definition">
+      <Real
+        unit="m3"
+        min="0.0"
+        nominal="1E-06"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 229 -->
+    <ScalarVariable
+      name="der(Capprox.state)"
+      valueReference="587202569"
+      description="der(This state must be connected in inherited class definition)">
+      <Real
+        unit="m3/s"
+        derivative="228"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 230 -->
+    <ScalarVariable
+      name="Capprox.q_in.pressure"
+      valueReference="637534380"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 231 -->
+    <ScalarVariable
+      name="Capprox.q_in.q"
+      valueReference="587202569"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 232 -->
+    <ScalarVariable
+      name="Capprox.volume_start"
+      valueReference="16777289"
+      description="Volume start value"
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="3E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 233 -->
+    <ScalarVariable
+      name="Capprox.excessVolume"
+      valueReference="637534424"
+      description="Additional volume, that generate pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 234 -->
+    <ScalarVariable
+      name="Capprox.ZeroPressureVolume"
+      valueReference="16777290"
+      description="Maximal volume, that does not generate pressure if useV0Input=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="2E-05"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 235 -->
+    <ScalarVariable
+      name="Capprox.CollapsingPressureVolume"
+      valueReference="16777291"
+      description="Maximal volume, which generate negative collapsing pressure"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Volume"
+        start="1E-12"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 236 -->
+    <ScalarVariable
+      name="Capprox.Compliance"
+      valueReference="16777292"
+      description="Compliance if useComplianceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicCompliance"
+        start="7.5006157584566E-09"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 237 -->
+    <ScalarVariable
+      name="Capprox.ExternalPressure"
+      valueReference="16777293"
+      description="External pressure. Set zero if internal pressure is relative to external. Valid only if useExternalPressureInput=false."
+      causality="parameter"
+      variability="fixed">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 238 -->
+    <ScalarVariable
+      name="Capprox.MinimalCollapsingPressure"
+      valueReference="16777294"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="-101325"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 239 -->
+    <ScalarVariable
+      name="Capprox.externalPressure"
+      valueReference="234881133">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 240 -->
+    <ScalarVariable
+      name="Capprox.volume"
+      valueReference="33554441">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 241 -->
+    <ScalarVariable
+      name="Rap.q_in.pressure"
+      valueReference="637534392"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 242 -->
+    <ScalarVariable
+      name="Rap.q_in.q"
+      valueReference="637534429"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 243 -->
+    <ScalarVariable
+      name="Rap.q_out.pressure"
+      valueReference="637534316"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 244 -->
+    <ScalarVariable
+      name="Rap.q_out.q"
+      valueReference="637534430"
+      description="Volume flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 245 -->
+    <ScalarVariable
+      name="Rap.volumeFlowRate"
+      valueReference="637534429"
+      description="Volumetric flow">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 246 -->
+    <ScalarVariable
+      name="Rap.dp"
+      valueReference="905969887"
+      description="Pressure gradient">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 247 -->
+    <ScalarVariable
+      name="Rap.Conductance"
+      valueReference="100663521"
+      description="Hydraulic conductance if useConductanceInput=false"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicConductance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 248 -->
+    <ScalarVariable
+      name="Rap.Resistance"
+      valueReference="16777295"
+      description="Hydraulic conductance if useConductanceInput=false"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicResistance"
+        start="2666447.7483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 249 -->
+    <ScalarVariable
+      name="RAElastance.HP"
+      valueReference="905969890"
+      description="heart period - duration of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 250 -->
+    <ScalarVariable
+      name="RAElastance.b"
+      valueReference="637534435"
+      variability="discrete">
+      <Boolean/>
+    </ScalarVariable>
+    <!-- Index for next variable = 251 -->
+    <ScalarVariable
+      name="RAElastance.HR"
+      valueReference="234881120">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.FrequencyInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 252 -->
+    <ScalarVariable
+      name="RAElastance.Tasyst"
+      valueReference="637534436"
+      description="time elapsed from the beginning of atrial systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 253 -->
+    <ScalarVariable
+      name="RAElastance.Tvsyst"
+      valueReference="905969893"
+      description="time elapsed from the beginning of ventricular systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 254 -->
+    <ScalarVariable
+      name="RAElastance.AVDelay"
+      valueReference="100663526"
+      description="AV interval"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="s"
+        start="0.16"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 255 -->
+    <ScalarVariable
+      name="RAElastance.T0"
+      valueReference="637534439"
+      description="start time of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0.0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 256 -->
+    <ScalarVariable
+      name="RAElastance.EDTV"
+      valueReference="905969896"
+      description="Ventricular end Diastolic Time"
+      variability="discrete">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 257 -->
+    <ScalarVariable
+      name="RAElastance.Vs"
+      valueReference="637534343"
+      description="Stressed volume">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 258 -->
+    <ScalarVariable
+      name="RAElastance.Alpha"
+      valueReference="16777296"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1/m3"
+        start="40000"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 259 -->
+    <ScalarVariable
+      name="RAElastance.Beta"
+      valueReference="16777297"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="39.9967162245"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 260 -->
+    <ScalarVariable
+      name="RAElastance.Ees"
+      valueReference="16777298"
+      description="coefficient of end-systolic elastance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"
+        start="26664477.483"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 261 -->
+    <ScalarVariable
+      name="RAElastance.Et"
+      valueReference="637534442"
+      description="Elastance">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 262 -->
+    <ScalarVariable
+      name="RAElastance.Tsyst"
+      valueReference="637534436">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 263 -->
+    <ScalarVariable
+      name="RAElastance.Tmax"
+      valueReference="100663531"
+      description="duration of systole "
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.125"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 264 -->
+    <ScalarVariable
+      name="RAElastance.Tau"
+      valueReference="16777299"
+      description="time constant of myocardial relaxation "
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.02"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 265 -->
+    <ScalarVariable
+      name="RAElastance.Et0"
+      valueReference="637534444"
+      description="Relative elastance value (Elastance/End-Systolic Elastance)">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 266 -->
+    <ScalarVariable
+      name="RAElastance.Pt"
+      valueReference="637534445"
+      description="peak isovolumic pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 267 -->
+    <ScalarVariable
+      name="RAElastance.Ct"
+      valueReference="637534340">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 268 -->
+    <ScalarVariable
+      name="RVElastance.HP"
+      valueReference="905969902"
+      description="heart period - duration of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 269 -->
+    <ScalarVariable
+      name="RVElastance.b"
+      valueReference="637534447"
+      variability="discrete">
+      <Boolean/>
+    </ScalarVariable>
+    <!-- Index for next variable = 270 -->
+    <ScalarVariable
+      name="RVElastance.HR"
+      valueReference="234881120">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.FrequencyInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 271 -->
+    <ScalarVariable
+      name="RVElastance.Tasyst"
+      valueReference="905969904"
+      description="time elapsed from the beginning of atrial systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 272 -->
+    <ScalarVariable
+      name="RVElastance.Tvsyst"
+      valueReference="637534449"
+      description="time elapsed from the beginning of ventricular systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 273 -->
+    <ScalarVariable
+      name="RVElastance.AVDelay"
+      valueReference="100663538"
+      description="AV interval"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="s"
+        start="0.16"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 274 -->
+    <ScalarVariable
+      name="RVElastance.T0"
+      valueReference="637534451"
+      description="start time of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0.0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 275 -->
+    <ScalarVariable
+      name="RVElastance.EDTV"
+      valueReference="905969908"
+      description="Ventricular end Diastolic Time"
+      variability="discrete">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 276 -->
+    <ScalarVariable
+      name="RVElastance.Vs"
+      valueReference="637534369"
+      description="Stressed volume">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 277 -->
+    <ScalarVariable
+      name="RVElastance.Alpha"
+      valueReference="16777300"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1/m3"
+        start="24000"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 278 -->
+    <ScalarVariable
+      name="RVElastance.Beta"
+      valueReference="16777301"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="45.3296117211"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 279 -->
+    <ScalarVariable
+      name="RVElastance.Ees"
+      valueReference="16777302"
+      description="coefficient of end-systolic elastance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"
+        start="50662507.2177"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 280 -->
+    <ScalarVariable
+      name="RVElastance.Et"
+      valueReference="637534454"
+      description="Elastance">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 281 -->
+    <ScalarVariable
+      name="RVElastance.Tsyst"
+      valueReference="637534449">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 282 -->
+    <ScalarVariable
+      name="RVElastance.Tmax"
+      valueReference="100663543"
+      description="duration of systole "
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.2"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 283 -->
+    <ScalarVariable
+      name="RVElastance.Tau"
+      valueReference="16777303"
+      description="time constant of myocardial relaxation "
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.03"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 284 -->
+    <ScalarVariable
+      name="RVElastance.Et0"
+      valueReference="637534456"
+      description="Relative elastance value (Elastance/End-Systolic Elastance)">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 285 -->
+    <ScalarVariable
+      name="RVElastance.Pt"
+      valueReference="637534457"
+      description="peak isovolumic pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 286 -->
+    <ScalarVariable
+      name="RVElastance.Ct"
+      valueReference="637534366">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 287 -->
+    <ScalarVariable
+      name="LAElastance.HP"
+      valueReference="905969914"
+      description="heart period - duration of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 288 -->
+    <ScalarVariable
+      name="LAElastance.b"
+      valueReference="637534459"
+      variability="discrete">
+      <Boolean/>
+    </ScalarVariable>
+    <!-- Index for next variable = 289 -->
+    <ScalarVariable
+      name="LAElastance.HR"
+      valueReference="234881120">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.FrequencyInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 290 -->
+    <ScalarVariable
+      name="LAElastance.Tasyst"
+      valueReference="637534460"
+      description="time elapsed from the beginning of atrial systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 291 -->
+    <ScalarVariable
+      name="LAElastance.Tvsyst"
+      valueReference="905969917"
+      description="time elapsed from the beginning of ventricular systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 292 -->
+    <ScalarVariable
+      name="LAElastance.AVDelay"
+      valueReference="100663550"
+      description="AV interval"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="s"
+        start="0.16"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 293 -->
+    <ScalarVariable
+      name="LAElastance.T0"
+      valueReference="637534463"
+      description="start time of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0.0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 294 -->
+    <ScalarVariable
+      name="LAElastance.EDTV"
+      valueReference="905969920"
+      description="Ventricular end Diastolic Time"
+      variability="discrete">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 295 -->
+    <ScalarVariable
+      name="LAElastance.Vs"
+      valueReference="637534315"
+      description="Stressed volume">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 296 -->
+    <ScalarVariable
+      name="LAElastance.Alpha"
+      valueReference="16777304"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1/m3"
+        start="40000"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 297 -->
+    <ScalarVariable
+      name="LAElastance.Beta"
+      valueReference="16777305"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="39.9967162245"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 298 -->
+    <ScalarVariable
+      name="LAElastance.Ees"
+      valueReference="16777306"
+      description="coefficient of end-systolic elastance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"
+        start="33330596.85375"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 299 -->
+    <ScalarVariable
+      name="LAElastance.Et"
+      valueReference="637534466"
+      description="Elastance">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 300 -->
+    <ScalarVariable
+      name="LAElastance.Tsyst"
+      valueReference="637534460">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 301 -->
+    <ScalarVariable
+      name="LAElastance.Tmax"
+      valueReference="100663555"
+      description="duration of systole "
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.125"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 302 -->
+    <ScalarVariable
+      name="LAElastance.Tau"
+      valueReference="16777307"
+      description="time constant of myocardial relaxation "
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.02"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 303 -->
+    <ScalarVariable
+      name="LAElastance.Et0"
+      valueReference="637534468"
+      description="Relative elastance value (Elastance/End-Systolic Elastance)">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 304 -->
+    <ScalarVariable
+      name="LAElastance.Pt"
+      valueReference="637534469"
+      description="peak isovolumic pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 305 -->
+    <ScalarVariable
+      name="LAElastance.Ct"
+      valueReference="637534312">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 306 -->
+    <ScalarVariable
+      name="LVElastance.HP"
+      valueReference="905969926"
+      description="heart period - duration of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 307 -->
+    <ScalarVariable
+      name="LVElastance.b"
+      valueReference="637534471"
+      variability="discrete">
+      <Boolean/>
+    </ScalarVariable>
+    <!-- Index for next variable = 308 -->
+    <ScalarVariable
+      name="LVElastance.HR"
+      valueReference="234881120">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.FrequencyInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 309 -->
+    <ScalarVariable
+      name="LVElastance.Tasyst"
+      valueReference="905969928"
+      description="time elapsed from the beginning of atrial systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 310 -->
+    <ScalarVariable
+      name="LVElastance.Tvsyst"
+      valueReference="637534473"
+      description="time elapsed from the beginning of ventricular systole">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 311 -->
+    <ScalarVariable
+      name="LVElastance.AVDelay"
+      valueReference="100663562"
+      description="AV interval"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="s"
+        start="0.16"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 312 -->
+    <ScalarVariable
+      name="LVElastance.T0"
+      valueReference="637534475"
+      description="start time of cardiac cycle"
+      variability="discrete"
+      initial="exact">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        start="0.0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 313 -->
+    <ScalarVariable
+      name="LVElastance.EDTV"
+      valueReference="905969932"
+      description="Ventricular end Diastolic Time"
+      variability="discrete">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 314 -->
+    <ScalarVariable
+      name="LVElastance.Vs"
+      valueReference="637534289"
+      description="Stressed volume">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.VolumeInput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 315 -->
+    <ScalarVariable
+      name="LVElastance.Alpha"
+      valueReference="16777308"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1/m3"
+        start="24000"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 316 -->
+    <ScalarVariable
+      name="LVElastance.Beta"
+      valueReference="16777309"
+      description="coefficient of end diastolic pressure-volume curve"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="45.3296117211"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 317 -->
+    <ScalarVariable
+      name="LVElastance.Ees"
+      valueReference="16777310"
+      description="coefficient of end-systolic elastance"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"
+        start="205316476.6191"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 318 -->
+    <ScalarVariable
+      name="LVElastance.Et"
+      valueReference="637534478"
+      description="Elastance">
+      <Real
+        declaredType="Physiolibrary.Types.HydraulicElastance"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 319 -->
+    <ScalarVariable
+      name="LVElastance.Tsyst"
+      valueReference="637534473">
+      <Real
+        declaredType="Physiolibrary.Types.Time"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 320 -->
+    <ScalarVariable
+      name="LVElastance.Tmax"
+      valueReference="100663567"
+      description="duration of systole "
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.2"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 321 -->
+    <ScalarVariable
+      name="LVElastance.Tau"
+      valueReference="16777311"
+      description="time constant of myocardial relaxation "
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Time"
+        displayUnit="ms"
+        start="0.03"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 322 -->
+    <ScalarVariable
+      name="LVElastance.Et0"
+      valueReference="637534480"
+      description="Relative elastance value (Elastance/End-Systolic Elastance)">
+      <Real
+        unit="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 323 -->
+    <ScalarVariable
+      name="LVElastance.Pt"
+      valueReference="637534481"
+      description="peak isovolumic pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 324 -->
+    <ScalarVariable
+      name="LVElastance.Ct"
+      valueReference="637534286">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.HydraulicComplianceOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 325 -->
+    <ScalarVariable
+      name="heartRate.k"
+      valueReference="16777312"
+      description="Constant Frequency output value"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Frequency"
+        start="1.3333333333333"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 326 -->
+    <ScalarVariable
+      name="heartRate.y"
+      valueReference="234881120"
+      description="Frequency constant">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.FrequencyOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 327 -->
+    <ScalarVariable
+      name="RAVGain.k"
+      valueReference="16777313"
+      description="Gain value multiplied with input signal"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="0.02"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 328 -->
+    <ScalarVariable
+      name="RAVGain.u"
+      valueReference="637534345"
+      description="Input signal connector">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 329 -->
+    <ScalarVariable
+      name="RAVGain.y"
+      valueReference="637534482"
+      description="Output signal connector">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 330 -->
+    <ScalarVariable
+      name="add.k1"
+      valueReference="16777314"
+      description="Gain of upper input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 331 -->
+    <ScalarVariable
+      name="add.k2"
+      valueReference="16777315"
+      description="Gain of middle input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 332 -->
+    <ScalarVariable
+      name="add.k3"
+      valueReference="16777316"
+      description="Gain of lower input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 333 -->
+    <ScalarVariable
+      name="add.u1"
+      valueReference="637534482"
+      description="Connector 1 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 334 -->
+    <ScalarVariable
+      name="add.u2"
+      valueReference="234881133"
+      description="Connector 2 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 335 -->
+    <ScalarVariable
+      name="add.u3"
+      valueReference="637534445"
+      description="Connector 3 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 336 -->
+    <ScalarVariable
+      name="add.y"
+      valueReference="637534341"
+      description="Connector of Real output signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 337 -->
+    <ScalarVariable
+      name="LAVGain.k"
+      valueReference="16777317"
+      description="Gain value multiplied with input signal"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="0.02"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 338 -->
+    <ScalarVariable
+      name="LAVGain.u"
+      valueReference="637534265"
+      description="Input signal connector">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 339 -->
+    <ScalarVariable
+      name="LAVGain.y"
+      valueReference="637534483"
+      description="Output signal connector">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 340 -->
+    <ScalarVariable
+      name="add1.k1"
+      valueReference="16777318"
+      description="Gain of upper input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 341 -->
+    <ScalarVariable
+      name="add1.k2"
+      valueReference="16777319"
+      description="Gain of middle input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 342 -->
+    <ScalarVariable
+      name="add1.k3"
+      valueReference="16777320"
+      description="Gain of lower input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 343 -->
+    <ScalarVariable
+      name="add1.u1"
+      valueReference="637534483"
+      description="Connector 1 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 344 -->
+    <ScalarVariable
+      name="add1.u2"
+      valueReference="637534469"
+      description="Connector 2 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 345 -->
+    <ScalarVariable
+      name="add1.u3"
+      valueReference="234881133"
+      description="Connector 3 of Real input signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 346 -->
+    <ScalarVariable
+      name="add1.y"
+      valueReference="637534313"
+      description="Connector of Real output signals">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 347 -->
+    <ScalarVariable
+      name="pressureMeasure.q_in.pressure"
+      valueReference="637534265"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 348 -->
+    <ScalarVariable
+      name="pressureMeasure.q_in.q"
+      valueReference="100663572"
+      description="Volume flow"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 349 -->
+    <ScalarVariable
+      name="pressureMeasure.pressure"
+      valueReference="637534265"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 350 -->
+    <ScalarVariable
+      name="pressureMeasure1.q_in.pressure"
+      valueReference="637534345"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 351 -->
+    <ScalarVariable
+      name="pressureMeasure1.q_in.q"
+      valueReference="100663573"
+      description="Volume flow"
+      variability="constant">
+      <Real
+        declaredType="Physiolibrary.Types.VolumeFlowRate"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 352 -->
+    <ScalarVariable
+      name="pressureMeasure1.pressure"
+      valueReference="637534345"
+      description="Pressure">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 353 -->
+    <ScalarVariable
+      name="add2.u1"
+      valueReference="234881133"
+      description="Connector of Real input signal 1">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 354 -->
+    <ScalarVariable
+      name="add2.u2"
+      valueReference="637534457"
+      description="Connector of Real input signal 2">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 355 -->
+    <ScalarVariable
+      name="add2.y"
+      valueReference="637534367"
+      description="Connector of Real output signal">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 356 -->
+    <ScalarVariable
+      name="add2.k1"
+      valueReference="16777321"
+      description="Gain of upper input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 357 -->
+    <ScalarVariable
+      name="add2.k2"
+      valueReference="16777322"
+      description="Gain of lower input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 358 -->
+    <ScalarVariable
+      name="add3.u1"
+      valueReference="637534481"
+      description="Connector of Real input signal 1">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 359 -->
+    <ScalarVariable
+      name="add3.u2"
+      valueReference="234881133"
+      description="Connector of Real input signal 2">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealInput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 360 -->
+    <ScalarVariable
+      name="add3.y"
+      valueReference="637534287"
+      description="Connector of Real output signal">
+      <Real
+        declaredType="Modelica.Blocks.Interfaces.RealOutput"
+        unit="Pa"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 361 -->
+    <ScalarVariable
+      name="add3.k1"
+      valueReference="16777323"
+      description="Gain of upper input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 362 -->
+    <ScalarVariable
+      name="add3.k2"
+      valueReference="16777324"
+      description="Gain of lower input"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        unit="1"
+        start="1"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 363 -->
+    <ScalarVariable
+      name="IntraThoracicPressure.k"
+      valueReference="16777325"
+      description="Constant Pressure output value"
+      causality="parameter"
+      variability="tunable">
+      <Real
+        declaredType="Physiolibrary.Types.Pressure"
+        start="0"/>
+    </ScalarVariable>
+    <!-- Index for next variable = 364 -->
+    <ScalarVariable
+      name="IntraThoracicPressure.y"
+      valueReference="234881133"
+      description="Pressure constant">
+      <Real
+        declaredType="Physiolibrary.Types.RealIO.PressureOutput"/>
+    </ScalarVariable>
+  </ModelVariables>
+  <ModelStructure>
+    <Derivatives>
+      <Unknown index="2"
+        dependencies="1 21 132 159"
+        dependenciesKind="dependent dependent dependent dependent"/>
+      <Unknown index="22"
+        dependencies="1 21 41"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="42"
+        dependencies="21 41 74"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="75"
+        dependencies="41 74 101"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="102"
+        dependencies="74 101 215"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="133"
+        dependencies="1 132 159"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="160"
+        dependencies="132 159 228"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="195"
+        dependencies="194 215 228"
+        dependenciesKind="dependent dependent dependent"/>
+      <Unknown index="216"
+        dependencies="74 101 194 215"
+        dependenciesKind="dependent dependent dependent dependent"/>
+      <Unknown index="229"
+        dependencies="159 194 228"
+        dependenciesKind="dependent dependent dependent"/>
+    </Derivatives>
+    <InitialUnknowns>
+      <Unknown index="1"
+        dependencies="5"
+        dependenciesKind="dependent"/>
+      <Unknown index="2"
+        dependencies="5 7 8 9 10 11 20 25 27 28 29 30 31 131 136 138 139 143 163 165 166 170 258 259 260 264 277 278 279 283 327 330 331 332 356 357 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="21"
+        dependencies="25"
+        dependenciesKind="dependent"/>
+      <Unknown index="22"
+        dependencies="5 7 8 9 10 11 20 25 27 28 29 30 31 40 45 47 48 49 51 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="41"
+        dependencies="45"
+        dependenciesKind="dependent"/>
+      <Unknown index="42"
+        dependencies="25 27 28 29 30 31 40 45 47 48 49 51 61 71 72 73 78 80 81 85 315 316 317 321 361 362 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="74"
+        dependencies="78"
+        dependenciesKind="dependent"/>
+      <Unknown index="75"
+        dependencies="45 47 48 49 51 61 71 72 73 78 80 81 85 98 99 100 105 107 108 112 296 297 298 302 315 316 317 321 337 340 341 342 361 362 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="101"
+        dependencies="105"
+        dependenciesKind="dependent"/>
+      <Unknown index="102"
+        dependencies="78 80 81 85 98 99 100 105 107 108 112 123 219 221 222 223 225 296 297 298 302 315 316 317 321 337 340 341 342 361 362 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="132"
+        dependencies="136"
+        dependenciesKind="dependent"/>
+      <Unknown index="133"
+        dependencies="5 7 8 9 10 11 131 136 138 139 143 156 157 158 163 165 166 170 258 259 260 264 277 278 279 283 327 330 331 332 356 357 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="159"
+        dependencies="163"
+        dependenciesKind="dependent"/>
+      <Unknown index="160"
+        dependencies="136 138 139 143 156 157 158 163 165 166 170 183 184 185 193 232 234 235 236 238 258 259 260 264 277 278 279 283 327 330 331 332 356 357 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="194"
+        dependencies="198"
+        dependenciesKind="dependent"/>
+      <Unknown index="195"
+        dependencies="198 200 201 202 204 214 219 221 222 223 225 232 234 235 236 238 248 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="215"
+        dependencies="219"
+        dependenciesKind="dependent"/>
+      <Unknown index="216"
+        dependencies="78 80 81 85 105 107 108 112 123 198 200 201 202 204 219 221 222 223 225 248 296 297 298 302 315 316 317 321 337 340 341 342 361 362 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+      <Unknown index="228"
+        dependencies="232"
+        dependenciesKind="dependent"/>
+      <Unknown index="229"
+        dependencies="163 165 166 170 183 184 185 193 198 200 201 202 204 214 232 234 235 236 238 277 278 279 283 356 357 363"
+        dependenciesKind="dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent dependent"/>
+    </InitialUnknowns>
+  </ModelStructure>
+</fmiModelDescription>

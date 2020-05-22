@@ -9,14 +9,12 @@ Poté se cyklus periodicky opakuje.
 
 <bdl-cardiaccycle1>pulsujici srdce a graf tlaku,nebo ekg</bdl-cardiacycle1>  
 
+Pacientské monitory vyluzují pípnutí, pokud dojde k srdeční akci.
 <bdl-sound-on-increase 
   thresholdvalue="1e+7" freq="660" fromid="id4" refindex="8">
   sound-on-decrease not supported
 </bdl-audio-on-increase>
 
-<bdl-quiz options="1,2,3,4" correct="3">Zvyšte v simulátoru tepovou frekvenci postupně z 
-60 na 180 tepů za minutu. Kolik srdečních cyklů se vejde do zobrazovacího 
-okénka s šířkou 1 s?</bdl-quiz>
 
 
 
