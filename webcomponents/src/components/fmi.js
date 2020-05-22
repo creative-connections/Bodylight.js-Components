@@ -81,6 +81,7 @@ export class Fmi {
     }
   }
 
+  //get script element and registers 'onload' callback to be called when the script is loaded
   getScript(source, callback) {
     console.log('fmi getscript()');
     let script = document.createElement('script');
@@ -205,6 +206,10 @@ export class Fmi {
     this.callbackptr = this.fmiCreateCallback(this.consoleLoggerPtr);
     //create instance of model simulation
     this.fmiinst = this.fmiInstantiate(this.fminame, this.cosimulation, this.guid, '', this.callbackptr, 0, 0); //last 1 debug, 0 nodebug
+    this.setupExperiment();
+  }
+
+  setupExperiment() {
     //setup experiment
     this.fmiSetup(this.fmiinst, 1, this.tolerance, this.starttime, 0);
     console.log('instantiated fmiinst', this.fmiinst);
@@ -332,8 +337,16 @@ export class Fmi {
   }
 
   reset() {
-    this.fmiReset(this.fmiinst);
     this.stepTime = 0;
+    this.stepSize = (typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize;
+    this.mystep = this.stepSize;
+    this.setupExperiment();
+    this.fmiReset(this.fmiinst);
+    this.initialize();
+    //create custom event
+    let event = new CustomEvent('fmireset');
+    //dispatch event - it should be listened by some other component
+    document.getElementById(this.id).dispatchEvent(event);
   }
 
   /* routines to alloc buffer for getting/setting from fmi*/

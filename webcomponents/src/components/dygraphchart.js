@@ -10,7 +10,8 @@ export class Dygraphchart {
   @bindable refvalues=1;
 
   constructor() {
-    this.data = [[0, 0, 0]];
+    //this.data = [[0, 0, 0]];
+
     //this.data=[[1, 5], [2, 5], [3, 4.9], [4, 4.8], [5, 5.2]];
 
     //create lambda function which is added as listener later
@@ -26,17 +27,29 @@ export class Dygraphchart {
       //console.log('Dygraphchar data', this.data);
       this.dygraph.updateOptions( { 'file': this.data } );
     };
+    this.handleReset = e => {
+      this.resetdata();
+      this.dygraph.updateOptions( { 'file': this.data } );
+    };
   }
 
+  resetdata() {
+    this.data = [];
+    let initdatapoint = Array(parseInt(this.refvalues, 10) + 1).fill(0);
+    this.data.push(initdatapoint);
+  }
 
   attached() {
     //listening to custom event fmidata
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
+    document.getElementById(this.fromid).addEventListener('fmireset', this.handleReset);
     //labels are separated by , in attribute inputs
-    console.log('Dygraphchart attached inputs', this.inputs);
+    //console.log('Dygraphchart attached inputs', this.inputs);
     let labels = this.inputs.split(',');
-    console.log('Dygraphchart attached labels', labels);
+    //console.log('Dygraphchart attached labels', labels);
     //create dygraph
+    this.resetdata();
+    //console.log('Dygraphchart attached initial data init data', initdatapoint, ' data:', this.data);
     this.dygraph = new Dygraph(this.dygraphcanvas, this.data,
       {
         //Draw a small dot at each point
@@ -55,6 +68,7 @@ export class Dygraphchart {
 
   detached() {
     if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
+    if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmireset', this.handleReset);
   }
 
   download() {
