@@ -7,5 +7,6 @@
     * [Hemodynamika Meurs](#doc/hemodynamicsmeurs.md)
     * [Hemodynamika Burkhoff](#doc/hemodynamicsburkhoff.md)
     * [Srdeční cyklus](#doc/hemo1.md)
+  * [O nás](#doc/about.cs.md)
 
  
