@@ -5,7 +5,7 @@ export class BdlMarkdownBook extends WatchHashCore {
   @bindable summary;
   @bindable index;
   @bindable base='';
-  @bindable params;
+  @bindable params='shownav,2;base,3';
   constructor() {
     super();
   }
@@ -19,9 +19,11 @@ export class BdlMarkdownBook extends WatchHashCore {
     this.disablenav = !((this.summary) && ((this.summary.length > 0) && (this.summary !== 'false')));
   }*/
   //is called if the watchhash attribute is used
-  changesrc(index, name) {
+  changesrc(...args) {
     /*if (name === 'summary') this.summary = index;
     if (name === 'index') this.index = index;*/
-    if (name === 'shownav') this.shownav = (index !== 'false');
+    //if (name === 'shownav') this.shownav = (index !== 'false');
+    //if (name === 'base') this.base = index;
+    if (args[0]) this.shownav = (args[0] !== 'false');
   }
 }

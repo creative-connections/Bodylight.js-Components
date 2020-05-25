@@ -55,14 +55,17 @@ export class Markdownaurelia {
     this.readmd();
   }
 
-  changesrc(src) {
-    this.src = src;
+  changesrc(...args) { //first is src, second is base
+    console.log('mardownaurelia.changesrc()');
+    if (args[1]) this.base = args[1];
+    this.src = args[0];
     this.readmd();
   }
 
   readmd() {
     //fetch md source from src attribute
     //relative url - set with base
+    if (! this.src) return;
     let url = (this.src.startsWith('http')) ? this.src : this.base + this.src;
     this.client.fetch(url)
       .then(response => response.text())

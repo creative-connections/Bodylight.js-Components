@@ -42,8 +42,10 @@ export class Markdownnav {
     this.mynav.innerHTML = this.html;
   }
 
-  changesrc(src) {
-    this.src = src;
+  changesrc(...args) {
+    console.log('markdownnav.changesrc() args:', args);
+    if (args[1]) this.base = args[1];
+    this.src = args[0];
     this.fetchMDSrc();
   }
 }

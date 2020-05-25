@@ -8,22 +8,27 @@ export class WatchHashCore {
     this.handleHashChange = e => {
       console.log('handleHashChange');
       let params = parseHashParamString(window.location.hash);
+      let args = [];
       let index;
       for (let i = 0; i < this.paramname.length; i++) {
         if (this.paramindex[i]) index = params[this.paramname[i]] ? params[this.paramname[i]] : params[this.paramindex[i]];
         else index = params[this.paramname[i]];
         if (index) {
-          this.changesrc(index, this.paramname[i]);
+          //this.elementVM.changesrc(index, this.paramname[i]);
+          args.push(index);
+          //this.changesrc(index, this.paramname[i]);
         }
       }
+      if (args.length > 0) this.changesrc(...args);
     };
   }
 
+//params atribute is used to define param name and optional index e.g. summary,1;index,2;base,3
   bind() {
-    //console.log('customa')
     this.paramname = [];
     this.paramindex = [];
     if (!this.params) return;
+    console.log('wtachhashcore.bind() params:', this.params);
     let paramconfs = this.params.split(';');
     for (let paramitem of paramconfs) {
       if (paramitem && paramitem.includes(',')) {
@@ -42,6 +47,8 @@ export class WatchHashCore {
     window.addEventListener('hashchange', this.handleHashChange);
   }
 
-  changesrc(index, name) {}
+  changesrc(...args) {
+    console.log('watchhashcore.changesrc()');
+  }
 
 }

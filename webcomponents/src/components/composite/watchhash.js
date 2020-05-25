@@ -1,57 +1,29 @@
 import {parseHashParamString} from '../utils';
+import {WatchHashCore} from "./watch-hash-core";
 
 /**
  * Custom Attribute
  * if added to an element, cause that param name of param1 or index of param2 send in hash parameters are interpretted
  * to change SRC of parent element - this.elementVM.changesrc(newindex) is called
  */
-export class WatchhashCustomAttribute {
+export class WatchhashCustomAttribute extends WatchHashCore {
   static inject = [Element];
   constructor(element) {
+    super(element);
     this.element = element;
     if ( typeof(element.au.controller) === 'object' && typeof(element.au.controller.viewModel) === 'object') {
       this.elementVM = element.au.controller.viewModel;
       //check whether elementVM has changesrc function - to be called in event listener
       this.isReadMDCustomElement = (typeof this.elementVM.changesrc === 'function');
     }
-    console.log('WatchhashCustomAttribute');
-    //event listener function needs to be declared this way - they have access to 'this'
-    this.handleHashChange = e => {
-      console.log('handleHashChange');
-      let params = parseHashParamString(window.location.hash);
-      let index;
-      for (let i = 0; i < this.paramname.length; i++) {
-        if (this.paramindex[i]) index = params[this.paramname[i]] ? params[this.paramname[i]] : params[this.paramindex[i]];
-        else index = params[this.paramname[i]];
-        if (index) {
-          //this.src = index;
-          this.elementVM.changesrc(index, this.paramname[i]);
-        }
-      }
-    };
   }
 
   bind() {
-    //console.log('customa')
-    this.paramname = [];
-    this.paramindex = [];
-    if (!this.value) return;
-    let paramconfs = this.value.split(';');
-    for (let paramitem of paramconfs) {
-      if (paramitem && paramitem.includes(',')) {
-        let paramconf = paramitem.split(',');
-        this.paramname.push(paramconf[0]);
-        this.paramindex.push(paramconf[1]);
-      } else {
-        this.paramname.push(paramitem);
-        this.paramindex.push(null);
-      }
-    }
-    //register only if the customelement is readmd - contains specific function
-    if (this.isReadMDCustomElement) {
-      //call this at the beginning
-      this.handleHashChange(null);
-      window.addEventListener('hashchange', this.handleHashChange);
-    }
+    this.params = this.value;
+    super.bind();
+  }
+  changesrc(...args) {
+    console.log('watchhash.changesrc()');
+    if (this.isReadMDCustomElement) this.elementVM.changesrc(...args);
   }
 }

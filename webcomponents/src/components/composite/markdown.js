@@ -25,7 +25,7 @@ export class Markdown extends Markdownaurelia {
     super.update();
   }
 
-  changesrc(src) {
-    super.changesrc(src);
+  changesrc(...args) {
+    super.changesrc(...args);
   }
 }
