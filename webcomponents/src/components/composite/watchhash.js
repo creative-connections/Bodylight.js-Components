@@ -9,7 +9,7 @@ import {WatchHashCore} from "./watch-hash-core";
 export class WatchhashCustomAttribute extends WatchHashCore {
   static inject = [Element];
   constructor(element) {
-    super(element);
+    super();
     this.element = element;
     if ( typeof(element.au.controller) === 'object' && typeof(element.au.controller.viewModel) === 'object') {
       this.elementVM = element.au.controller.viewModel;

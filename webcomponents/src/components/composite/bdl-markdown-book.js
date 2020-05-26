@@ -5,9 +5,10 @@ export class BdlMarkdownBook extends WatchHashCore {
   @bindable summary;
   @bindable index;
   @bindable base='';
-  @bindable params='shownav,2;base,3';
+  @bindable params;
   constructor() {
     super();
+    this.params = 'shownav,2;base,3';
   }
 
   bind() {
@@ -24,6 +25,8 @@ export class BdlMarkdownBook extends WatchHashCore {
     if (name === 'index') this.index = index;*/
     //if (name === 'shownav') this.shownav = (index !== 'false');
     //if (name === 'base') this.base = index;
+    console.log('bdlmarkdownbook changesrc',args);
     if (args[0]) this.shownav = (args[0] !== 'false');
+    console.log('bdlmarkdownbook changesrc shownav',this.shownav);
   }
 }

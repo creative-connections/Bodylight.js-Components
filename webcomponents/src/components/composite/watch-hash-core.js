@@ -1,7 +1,7 @@
 import {parseHashParamString} from '../utils';
 
 export class WatchHashCore {
-  constructor(element) {
+  constructor() {
     this.params = '';
     console.log('WatchhashCore');
     //event listener function needs to be declared this way - they have access to 'this'
