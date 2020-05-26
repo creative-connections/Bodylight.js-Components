@@ -102,6 +102,20 @@ Binds value of range, to the receptacle above, sets the attribute 'value'. Works
   * `inputs` id of component, value reference, optional nominator,denominator to normalize `value * nominator / denominator` all delimited by coma`,`, other inputs delimited by semicolon `;` e.g. `inputs="id1,1677323,1,60;id2,16725364"` cause that the value from id1 will be converted `x= valueid1 *1/60` and value from id2 `x = valueid2*1/1` ; 
   * `otherinputs` ids of components which triggers custom event 'fmiinput', it is expected that in event.detail contains 
   this structure `{ valuereference: number, value: number }`
+
+Example:
+```xml
+<bdl-fmi id="id4" src="MeursFMI2.js" fminame="Physiolibrary_Hydraulic_Examples_MeursModel2011_HemodynamicsMeurs_0flatNorm"
+               tolerance="0.000001" starttime="0" guid="{b3a357a4-da8c-4f00-b159-28ec2ea45e26}"
+               valuereferences="637534281,637534272,33554436, 33554437, 33554432, 33554436, 33554437, 33554433, 16777313"
+               valuelabels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume, Extrathoracic Veins volume, Pulmonary Veins Volume,Heart Rate"
+               inputs="id1,16777313,1,60"></bdl-fmi>
+```
+<bdl-fmi id="id4" src="MeursFMI2.js" fminame="Physiolibrary_Hydraulic_Examples_MeursModel2011_HemodynamicsMeurs_0flatNorm"
+               tolerance="0.000001" starttime="0" guid="{b3a357a4-da8c-4f00-b159-28ec2ea45e26}"
+               valuereferences="637534281,637534272,33554436, 33554437, 33554432, 33554436, 33554437, 33554433, 16777313"
+               valuelabels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume, Extrathoracic Veins volume, Pulmonary Veins Volume,Heart Rate"
+               inputs="id1,16777313,1,60"></bdl-fmi>
   
 ### Beaker, bdl-beaker, bdl-beakercontrols
 `<bdl-beaker></bdl-beaker>` Creates a beaker with controllable width and height
@@ -145,9 +159,57 @@ Example:
 ### Dygraph
 `<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
 
-### ChartJS
-`<bdl-chartjs></bdl-chartjs>` Creates a chartjs element controlled by Chartjs library.
+<bdl-dygraphchart width="600" height="300" fromid="id4" inputs="time,aorta pressure,ventricle pressure" refindex="0" refvalues="2"></bdl-dygraphchart>
 
+### ChartJS
+```xml
+<bdl-chartjs 
+  id="id9" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  type="doughnut" 
+  labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins"
+  initialdata="0,4,2,3" 
+  refindex="2" 
+  refvalues="6"></bdl-chartjs>
+``` 
+Creates a chartjs element controlled by Chartjs library.
+<bdl-chartjs 
+  id="id9" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  type="doughnut" 
+  labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins"
+  initialdata="0,4,2,3" 
+  refindex="2" 
+  refvalues="6"></bdl-chartjs>
+
+### ChartJS time
+`<bdl-chartjs-time></bdl-chartjs-time>` time series in chartjs
+
+Example:
+```xml
+<bdl-chartjs-time  
+  id="id10" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"
+  initialdata="0,4,2,3" 
+  refindex="2"   
+  refvalues="6"></bdl-chartjs-time>
+```
+<bdl-chartjs-time  
+  id="id10" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"
+  initialdata="0,4,2,3" 
+  refindex="2"   
+  refvalues="6"></bdl-chartjs-time>
 
 ### Markdownnav
 `<bdl-markdownnav src=""></bdl-markdownnav>"` renders navigation menu based on MD list. MD should contain only list.

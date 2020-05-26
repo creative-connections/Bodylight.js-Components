@@ -22,3 +22,4 @@ Můžete nastavit tepovou frekvenci srdce:
                
 V grafu je vidět tlak v aortě a levé komoře:
 <bdl-dygraphchart width="600" height="300" fromid="id4" inputs="time,aorta pressure,ventricle pressure" refindex="0" refvalues="2"></bdl-dygraphchart>
+<bdl-chartjs-time width="600" height="300" fromid="id4" labels="aorta pressure,ventricle pressure" refindex="0" refvalues="2"></bdl-dygraphchart>

@@ -7,8 +7,12 @@ export class Chartjs {
   @bindable refindex;
   @bindable refvalues;
   @bindable type='doughnut';
+  @bindable maxdata=300;
+  @bindable initialdata='';
 
   constructor() {
+    this.animateScale=true;
+    this.animateRotate=true;
     this.handleValueChange = e => {
       //let datapoint = [e.detail.time];
       //e.detail do not reallocate - using same buffer, thus slicing to append to data array
@@ -32,25 +36,40 @@ export class Chartjs {
     return `hsl(${hue},60%,60%)`;
   }
 
-  attached() {
+  bind() {
     this.refendindex = parseInt(this.refindex, 10) + parseInt(this.refvalues, 10);
+
+    this.chlabels = this.labels.split(',');
+    this.colors = [];
+    let mydatastr = this.initialdata.split(',');
+    this.mydata = mydatastr.map(x => {return parseFloat(x);});
+    for (let i = 0; i < this.refvalues; i++) {
+      if (!this.mydata[i]) this.mydata.push(0);
+      this.colors.push(this.selectColor(i));
+    }
+    let datasets = [{
+      data: this.mydata,
+      backgroundColor: this.colors
+    }];
+    /*
+    for (let i = 0; i < this.refvalues; i++) {
+      this.colors.push(this.selectColor(i));
+      datasets.push({data:[0,0.5*i,0.2*i,1.2*i,0.8*i,i], backgroundColor: this.colors})
+    }
+    */
+    this.data = {
+      labels: this.chlabels,
+      datasets: datasets
+    };
+  }
+
+  attached() {
     //listening to custom event fmidata
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
 
     //this.chartcanvas; - reference to the DOM canvas
-    let mylabels = this.labels.split(',');
 
     let ctx = this.chartcanvas.getContext('2d');
-    this.colors = [];
-    for (let i = 0; i < this.refvalues; i++) this.colors.push(this.selectColor(i));
-
-    this.data = {
-      labels: mylabels,
-      datasets: [{
-        data: [240, 3280, 35, 215, 60, 90],
-        backgroundColor: this.colors
-      }]
-    };
     this.chart = new Chart(ctx, {
       type: this.type,
       data: this.data,
@@ -61,14 +80,14 @@ export class Chartjs {
           position: 'top'
         },
         animation: {
-          animateScale: true,
-          animateRotate: true
+          animateScale: this.animateScale,
+          animateRotate: this.animateRotate
         }
       }
     });
   }
 
   detached() {
-    document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
+    if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
   }
 }

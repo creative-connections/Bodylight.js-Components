@@ -25,7 +25,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/range.html'))
     .globalResources(PLATFORM.moduleName('components/receptacle.html'))
     .globalResources(PLATFORM.moduleName('components/bind2previous'))
-    .globalResources(PLATFORM.moduleName('components/dygraphchart'))
+    .globalResources(PLATFORM.moduleName('components/graphs/dygraphchart'))
     .globalResources(PLATFORM.moduleName('components/beaker.html'))
     .globalResources(PLATFORM.moduleName('components/value'))
     .globalResources(PLATFORM.moduleName('components/composite/beakercontrols.html'))
@@ -34,7 +34,8 @@ export function configure(aurelia) {
     //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html
     .globalResources(PLATFORM.moduleName('components/composite/simplegif'))
     .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))
-    .globalResources(PLATFORM.moduleName('components/chartjs'))
+    .globalResources(PLATFORM.moduleName('components/graphs/chartjs'))
+    .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-time'))
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
     .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))
@@ -43,7 +44,6 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/bdl-sound-on-increase'))
     .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-book'))
     .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-app.html'))
-    
     //.globalResources(BdlAudioOnDecreaseCustomElement)
     .globalResources(PLATFORM.moduleName('components/fmi'));
 
