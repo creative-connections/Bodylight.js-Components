@@ -11,7 +11,7 @@ Poté se cyklus periodicky opakuje.
 
 Pacientské monitory vyluzují pípnutí, pokud dojde k srdeční akci.
 <bdl-sound-on-increase 
-  thresholdvalue="1e+7" freq="660" fromid="id4" refindex="8">
+  thresholdvalue="1e+7" fromid="id4" refindex="8">
   sound-on-decrease not supported
 </bdl-audio-on-increase>
 
