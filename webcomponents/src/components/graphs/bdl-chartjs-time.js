@@ -37,10 +37,16 @@ export class BdlChartjsTime extends Chartjs {
     this.chlabels = this.labels.split(',');
     this.colors = [];
     let datasets = []; let timelabels = [];
+    let mydata1 = this.initialdata.split(';');
+    for (let i = 0; i < this.refvalues; i++) {
+      let mydata2 = (mydata1[i])? mydata1[i].split(','):['0'];
+      this.mydata[i] = mydata2.map(x => {return parseFloat(x);});
+    }
+
     for (let i = 0; i < this.refvalues; i++) {
       this.colors.push(this.selectColor(i));
       datasets.push({
-        data: this.mydata[i], //mydata is initialized in super class;
+        data: this.mydata[i],
         label: this.chlabels[i],
         backgroundColor: this.colors[i],
         borderColor: this.colors[i],

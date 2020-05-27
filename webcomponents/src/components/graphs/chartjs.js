@@ -11,8 +11,8 @@ export class Chartjs {
   @bindable initialdata='';
 
   constructor() {
-    this.animateScale=true;
-    this.animateRotate=true;
+    this.animateScale = true;
+    this.animateRotate = true;
     this.handleValueChange = e => {
       //let datapoint = [e.detail.time];
       //e.detail do not reallocate - using same buffer, thus slicing to append to data array
@@ -32,12 +32,14 @@ export class Chartjs {
   }
 
   selectColor(number) {
-    const hue = number * 137.508; // use golden angle approximation
-    return `hsl(${hue},60%,60%)`;
+    const hue = (number-1) * 137.508; // use golden angle approximation
+    return `hsl(${hue},70%,70%)`;
   }
 
   bind() {
-    this.refendindex = parseInt(this.refindex, 10) + parseInt(this.refvalues, 10);
+    this.refindex = parseInt(this.refindex, 10);
+    this.refvalues= parseInt(this.refvalues, 10);
+    this.refendindex = this.refindex + this.refvalues;
 
     this.chlabels = this.labels.split(',');
     this.colors = [];
@@ -82,6 +84,11 @@ export class Chartjs {
         animation: {
           animateScale: this.animateScale,
           animateRotate: this.animateRotate
+        },
+        tooltips: {
+          position: 'average',
+          mode: 'index',
+          intersect: false
         }
       }
     });

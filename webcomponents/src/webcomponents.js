@@ -36,6 +36,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))
     .globalResources(PLATFORM.moduleName('components/graphs/chartjs'))
     .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-time'))
+    .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-xy'))
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
     .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))

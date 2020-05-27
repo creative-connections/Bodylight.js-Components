@@ -7,6 +7,7 @@
     * [Hemodynamics Meurs](#doc/hemodynamicsmeurs.md)
     * [Hemodynamics Burkhoff](#doc/hemodynamicsburkhoff.md)
     * [Cardiac cycle](#doc/hemo1.md)
+    * [Charts](#doc/charts.md)
   * [About](#doc/about.md)
   <hr/>
   
