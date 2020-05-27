@@ -1,4 +1,4 @@
-# Bodylight.js-Components
+# Bodylight.js-Components v 2.0.beta
 
 Reusable components for composing interactive web simulators 
   * based on `Modelica` models, 
@@ -7,8 +7,18 @@ Reusable components for composing interactive web simulators
   * supporting basic HTML inputs and outputs
   * supporting dygraphs, chart.js charts outputs
   * enhanced markdown rendering with these components
-  * ...
+  * integration to HTML, Markdown WIKI, Moodle, Adobe Captivate, ...
 
+Compared to version 1.0
+  * BJP files from version 1.0 are not usable in v 2.0.beta. 
+  * exported Application.HTML from version 1.0 can be integrated with v2.0.beta
+  * v 2.0.beta do not contain Composer - direct editing HTML or Markdown using common tools is recommended
+  * Adobe Animate graphics are not yet supported.
+  * v 2.0.beta contains dygraph.js and chart.js libraries for charts, plotly is not yet supported as in v 1.0
+  * v 1.0 HTML export can be used as iframes within v2.0.beta application
+  * Web applications can be combined with Bodylight v 2.0.beta apps as well as with Bodylight v 1.0 apps,
+    see 3D graphics virtualbody in WEBGL [Bodylight-Virtualbody](https://github.com/creative-connections/Bodylight-VirtualBody)  
+ 
 ## Bodylight.js-Components in HTML
  
 In order to add Bodylight support to HTML do following:
@@ -107,8 +117,44 @@ existing HTML or MD pages as Web Objects is possible.
   
 Select `Objects -> Web` and type address of selected component page E.g. `https://bodylight.physiome.cz/Bodylight.js-Components/#index=doc/usersguide.md&shownav=false`
  This will disable navigation and shows only the content.
-  
+
+## Using application prepared in Bodylight Composer v1.0
+  1. Export BJP into Application HTML (do not set 'minimize')
+  2. Edit Application HTML
+  3. find 'createModelRuntime' and set global variable instance, e.g.: 
+  ```javascript
+function createModelRuntime(Model, config, functions) {
+...
+            //add this row to set explicitly global variable 
+            // BodylightModel to be accessed from outside
+            window.BodylightModel = model;
+...
+  ```
+  Now the `BodylightModel` is exposed. You can call API `model.setValue()` in Application HTML:
+```html
+<p>Added component, manipulating Bodylight web app from outside:</p>
+<p>set heart rate:
+<input id="myheartrateinput" 
+       type="number" 
+       min="40" 
+       max="180" 
+       onchange="setMyHeartRate(this.value)"></input> 
+</p>
+<script>
+function setMyHeartRate(value){
+  //global variable BodylightModel set explicitly in the code above
+  //need to know value reference of heart rate in model 
+  // - it is 16777216 in this case
+  window.BodylightModel.setValue(16777216,value); 
+}
+</script>
+```
+...
 
 [^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
-[^2]: CORS
+
+[^2]: CORS: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+
+[^3]: Bodylight 1.0 and Bodylight Composer: https://bodylight.physiome.cz/composer/
+
 For further details, see User's guide at `doc/usersguide.md` or at [bodylight.physiome.cz/Bodylight.js-Components/](https://bodylight.physiome.cz/Bodylight.js-Components/#index=doc/usersguide.md) 
