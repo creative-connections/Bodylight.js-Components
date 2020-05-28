@@ -13,16 +13,18 @@ export class BdlChartjsTime extends Chartjs {
 
   constructor() {
     super();
-    this.animateScale = false;
-    this.animateRotate = false;
     //this.type = 'line';
     this.handleValueChange = e => {
       //e.detail do not reallocate - using same buffer, thus slicing to append to data array
       //let datapoints =e.detail.data.slice(this.refindex, this.refendindex);
       let j = 0;
       for (let i = this.refindex; i < this.refindex + this.refvalues; i++) {
+        //adds data to datasets
         this.chart.data.datasets[j].data.push(e.detail.data[i]);
-        if (this.chart.data.datasets[j].length > this.maxdata) this.chart.data.datasets[j].shift();
+        if (this.chart.data.datasets[j].data.length > this.maxdata) {
+          //console.log('shifting dataset chartjs-time', this.chart.data.datasets[j].data);
+          this.chart.data.datasets[j].data.shift();
+        }
         j++;
       }
       this.chart.data.labels.push(e.detail.time);

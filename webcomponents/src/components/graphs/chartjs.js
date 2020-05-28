@@ -11,29 +11,16 @@ export class Chartjs {
   @bindable initialdata='';
 
   constructor() {
-    this.animateScale = true;
-    this.animateRotate = true;
     this.handleValueChange = e => {
-      //let datapoint = [e.detail.time];
-      //e.detail do not reallocate - using same buffer, thus slicing to append to data array
-      //let edata = e.detail.data.slice();
-      //for (let i = 0; i < edata.length; i++) datapoint.push(edata[i]);
-      //this.data.push(datapoint);
-      //shift - remove first element if data is too big
-      //if (this.data.length > this.maxdata) this.data.shift();
-      //console.log('Dygraphchar data', this.data);
-      //this.dygraph.updateOptions( { 'file': this.data } );
-      //console.log('chartjs handlevaluechange() e.detail,refindex,refendindex', e.detail, this.refindex, this.refendindex);
-
+      //sets data to dataset
       this.chart.data.datasets[0].data = e.detail.data.slice(this.refindex, this.refendindex);
-      //console.log('chartjs handlevaluechange() chart.data.datasets[0].data', this.chart.data.datasets[0].data);
       this.chart.update();
     };
   }
 
   selectColor(number) {
     const hue = (number-1) * 137.508; // use golden angle approximation
-    return `hsl(${hue},70%,70%)`;
+    return `hsl(${hue},55%,55%)`;
   }
 
   bind() {
@@ -63,6 +50,23 @@ export class Chartjs {
       labels: this.chlabels,
       datasets: datasets
     };
+    this.options = {
+      responsive: true,
+      legend: {
+        display: false,
+        position: 'top'
+      },
+      animation: {
+        animateScale: true,
+        animateRotate: true,
+        duration: 500
+      },
+      tooltips: {
+        position: 'nearest',
+        mode: 'index',
+        intersect: false
+      }
+    };
   }
 
   attached() {
@@ -75,22 +79,7 @@ export class Chartjs {
     this.chart = new Chart(ctx, {
       type: this.type,
       data: this.data,
-      options: {
-        responsive: true,
-        legend: {
-          display: false,
-          position: 'top'
-        },
-        animation: {
-          animateScale: this.animateScale,
-          animateRotate: this.animateRotate
-        },
-        tooltips: {
-          position: 'average',
-          mode: 'index',
-          intersect: false
-        }
-      }
+      options: this.options
     });
   }
 
