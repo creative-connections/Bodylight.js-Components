@@ -9,6 +9,8 @@ export class Chartjs {
   @bindable type='doughnut';
   @bindable maxdata=300;
   @bindable initialdata='';
+  @bindable width=600;
+  @bindable height=300;
 
   constructor() {
     this.handleValueChange = e => {

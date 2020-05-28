@@ -13,7 +13,7 @@
 ```xml
 <bdl-chartjs-xy id="id10" 
                   width="300" 
-                  height="500" 
+                  height="100" 
                   fromid="id4" 
                   labels="Pressure in Left Ventricle, Left Ventricle Volume"
                   initialdata="0,1,2,3,4,3,2,1;2,2,2,3,5,8,6,4" 
@@ -22,7 +22,7 @@
 ```
 <bdl-chartjs-xy id="id10" 
                   width="300" 
-                  height="500" 
+                  height="100" 
                   fromid="id4" 
                   labels="Pressure in Left Ventricle, Left Ventricle Volume"
                   initialdata="0;0"                   
@@ -30,7 +30,7 @@
                   refvalues="2"></bdl-chartjs-xy>
 ## Chartjs time                  
 ```xml
-<bdl-chartjs-time id="id10" width="300" height="500" fromid="id4" 
+<bdl-chartjs-time id="id10" width="300" height="100" fromid="id4" 
   labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume"
   initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" 
   refindex="0" refvalues="3"></bdl-chartjs-time>
@@ -39,7 +39,7 @@
 <bdl-chartjs-time  
   id="id10" 
   width="300" 
-  height="500" 
+  height="100" 
   fromid="id4" 
   labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume"
   initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" 
