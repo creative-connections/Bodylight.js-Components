@@ -53,6 +53,8 @@ export class BdlChartjsTime extends Chartjs {
         label: this.chlabels[i],
         backgroundColor: this.colors[i],
         borderColor: this.colors[i],
+        borderWidth: 1,
+        pointRadius: 1,
         fill: false
       });
       timelabels.push(i);

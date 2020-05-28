@@ -37,7 +37,7 @@ export class BdlChartjsXy extends BdlChartjsTime {
     //initialize x and y, x is first dataset, y is al the rest
     this.mydata = [];
     for (let i = 0; i < this.refvalues; i++) {
-      let mydata2 = (mydata1[i]) ? mydata1[i].split(',') : ['0'];
+      let mydata2 = (mydata1[i]) ? mydata1[i].split(',') : [];
       if (i === 0) {
         //parse x
         this.mydata[0] = mydata2.map((x, index) => {
@@ -50,6 +50,7 @@ export class BdlChartjsXy extends BdlChartjsTime {
         });
       }
     }
+
     //this.colors already set in super()
     for (let i = 1; i < this.refvalues; i++) {
       datasets.push({
@@ -58,9 +59,31 @@ export class BdlChartjsXy extends BdlChartjsTime {
         backgroundColor: this.colors[i],
         borderColor: this.colors[i],
         fill: false,
-        showLine: true
+        showLine: true,
+        borderWidth: 1,
+        refvalues: this.refvalues
       });
     }
+    //add additional data
+    if (mydata1.length > this.refvalues) {
+      let j = this.refvalues;
+      for (let i = this.refvalues; i < mydata1.length; i += 2) {
+        let mydata2 = mydata1[i].split(',');
+        let mydata3 = mydata1[i + 1].split(',');
+        this.mydata[j] = mydata3.map((yy, index) => {
+          return {x: parseFloat(mydata2[index]), y: parseFloat(yy)};
+        });
+        datasets.push({
+          data: this.mydata[j],
+          backgroundColor: this.selectColor(i),
+          borderColor: this.selectColor(i),
+          fill: false,
+          showLine: true
+        });
+        j++;
+      }
+    }
+
     this.data = {
       datasets: datasets
     };
@@ -76,12 +99,14 @@ export class BdlChartjsXy extends BdlChartjsTime {
 
   customRadius(context) {
     let last = context.dataIndex === context.dataset.data.length - 1;
-    return last ? 10 : 2;
+    let inrefvalues = context.datasetIndex < context.dataset.refvalues; //dataset is in refvalues - changed by simulator
+    if (inrefvalues) return (last ? 3 : 1);
+    return 1; //dataset is fixed - background borders
   }
 
   resetdata() {
     let j = 0;
-    for (let i = (this.refindex+1); i < this.refindex + this.refvalues; i++) {
+    for (let i = (this.refindex + 1); i < this.refindex + this.refvalues; i++) {
       this.chart.data.datasets[j].data = [];
       j++;
     }

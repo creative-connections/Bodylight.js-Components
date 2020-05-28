@@ -28,7 +28,7 @@ export class Chartjs {
   resetdata() {
     this.chart.data.datasets[0].data = [];
   }
-
+  //returns color per number so the neighbouring colors are different
   selectColor(number) {
     const hue = (number-1) * 137.508; // use golden angle approximation
     return `hsl(${hue},55%,55%)`;
