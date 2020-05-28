@@ -34,6 +34,7 @@ export class BdlChartjsTime extends Chartjs {
       this.chart.update();
     };
   }
+
   bind() {
     super.bind();
     this.chlabels = this.labels.split(',');
@@ -62,5 +63,14 @@ export class BdlChartjsTime extends Chartjs {
       datasets: datasets
     };
     this.type = 'line';
+  }
+
+  resetdata() {
+    let j = 0;
+    for (let i = this.refindex; i < this.refindex + this.refvalues; i++) {
+      this.chart.data.datasets[j].data=[];
+      this.chart.data.labels = [];
+      j++;
+    }
   }
 }

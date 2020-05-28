@@ -40,10 +40,14 @@ export class BdlChartjsXy extends BdlChartjsTime {
       let mydata2 = (mydata1[i]) ? mydata1[i].split(',') : ['0'];
       if (i === 0) {
         //parse x
-        this.mydata[0] = mydata2.map( (x, index) => {return parseFloat(x);});
+        this.mydata[0] = mydata2.map((x, index) => {
+          return parseFloat(x);
+        });
       } else {
         //parse all y
-        this.mydata[i] = mydata2.map((yy, index) => { return {x: this.mydata[0][index], y: parseFloat(yy)}; });
+        this.mydata[i] = mydata2.map((yy, index) => {
+          return {x: this.mydata[0][index], y: parseFloat(yy)};
+        });
       }
     }
     //this.colors already set in super()
@@ -70,8 +74,16 @@ export class BdlChartjsXy extends BdlChartjsTime {
     };
   }
 
-  customRadius(context){
-    let last = context.dataIndex === context.dataset.data.length-1;
+  customRadius(context) {
+    let last = context.dataIndex === context.dataset.data.length - 1;
     return last ? 10 : 2;
+  }
+
+  resetdata() {
+    let j = 0;
+    for (let i = (this.refindex+1); i < this.refindex + this.refvalues; i++) {
+      this.chart.data.datasets[j].data = [];
+      j++;
+    }
   }
 }

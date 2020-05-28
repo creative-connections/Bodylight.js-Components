@@ -18,6 +18,15 @@ export class Chartjs {
       this.chart.data.datasets[0].data = e.detail.data.slice(this.refindex, this.refendindex);
       this.chart.update();
     };
+    this.handleReset = e => {
+      console.log('handlereset')
+      this.resetdata();
+      this.chart.update();
+    };
+  }
+
+  resetdata() {
+    this.chart.data.datasets[0].data = [];
   }
 
   selectColor(number) {
@@ -72,9 +81,9 @@ export class Chartjs {
   }
 
   attached() {
-    //listening to custom event fmidata
+    //listening to custom event fmidata and fmireset
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
-
+    document.getElementById(this.fromid).addEventListener('fmireset', this.handleReset);
     //this.chartcanvas; - reference to the DOM canvas
 
     let ctx = this.chartcanvas.getContext('2d');
