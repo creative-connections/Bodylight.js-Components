@@ -16,8 +16,9 @@ Tlačítky můžete pustit a zastavit simulaci, krokovat simulaci a resetovat si
                inputs="id1,16777313,1,60"></bdl-fmi>
 
 Můžete nastavit tepovou frekvenci srdce:
-<bdl-range id="id1" min="40" max="180" step="1" default="60" title="Heart rate"></bdl-range>
+<bdl-range id="id1" min="40" max="180" step="1" default="60" title=""></bdl-range>
                
 V grafu je vidět tlak v aortě a levé komoře.
-
 <bdl-dygraphchart width="600" height="300" fromid="id4" inputs="time,aorta pressure,ventricle pressure" refindex="0" refvalues="2"></bdl-dygraphchart>
+
+
