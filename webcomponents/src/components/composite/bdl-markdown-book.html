@@ -5,9 +5,9 @@
   <require from="./watchhash"></require>
   <div class="w3-row" style="display:flex">
     <div class.bind="shownav ? 'w3-col m3 l2':''" show.bind="shownav">
-      <markdownnav navstyle="vertical" base="${base}" src="${summary}" style="position:fixed;top:0;" watchhash="summary,1;base,3"></markdownnav>
+      <markdownnav navstyle="vertical" base="${base}" src="${summary}" watchhash="summary,1;base,3"></markdownnav>
     </div>
-    <div class.bind="shownav? 'w3-col m9 l10':''">
+    <div class.bind="shownav? 'w3-col m9 l10':''" style="z-index: 1">
       <markdown base="${base}" src="${index}" watchhash="index,0;base,3"></markdown>
     </div>
   </div>

@@ -6,7 +6,7 @@ nav.horizontal ul {
 
 nav.horizontal a:link,
 nav.horizontal a:visited {
-  color: #f0f0f0;
+  color: white;
   text-decoration: none;
 }
 
@@ -25,7 +25,7 @@ nav.horizontal a {
 nav.horizontal li {
   float: left;
   background-color: #393b3e;
-  color:#f0f0f0 !important;
+  color: white !important;
   margin-right: 0px;
   position: relative;
   padding: 0.9em;
@@ -51,6 +51,7 @@ nav.horizontal li li{
 
 nav.horizontal li:hover {
   background-color: #55afff;
+  z-index:2;
 }
 /*
 nav li li:hover {
@@ -77,6 +78,12 @@ nav.horizontal li:hover > ul {
 
 nav.vertical {
   overflow: auto;
+  position:fixed;
+  top:0;
+}
+nav.vertical:hover {
+  z-index: 2;
+  opacity: 80%;
 }
 
 nav.vertical ul {
@@ -89,7 +96,7 @@ nav.vertical ul {
 
 nav.vertical li a {
   display: block;
-  color: #000;
+  color: black;/*#000;*/
   padding: 8px 16px;
   text-decoration: none;
 }
@@ -100,7 +107,7 @@ nav.vertical li a.active {
 }
 
 nav.vertical li a:hover:not(.active) {
-  background-color: #555;
+  background-color: black;/*#222;*/
   color: white;
 }
 
