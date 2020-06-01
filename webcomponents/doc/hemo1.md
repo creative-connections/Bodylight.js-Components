@@ -7,7 +7,10 @@ V první fázi srdeční sval relaxuje, tato fáze se nazývá **diastola**.
 V druhé fázi srdeční sval kontrahuje a vypuzuje krev, tato fáze se nazývá **systola**.
 Poté se cyklus periodicky opakuje.
 
+
 <bdl-cardiaccycle1>pulsujici srdce a graf tlaku,nebo ekg</bdl-cardiacycle1>  
+
+<bdl-animatedheart src="doc/heart.gif" fromid="id4"></bdl-animatedheart> 
 
 Pacientské monitory vyluzují pípnutí, pokud dojde k srdeční akci.
 <bdl-sound-on-increase 

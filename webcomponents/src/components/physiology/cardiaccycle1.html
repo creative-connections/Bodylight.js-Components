@@ -13,7 +13,7 @@
         <td>
         <range id="id1" min="40" max="180" step="1" default="60" title="Heart rate"></range><!-- slidervalue.bind="${myvalue}" ly.bind="${myvalue}"-->
         </td>
-        <td rowspan="3">
+        <td>
           <dygraphchart width="600" height="300" fromid="id4" inputs="time,aorta pressure,ventricle pressure" refindex="0" refvalues="2"></dygraphchart>
         </td>
       </tr>
@@ -27,15 +27,6 @@
                 inputs="id1,16777216,1,60"></fmi>
          </td>
        </tr>
-    <tr>
-      <td>
-        <chartjs id="id9" width="300" height="500" fromid="id4" type="doughnut" labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins" refindex="2" refvalues="6"></chartjs>
-      </td>
-    </tr>
-
-
-
-
     </table>
 
 </template>

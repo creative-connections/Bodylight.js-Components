@@ -3,6 +3,7 @@ import Gifffer from 'gifffer';
 
 export class Simplegif {
   @bindable fromid;
+  @bindable src;
 
   constructor() {
     this.isstopped = true;
@@ -19,7 +20,7 @@ export class Simplegif {
   attached() {
     // eslint-disable-next-line new-cap
     this.gifs = Gifffer();
-    //console.log('animated heart gifs:', this.gifs);
+    console.log('animated heart gifs:', this.gifs);
     document.getElementById(this.fromid).addEventListener('fmistart', this.handleStart);
     document.getElementById(this.fromid).addEventListener('fmistop', this.handleStop);
   }
