@@ -29,7 +29,6 @@ export class BdlChartjsPv extends BdlChartjsXy {
   }
   bind(){
     super.bind();
-
   }
 
 }

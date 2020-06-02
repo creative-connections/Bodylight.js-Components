@@ -10,9 +10,11 @@ Poté se cyklus periodicky opakuje.
 
 <bdl-cardiaccycle1>pulsujici srdce a graf tlaku,nebo ekg</bdl-cardiacycle1>  
 
-<bdl-animated-gif src="doc/heart.gif" fromid="id4"></bdl-animatedheart> 
+Animace srdce:
+<bdl-animate-sync-gif src="doc/heart.gif" fromid="id4" 
+thresholdvalue="1e+7" refindex="8" ></bdl-animatedheart> 
 
-Pacientské monitory vyluzují pípnutí, pokud dojde k srdeční akci.
+Zvuk monitoru:
 <bdl-sound-on-increase 
   thresholdvalue="1e+7" fromid="id4" refindex="8">
   sound-on-decrease not supported

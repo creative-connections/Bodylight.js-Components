@@ -11,9 +11,12 @@ export class BdlTriggerOnIncrease extends Value {
         if (!this.triggered) {
           this.triggered = true;
           this.trigger();
+        } else {
+          this.normalAction();
         }
       } else {
         if (this.triggered) {this.triggered = false;}
+        this.normalAction();
       }
     };
   }
@@ -33,5 +36,10 @@ export class BdlTriggerOnIncrease extends Value {
   trigger() {
     console.log('trigger not implemented');
     //not implemented
+  }
+
+  normalAction() {
+    console.log('normalAction not implemented');
+    //usually do nothing, or some child may increase or implement some frame action
   }
 }

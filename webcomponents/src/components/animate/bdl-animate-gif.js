@@ -27,5 +27,6 @@ export class BdlAnimateGif {
     document.getElementById(this.fromid).addEventListener('fmistart', this.handleStart);
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleStart);
     document.getElementById(this.fromid).addEventListener('fmistop', this.handleStop);
+
   }
 }

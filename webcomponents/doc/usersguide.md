@@ -153,9 +153,6 @@ Example:
 
 <bdl-capillary width="200" height="100" color="red" strokew="3"></bdl-capillary>
     
-### Simplegif, bdl-simplegif
-`<bdl-simplegif src="[filename.gif]" fromid="[id_to_listen]">` creates animated gif which is stopped by default and playing is enabled/disabled when an custom event 'fmistart'/'fmistop' are received from an element with id 'fromid'.
-
 ### Dygraph
 `<bdl-dygraph></bdl-dygraph>` Creates a graph controlled by Dygraph library [^2]
 
@@ -212,6 +209,19 @@ Example:
   refindex="2"   
   refvalues="6"></bdl-chartjs-time>
 
+### Chartjs-xy
+XY chart from data
+
+```xml
+<bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" 
+labels="Pressure in Left Ventricle, Left Ventricle Volume" 
+initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" 
+refindex="0" refvalues="2"></bdl-chartjs-xy>
+``` 
+
+where `initialdata` may contain additional static curves after first values 
+delimite by `;` there might be x values delimited by `,` followed by y values delimited by `,`
+and so on. 
 ### Markdownnav
 `<bdl-markdownnav src=""></bdl-markdownnav>"` renders navigation menu based on MD list. MD should contain only list.
 All links should
@@ -292,3 +302,18 @@ Example
 
 ```
  
+### bdl-animate-gif
+```xml
+<bdl-animate-gif src="doc/heart.gif" fromid="id4" ></bdl-animatedheart> 
+```
+
+Animates gif, starts and stops animation per events fmistart and fmistop from DOM id defined in attribute`fromid`.
+ 
+
+```xml
+<bdl-animate-sync-gif src="doc/heart.gif" fromid="id4" 
+thresholdvalue="1e+7" refindex="8" ></bdl-animatedheart> 
+```
+Animates gif like previous, but synchronizes the animation loop with simulation loop.
+I.e. all animation frames are equally distributed among simulation cycle - start is determined by 
+refindex and thresholdvalue, and length is determined by simulationframes per cycle.

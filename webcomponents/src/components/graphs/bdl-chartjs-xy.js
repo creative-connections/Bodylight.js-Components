@@ -64,7 +64,10 @@ export class BdlChartjsXy extends BdlChartjsTime {
         refvalues: this.refvalues
       });
     }
-    //add additional data
+    //add additional data, all after ; is taken as x values separated by , of initial curve,
+    // after ; is y values of initial curve separated by ,
+    // if more curves then another ;. E.g. initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400"
+    // -> line from 0 0 to 0.0015 28000 and from 0 0 to 00015 1400
     if (mydata1.length > this.refvalues) {
       let j = this.refvalues;
       for (let i = this.refvalues; i < mydata1.length; i += 2) {
