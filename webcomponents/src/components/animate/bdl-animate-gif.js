@@ -1,6 +1,6 @@
 import SuperGif from 'libgif';
 import {bindable} from 'aurelia-templating';
-export class Animatedheart {
+export class BdlAnimateGif {
   @bindable fromid;
   @bindable src;
 

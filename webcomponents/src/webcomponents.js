@@ -38,7 +38,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-time'))
     .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-xy'))
     .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
-    .globalResources(PLATFORM.moduleName('components/physiology/animatedheart'))
+    .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-gif'))
     .globalResources(PLATFORM.moduleName('components/quiz.html'))
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-increase'))
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-decrease'))
