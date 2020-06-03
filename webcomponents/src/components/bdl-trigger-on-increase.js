@@ -39,7 +39,7 @@ export class BdlTriggerOnIncrease extends Value {
   }
 
   normalAction() {
-    console.log('normalAction not implemented');
+    //console.log('normalAction not implemented');
     //usually do nothing, or some child may increase or implement some frame action
   }
 }

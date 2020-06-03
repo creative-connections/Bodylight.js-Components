@@ -13,16 +13,16 @@ export class BdlAnimateSyncGif extends BdlTriggerOnIncrease {
     this.handleStart = e => {
       //console.log('AnimatedHeart start event');
       //this.gif.play();
-      if (this.loaded) {
+      this.gifframespersimframe = this.gif.get_frames().length / (1 / this.simulationstepsize);
+      if (!this.gif.get_loading()) {
         this.gif.move_to(0);
         //console.log('handlestart simulationstepsize, frames:',this.simulationstepsize,this.gif.get_frames().length);
-        this.gifframespersimframe = this.gif.get_frames().length / (1/this.simulationstepsize);
       }
     };
     this.handleStop = e => {
       //console.log('AnimatedHeart stop event');
       //this.gif.move_relative(1);
-      if (this.loaded)  this.gif.pause();
+      if (!this.gif.get_loading())  this.gif.pause();
     };
   }
 
@@ -32,10 +32,8 @@ export class BdlAnimateSyncGif extends BdlTriggerOnIncrease {
     //console.log('animatedheart2 imgel', this.imgel);
     this.gif = new SuperGif({gif: this.imgel, auto_play: false, rubbable: true});
     //console.log('animatedheart2 gif', this.gif);
-    let that = this;
-    this.gif.load(e => {
-      that.loaded = true;
-    });
+
+    this.gif.load();
     document.getElementById(this.fromid).addEventListener('fmistart', this.handleStart);
     //document.getElementById(this.fromid).addEventListener('fmidata', this.handleStart);
     document.getElementById(this.fromid).addEventListener('fmistop', this.handleStop);
@@ -44,19 +42,13 @@ export class BdlAnimateSyncGif extends BdlTriggerOnIncrease {
   }
 
   normalAction() {
-    if (this.loaded) {
-      //console.log('gif animation frame before real,frame', this.currentframereal, this.currentframe);
-      this.currentframereal += this.gifframespersimframe; //increase gif frame - based on how many frames are ther per simulation frame
-      this.currentframe = Math.round(this.currentframereal);
-      this.gif.move_to(this.currentframe);
-      //console.log('gif animation frame after real,frame', this.currentframereal, this.currentframe);
-    }
+    this.currentframereal += this.gifframespersimframe; //increase gif frame - based on how many frames are ther per simulation frame
+    this.currentframe = Math.round(this.currentframereal);
+    if (!this.gif.get_loading()) this.gif.move_to(this.currentframe);
   }
 
   trigger() {
-    if (this.loaded) {
-      this.gif.move_to(0);
-      this.currentframereal = 0;
-    } // set to frame 0
+    this.currentframereal = 0;
+    if (!this.gif.get_loading()) this.gif.move_to(0);// set to frame 0
   }
 }

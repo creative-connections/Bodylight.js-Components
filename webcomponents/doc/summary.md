@@ -8,6 +8,7 @@
     * [Hemodynamics Burkhoff with controls](#doc/hemodynamicsburkhoff.md)
     * [Cardiac cycle](#doc/hemo1.md)
     * [Charts](#doc/charts.md)
+    * [Animation](#doc/animation.md)
   * [About](#doc/about.md)
   <hr/>
   

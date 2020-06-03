@@ -1,5 +1,7 @@
-import SuperGif from 'libgif';
+import SuperGif from 'libgif'; //suing libgif https://github.com/buzzfeed/libgif-js
 import {bindable} from 'aurelia-templating';
+
+//animates gif, plays frame on each simulation tick, event fmidata
 export class BdlAnimateGif {
   @bindable fromid;
   @bindable src;
@@ -9,12 +11,12 @@ export class BdlAnimateGif {
     this.handleStart = e => {
       console.log('AnimatedHeart start event');
       //this.gif.play();
-      this.gif.move_relative(1);
+      if (!this.gif.get_loading()) this.gif.move_relative(1);
     };
     this.handleStop = e => {
       console.log('AnimatedHeart stop event');
       //this.gif.move_relative(1);
-      this.gif.pause();
+      if (!this.gif.get_loading()) this.gif.pause();
     };
   }
 
