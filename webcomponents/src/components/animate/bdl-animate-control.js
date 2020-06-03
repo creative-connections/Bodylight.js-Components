@@ -34,9 +34,11 @@ export class BdlAnimateControl {
       //animate using requestAnimationFrame
       const performAnimation = () => {
         //speedfactor is defined - then timeout slowdown
-        if (this.speedfactor) {
-          setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
-        } else that.request = requestAnimationFrame(performAnimation);
+        if (this.animationstarted) {
+          if (this.speedfactor) {
+            setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
+          } else that.request = requestAnimationFrame(performAnimation);
+        }
         this.step();
       };
       requestAnimationFrame(performAnimation);
