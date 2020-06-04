@@ -9,6 +9,7 @@
     * [Cardiac cycle](#doc/hemo1.md)
     * [Charts](#doc/charts.md)
     * [Animation](#doc/animation.md)
+    * [Animation segments](#doc/animationsegments.md)
   * [About](#doc/about.md)
   <hr/>
   
