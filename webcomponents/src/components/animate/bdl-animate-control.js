@@ -42,39 +42,51 @@ export class BdlAnimateControl {
       document.getElementById(this.id).dispatchEvent(event);
     } else {
       //this.animationstarted = true;
-      //create custom event
-      let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
-      //dispatch event - it should be listened by some other component
-      document.getElementById(this.id).dispatchEvent(event);
       let that = this;
       //animate using requestAnimationFrame
       const performAnimation = () => {
-        if (this.stopframe > 0 && this.frame >= this.stopframe) this.animationstarted = false;
-        //speedfactor is defined - then timeout slowdown
-        if (this.animationstarted ) {
-          if (this.speedfactor) {
-            setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
-          } else that.request = requestAnimationFrame(performAnimation);
-        }
+        //send event to do animation
         this.step();
+        //decide whether and how to schedule next animation frame
+        if (this.playsegments && this.stopframe > 0 && this.frame > this.stopframe) {
+          this.animationstarted = false;
+          //if last segment reninit frame from begining
+          if (this.currentsegment >= this.segmentitems.length) { this.currentsegment = 0; this.frame = 0;}
+        } else {
+          // speedfactor is defined - then timeout slowdown
+          if (this.animationstarted) {
+            if (this.speedfactor) {
+              setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
+            } else that.request = requestAnimationFrame(performAnimation);
+            //this.step();
+          }
+        }
       };
       requestAnimationFrame(performAnimation);
     }
   }
 
   step() {
-    this.frame++;
     //create custom event
-    let event = new CustomEvent('fmidata', {detail: {time: this.frame}});
+    let event = this.frame === 0
+      ? new CustomEvent('fmistart', {detail: {time: this.frame}}) //send start signal on frame 0
+      : new CustomEvent('fmidata', {detail: {time: this.frame}}); //send data signal - i.e. continue after pause
     //dispatch event - it should be listened by some other component
     document.getElementById(this.id).dispatchEvent(event);
+    this.frame++;
   }
 
   segment() {
     //play from current position up to the frame on the next segment
     this.stopframe = this.segmentitems[this.currentsegment];
+    console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
     this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
     this.currentsegment++;
+    console.log('AnimateControl segment() nextsegment:', this.currentsegment);
     this.startstop();
+  }
+
+  nonstopsegment() {
+
   }
 }

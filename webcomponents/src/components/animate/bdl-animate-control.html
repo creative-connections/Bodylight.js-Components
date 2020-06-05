@@ -4,7 +4,8 @@
   <button class="w3-button" click.delegate="step()" title="Do simulation step"><i class="fa fa-step-forward"></i> &nbsp;</button>
     </span>
   <span show.bind="playsegments">
-    <button class="w3-button" click.delegate="segment()" title="Do simulation step"><i class="fa fa-step-forward"></i> &nbsp;</button>
+    <button class="w3-button" click.delegate="segment()" title="Play and stop segment"><i class="fa fa-step-forward"></i> &nbsp;</button>
     <label>${currentsegmentlabel}</label>
+    <!--button class="w3-button" click.delegate="nonstopsegment()" title="Play non-stop segment"><i class.bind="animationstarted? 'fa fa-stop':'fa fa-play'"></i> &nbsp;</button-->
   </span>
 </template>
