@@ -78,12 +78,12 @@ nav.horizontal li:hover > ul {
 
 nav.vertical {
   overflow: auto;
-  position:fixed;
-  top:0;
+  /*position:fixed;
+  top:0;*/
 }
 nav.vertical:hover {
   z-index: 2;
-  opacity: 80%;
+  /*opacity: 80%;*/
 }
 
 nav.vertical ul {
