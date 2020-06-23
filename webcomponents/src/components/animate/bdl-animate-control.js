@@ -1,15 +1,20 @@
 import {bindable} from 'aurelia-framework';
 
+
 export class BdlAnimateControl {
   @bindable id; //unique id of this component
   @bindable speedfactor; //0-100
   @bindable segments;
   @bindable segmentlabels;
+  @bindable controlfmi=false;
+  @bindable segmentcond;
   animationstarted = false;
   frame = 0;
   currentsegment=0;
   playsegments=false;
   currentsegmentlabel='';
+
+  constructor(){}
 
   bind() {
     if (this.speedfactor) {
@@ -27,7 +32,27 @@ export class BdlAnimateControl {
     if (this.segmentlabels) {
       this.segmentlabelarray = this.segmentlabels.split(';');
     }
+
+    let isgreater = (a, b) => {return a > b;};
+    let isequal = (a, b)=> {return a === b;};
+    let islower = (a, b) => {return a < b;};
+    console.log('bdlanimatecontro segmentcond1:',this.segmentcond);
+    if (this.segmentcond) {
+      this.segmentconditions = [];
+      let scs = this.segmentcond.split(';');
+      for (let sc of scs) {
+        let scitem = sc.split(','); // [0] is refid, [1] is gt,lt,eq [2] is value in real
+        let scf = islower;
+        if (scitem[1] === 'gt') scf = isgreater;
+        else if (scitem[1] === 'eq') scf = isequal;
+        let scitem2 = {'refid': scitem[0], 'relation': scf, 'value': scitem[2]};
+        this.segmentconditions.push(scitem2);
+      }
+      console.log('bdlanimatecontrol segmentcond', this.segmentconditions);
+    }
   }
+
+
   //fires fmistart/fmistop events
   startstop() {
     this.animationstarted = !this.animationstarted;
@@ -77,13 +102,23 @@ export class BdlAnimateControl {
   }
 
   segment() {
-    //play from current position up to the frame on the next segment
-    this.stopframe = this.segmentitems[this.currentsegment];
-    console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
-    this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
-    this.currentsegment++;
-    console.log('AnimateControl segment() nextsegment:', this.currentsegment);
-    this.startstop();
+    if (!this.segmentcond) {
+      //play from current position up to the frame on the next segment
+      this.stopframe = this.segmentitems[this.currentsegment];
+      console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
+      this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
+      this.currentsegment++;
+      console.log('AnimateControl segment() nextsegment:', this.currentsegment);
+      this.startstop();
+    } else {
+      //if segmentcond is set - play until the condition is met
+      //this.stopframe= this.currentsegment+1; //do not know stopframe
+      //register handler
+      //send start signal to fmi
+      console.log('bdlanimatecontrol segments with condition sending fimstart');
+      let event = new CustomEvent('fmistart',{detail:{time:this.frame}});
+      document.getElementById(this.id).dispatchEvent(event);
+    }
   }
 
   nonstopsegment() {

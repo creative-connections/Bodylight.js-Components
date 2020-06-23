@@ -12,6 +12,7 @@ export class Fmi {
   @bindable ticksToUpdate = 200;
   @bindable src;
   @bindable fstepsize=0.01;
+  @bindable controlid;
 
   cosimulation=1;
   stepSize=0.01;//0.0078125;
@@ -41,6 +42,12 @@ export class Fmi {
       this.changeinputs.push({valuereference: e.detail.valuereference, value: e.detail.value}); //detail will hold the value being changed
       console.log('fmi handle detail change', this.changeinputs);
     };
+    this.handleStart = e => {
+      this.startevent(e);
+    }
+    this.handleStop = e=> {
+      this.stopevent(e);
+    }
     this.inst = {};
   }
 
@@ -78,6 +85,11 @@ export class Fmi {
     } else { //src is specified, thus load it - browser loads it at the end, thus adding the rest as callback after loaded
       console.log('init fmi without loading script: fminame, this:', this.fminame, this);
       this.initfmi();
+    }
+
+    if (this.controlid) {
+      document.getElementById(this.controlid).addEventListener('fmistart', this.handleStart);
+      document.getElementById(this.controlid).addEventListener('fmistop', this.handleStop);
     }
   }
 
@@ -239,6 +251,15 @@ export class Fmi {
    */
   getBoolean(query, output, count) {
     return this.fmiGetBoolean(this.fmiinst, query.byteOffset, count, output.byteOffset);
+  }
+
+  startevent(e){
+    console.log('fmi startevent',e);
+    //TODO implement
+  }
+
+  stopevent(e){
+    console.log('fmi stopevent',e);
   }
 
   startstop() {
