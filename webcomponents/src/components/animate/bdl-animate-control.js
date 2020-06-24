@@ -18,7 +18,7 @@ export class BdlAnimateControl {
   constructor() {
     this.handleValueChange = e => {
       //get data - what is
-      console.log('bdlanimatecontrol handleValuechange', e);
+      //console.log('bdlanimatecontrol handleValuechange', e);
       let value = e.detail.data[this.segmentconditions[this.currentsegment].refid];
       this.processValue(value);
     };
@@ -56,14 +56,14 @@ export class BdlAnimateControl {
         let scitem2 = {refid: scitem[0], relation: scf, value: parseFloat(scitem[2])};
         this.segmentconditions.push(scitem2);
       }
-      console.log('bdlanimatecontrol segmentcond', this.segmentconditions);
+      //console.log('bdlanimatecontrol segmentcond', this.segmentconditions);
       //console.log('bdlanimatecontrol fromid', this.fromid);
     //  if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
     }
   }
 
   attached() {
-    console.log('bdlanimatecontrol attached fromid', this.fromid);
+    //console.log('bdlanimatecontrol attached fromid', this.fromid);
     if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
   }
 
@@ -148,7 +148,7 @@ export class BdlAnimateControl {
     //compare with current segment condition
 
     let referencevalue = this.segmentconditions[this.currentsegment].value;
-    console.log('bdlanimatecontrol processValue',value,referencevalue);
+    //console.log('bdlanimatecontrol processValue',value,referencevalue);
     //do stop simulation if the condition in 'relation' is met - returns true
     if (this.segmentconditions[this.currentsegment].relation(value,referencevalue)){
       let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
