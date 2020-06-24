@@ -3,6 +3,7 @@ import {bindable} from 'aurelia-framework';
 
 export class BdlAnimateControl {
   @bindable id; //unique id of this component
+  @bindable fromid; //id of fmi - to listen if segmentcond is specified
   @bindable speedfactor; //0-100
   @bindable segments;
   @bindable segmentlabels;
@@ -14,7 +15,14 @@ export class BdlAnimateControl {
   playsegments=false;
   currentsegmentlabel='';
 
-  constructor(){}
+  constructor() {
+    this.handleValueChange = e => {
+      //get data - what is
+      console.log('bdlanimatecontrol handleValuechange', e);
+      let value = e.detail.data[this.segmentconditions[this.currentsegment].refid];
+      this.processValue(value);
+    };
+  }
 
   bind() {
     if (this.speedfactor) {
@@ -36,7 +44,7 @@ export class BdlAnimateControl {
     let isgreater = (a, b) => {return a > b;};
     let isequal = (a, b)=> {return a === b;};
     let islower = (a, b) => {return a < b;};
-    console.log('bdlanimatecontro segmentcond1:',this.segmentcond);
+    console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
     if (this.segmentcond) {
       this.segmentconditions = [];
       let scs = this.segmentcond.split(';');
@@ -45,11 +53,22 @@ export class BdlAnimateControl {
         let scf = islower;
         if (scitem[1] === 'gt') scf = isgreater;
         else if (scitem[1] === 'eq') scf = isequal;
-        let scitem2 = {'refid': scitem[0], 'relation': scf, 'value': scitem[2]};
+        let scitem2 = {refid: scitem[0], relation: scf, value: parseFloat(scitem[2])};
         this.segmentconditions.push(scitem2);
       }
       console.log('bdlanimatecontrol segmentcond', this.segmentconditions);
+      //console.log('bdlanimatecontrol fromid', this.fromid);
+    //  if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
     }
+  }
+
+  attached() {
+    console.log('bdlanimatecontrol attached fromid', this.fromid);
+    if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
+  }
+
+  detached() {
+    if (this.fromid && document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
   }
 
 
@@ -115,13 +134,28 @@ export class BdlAnimateControl {
       //this.stopframe= this.currentsegment+1; //do not know stopframe
       //register handler
       //send start signal to fmi
-      console.log('bdlanimatecontrol segments with condition sending fimstart');
-      let event = new CustomEvent('fmistart',{detail:{time:this.frame}});
+      console.log('bdlanimatecontrol segments with condition sending fmistart');
+      let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
   }
 
   nonstopsegment() {
+
+  }
+
+  processValue(value) {
+    //compare with current segment condition
+
+    let referencevalue = this.segmentconditions[this.currentsegment].value;
+    console.log('bdlanimatecontrol processValue',value,referencevalue);
+    //do stop simulation if the condition in 'relation' is met - returns true
+    if (this.segmentconditions[this.currentsegment].relation(value,referencevalue)){
+      let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
+      document.getElementById(this.id).dispatchEvent(event);
+      this.currentsegment++;
+      if (this.currentsegment >= this.segmentitems.length) { this.currentsegment = 0; this.frame = 0;}
+    }
 
   }
 }

@@ -3,10 +3,10 @@ import {parseHashParamString} from '../utils';
 export class WatchHashCore {
   constructor() {
     this.params = '';
-    console.log('WatchhashCore');
+    //console.log('WatchhashCore');
     //event listener function needs to be declared this way - they have access to 'this'
     this.handleHashChange = e => {
-      console.log('handleHashChange');
+      //console.log('handleHashChange');
       let params = parseHashParamString(window.location.hash);
       let args = [];
       let index;
@@ -28,7 +28,7 @@ export class WatchHashCore {
     this.paramname = [];
     this.paramindex = [];
     if (!this.params) return;
-    console.log('wtachhashcore.bind() params:', this.params);
+    //console.log('wtachhashcore.bind() params:', this.params);
     let paramconfs = this.params.split(';');
     for (let paramitem of paramconfs) {
       if (paramitem && paramitem.includes(',')) {
@@ -48,7 +48,6 @@ export class WatchHashCore {
   }
 
   changesrc(...args) {
-    console.log('watchhashcore.changesrc()');
+    //console.log('watchhashcore.changesrc()');
   }
-
 }

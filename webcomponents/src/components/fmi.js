@@ -43,11 +43,13 @@ export class Fmi {
       console.log('fmi handle detail change', this.changeinputs);
     };
     this.handleStart = e => {
+      console.log('handlestart');
       this.startevent(e);
-    }
+    };
     this.handleStop = e=> {
+      console.log('handlestop');
       this.stopevent(e);
-    }
+    };
     this.inst = {};
   }
 
@@ -109,7 +111,7 @@ export class Fmi {
       }
     };
 
-    script.src = window.bdlBaseHref? window.bdlBaseHref + source:source;
+    script.src = window.bdlBaseHref ? window.bdlBaseHref + source : source;
     prior.parentNode.insertBefore(script, prior);
   }
 
@@ -253,37 +255,60 @@ export class Fmi {
     return this.fmiGetBoolean(this.fmiinst, query.byteOffset, count, output.byteOffset);
   }
 
-  startevent(e){
-    console.log('fmi startevent',e);
-    //TODO implement
+  startevent(e) {
+    console.log('fmi startevent', e);
+    if (!this.animationstarted) this.startSimulation();
+
   }
 
-  stopevent(e){
-    console.log('fmi stopevent',e);
+  stopevent(e) {
+    console.log('fmi stopevent', e);
+    if (this.animationstarted) this.stopSimulation();
   }
 
+  //action to be performed when clicking the play/pause button
+  //sends fmistart/fmistop event and starts/stops simulation
   startstop() {
     if (this.animationstarted) {
-      //stop animation
-      this.animationstarted = false;
-      cancelAnimationFrame(this.request);
-      //create custom event
-      let event = new CustomEvent('fmistop', {detail: {time: this.round(this.stepTime, this.pow)}});
-      //dispatch event - it should be listened by some other component
-      document.getElementById(this.id).dispatchEvent(event);
+      this.stopSimulation();
+      this.sendStopEvent();
     } else {
-      this.animationstarted = true;
-      //create custom event
-      let event = new CustomEvent('fmistart', {detail: {time: this.round(this.stepTime, this.pow)}});
-      //dispatch event - it should be listened by some other component
-      document.getElementById(this.id).dispatchEvent(event);
-      //animate using requestAnimationFrame
-      const performAnimation = () => {
-        this.request = requestAnimationFrame(performAnimation);
-        this.step();
-      };
-      requestAnimationFrame(performAnimation);
+      this.sendStartEvent();
+      this.startSimulation();
     }
+  }
+
+  //defines action to be done during browser animationframe and starts
+  startSimulation() {
+    this.animationstarted = true;
+    const performAnimation = () => {
+      this.request = requestAnimationFrame(performAnimation);
+      this.step();
+    };
+    requestAnimationFrame(performAnimation);
+  }
+
+  //cancels all action to be done during browser animationframe and starts
+  stopSimulation() {
+    //stop animation
+    this.animationstarted = false;
+    cancelAnimationFrame(this.request);
+  }
+
+  //sends fmistop event
+  sendStopEvent() {
+    //create custom event
+    let event = new CustomEvent('fmistop', {detail: {time: this.round(this.stepTime, this.pow)}});
+    //dispatch event - it should be listened by some other component
+    document.getElementById(this.id).dispatchEvent(event);
+  }
+
+  sendStartEvent() {
+    //create custom event
+    let event = new CustomEvent('fmistart', {detail: {time: this.round(this.stepTime, this.pow)}});
+    //dispatch event - it should be listened by some other component
+    document.getElementById(this.id).dispatchEvent(event);
+    //animate using requestAnimationFrame
   }
 
   round(value, decimals) {

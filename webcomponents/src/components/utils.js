@@ -7,7 +7,7 @@
  * @returns {{}}
  */
 export function parseHashParamString(hash) {
-  console.log('parseHashParamString',hash);
+  //console.log('parseHashParamString',hash);
   let paramsarray = hash.substr(1).split('&');
   let params = {};
   for (let i = 0; i < paramsarray.length; i++) {
