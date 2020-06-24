@@ -134,7 +134,8 @@ export class BdlAnimateControl {
       //this.stopframe= this.currentsegment+1; //do not know stopframe
       //register handler
       //send start signal to fmi
-      console.log('bdlanimatecontrol segments with condition sending fmistart');
+      this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
+      //console.log('bdlanimatecontrol segments with condition sending fmistart');
       let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }

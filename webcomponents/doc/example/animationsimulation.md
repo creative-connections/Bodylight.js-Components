@@ -12,9 +12,9 @@
 
 <bdl-range id="id1" min="40" max="180" step="1" default="60" title="Srdeční tep:"></bdl-range>
 
-| Chartjs xy with borders | Chartjs time-series | chartjs time |
-| ---------- | ------------ |------ |
-| <bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy> | <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2"  refindex="1"  refvalues="3"></bdl-chartjs-time> | 
+| Chartjs xy with borders | Chartjs time-series |
+| ---------- | ------------ |
+| <bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy> | <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3"></bdl-chartjs-time> | 
 | <bdl-chartjs-time id="12" width="400" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time> | <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif> |  
 <bdl-animate-control id="id5" fromid="id4" speedfactor="20" segments="3;5;14;17;29" segmentlabels="4b plnění atriální systola;1 systola komor - isovolumická kontrakce;2 systola komor - ejekce;3 isovolumická relaxace;4a plnění" segmentcond="6,eq,0;7,eq,1;7,eq,0;6,eq,1;5,gt,100000"></bdl-animate-control>
 
