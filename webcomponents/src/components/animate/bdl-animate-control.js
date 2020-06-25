@@ -6,12 +6,15 @@ export class BdlAnimateControl {
   @bindable fromid; //id of fmi - to listen if segmentcond is specified
   @bindable speedfactor; //0-100
   @bindable segments;
+  @bindable simsegments;
   @bindable segmentlabels;
   @bindable controlfmi=false;
   @bindable segmentcond;
   animationstarted = false;
   frame = 0;
+  aframe = 0;
   currentsegment=0;
+  animationframe=0;
   playsegments=false;
   currentsegmentlabel='';
 
@@ -32,10 +35,14 @@ export class BdlAnimateControl {
     //segments are int delimited by ;
     if (this.segments) {
       this.playsegments = true;
-      let segmentstrs = this.segments.split(';');
-      this.segmentitems = segmentstrs.map((yy) => {
+      this.segmentitems = this.segments.split(';').map((yy) => {
         return parseInt(yy, 10);
       });
+      if (this.simsegments) {
+        this.simsegmentitems = this.simsegments.split(';').map((y2) =>{
+          return parseInt(y2, 10);
+        });
+      }
     }
     if (this.segmentlabels) {
       this.segmentlabelarray = this.segmentlabels.split(';');
@@ -97,16 +104,19 @@ export class BdlAnimateControl {
           //if last segment reninit frame from begining
           if (this.currentsegment >= this.segmentitems.length) { this.currentsegment = 0; this.frame = 0;}
         } else {
-          // speedfactor is defined - then timeout slowdown
+          // speedfactor is defined - then requestAnimationFrame is scheduled for later
           if (this.animationstarted) {
             if (this.speedfactor) {
+              //requestAnimationFrame is scheduled for later
               setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
-            } else that.request = requestAnimationFrame(performAnimation);
+            } else
+            //requestAnimationFrame is scheduled immediately
+            {that.request = requestAnimationFrame(performAnimation);}
             //this.step();
           }
         }
       };
-      requestAnimationFrame(performAnimation);
+      this.request = requestAnimationFrame(performAnimation);
     }
   }
 
@@ -130,12 +140,23 @@ export class BdlAnimateControl {
       console.log('AnimateControl segment() nextsegment:', this.currentsegment);
       this.startstop();
     } else {
+
       //if segmentcond is set - play until the condition is met
       //this.stopframe= this.currentsegment+1; //do not know stopframe
       //register handler
       //send start signal to fmi
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
       //console.log('bdlanimatecontrol segments with condition sending fmistart');
+      //this.frame=0;
+      //this.animationframe=0;
+      //compute frame and animationframe step
+      if (this.currentsegment === 0) {
+        this.astep = this.simsegmentitems[this.currentsegment] / this.segmentitems[this.currentsegment];
+      } else {
+        let adif = this.segmentitems[this.currentsegment] - this.segmentitems[this.currentsegment - 1];
+        let sdif = this.simsegmentitems[this.currentsegment] - this.simsegmentitems[this.currentsegment - 1];
+        this.astep = sdif / adif;
+      }
       let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
@@ -147,16 +168,30 @@ export class BdlAnimateControl {
 
   processValue(value) {
     //compare with current segment condition
-
+    this.frame++;
+    this.previous_aframe = this.floor_aframe;
+    this.aframe += this.astep;
+    this.floor_aframe = Math.floor(this.aframe);
+    if (this.floor_aframe > this.previous_aframe) {
+      //fire animation event
+      let event = new CustomEvent('fmidata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
+      //dispatch event - it should be listened by some other component
+      document.getElementById(this.id).dispatchEvent(event);
+    }
     let referencevalue = this.segmentconditions[this.currentsegment].value;
     //console.log('bdlanimatecontrol processValue',value,referencevalue);
+    //compute animation frames
+
     //do stop simulation if the condition in 'relation' is met - returns true
-    if (this.segmentconditions[this.currentsegment].relation(value,referencevalue)){
+    if (this.segmentconditions[this.currentsegment].relation(value, referencevalue)) {
       let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
       this.currentsegment++;
-      if (this.currentsegment >= this.segmentitems.length) { this.currentsegment = 0; this.frame = 0;}
+      if (this.currentsegment >= this.segmentitems.length) {
+        this.currentsegment = 0;
+        this.frame = 0;
+        this.aframe=0;
+      }
     }
-
   }
 }
