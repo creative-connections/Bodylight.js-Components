@@ -16,7 +16,7 @@ describe('Stage App Component', () => {
   it('should render message', done => {
     component.create(bootstrap).then(() => {
       const view = component.element;
-      expect(view.textContent.trim()).toBe('Hello World!');
+      expect(view.textContent.trim()).toBe('Use App for complex components. Use webcomponents to make rich documents with embedded Modelica/FMI model control.');
       done();
     }).catch(e => {
       fail(e);

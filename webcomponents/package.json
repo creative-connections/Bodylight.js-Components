@@ -20,6 +20,7 @@
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
     "gifffer": "^1.5.4",
+    "gulp-protractor": "^4.1.1",
     "highlight.js": "^9.16.2",
     "i18next-resource-store-loader": "^0.1.2",
     "i18next-xhr-backend": "^3.2.2",
