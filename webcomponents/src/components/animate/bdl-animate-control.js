@@ -151,11 +151,11 @@ export class BdlAnimateControl {
       //this.animationframe=0;
       //compute frame and animationframe step
       if (this.currentsegment === 0) {
-        this.astep = this.simsegmentitems[this.currentsegment] / this.segmentitems[this.currentsegment];
+        this.astep = this.segmentitems[this.currentsegment] / this.simsegmentitems[this.currentsegment];
       } else {
         let adif = this.segmentitems[this.currentsegment] - this.segmentitems[this.currentsegment - 1];
         let sdif = this.simsegmentitems[this.currentsegment] - this.simsegmentitems[this.currentsegment - 1];
-        this.astep = sdif / adif;
+        this.astep = adif / sdif;
       }
       let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
@@ -174,7 +174,8 @@ export class BdlAnimateControl {
     this.floor_aframe = Math.floor(this.aframe);
     if (this.floor_aframe > this.previous_aframe) {
       //fire animation event
-      let event = new CustomEvent('fmidata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
+      console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
+      let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
       //dispatch event - it should be listened by some other component
       document.getElementById(this.id).dispatchEvent(event);
     }
@@ -190,7 +191,7 @@ export class BdlAnimateControl {
       if (this.currentsegment >= this.segmentitems.length) {
         this.currentsegment = 0;
         this.frame = 0;
-        this.aframe=0;
+        this.aframe = 0;
       }
     }
   }

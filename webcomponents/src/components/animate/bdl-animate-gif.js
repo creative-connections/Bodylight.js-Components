@@ -18,7 +18,8 @@ export class BdlAnimateGif {
     this.handleStep = e => {
       console.log('AnimatedHeart step event from frame', this.gif.get_current_frame());
       //this.gif.play();
-      if (!this.gif.get_loading()) this.gif.move_relative(1);
+
+      if (!this.gif.get_loading()) this.gif.move_to(e.detail.time);
     };
 
     this.handleStop = e => {
@@ -30,13 +31,13 @@ export class BdlAnimateGif {
 
   attached() {
     //this.imgel - is referenced from view (HTML)
-    console.log('animatedheart2 imgel, width,height', this.imgel,this.width,this.height);
+    console.log('animatedheart2 imgel, width,height', this.imgel, this.width, this.height);
     this.gif = new SuperGif({gif: this.imgel, auto_play: false, rubbable: true, max_width: this.width});
     console.log('animatedheart2 gif', this.gif);
     this.gif.load();
-    document.getElementById(this.fromid).addEventListener('fmistart', this.handleStart);
-    document.getElementById(this.fromid).addEventListener('fmidata', this.handleStep);
-    document.getElementById(this.fromid).addEventListener('fmistop', this.handleStop);
+    document.getElementById(this.fromid).addEventListener('animatestart', this.handleStart);
+    document.getElementById(this.fromid).addEventListener('animatedata', this.handleStep);
+    document.getElementById(this.fromid).addEventListener('animatestop', this.handleStop);
 
   }
 }
