@@ -11,6 +11,7 @@
   * `inputs` id of component, value reference, optional nominator,denominator to normalize `value * nominator / denominator` all delimited by coma`,`, other inputs delimited by semicolon `;` e.g. `inputs="id1,1677323,1,60;id2,16725364"` cause that the value from id1 will be converted `x= valueid1 *1/60` and value from id2 `x = valueid2*1/1` ; 
   * `otherinputs` ids of components which triggers custom event 'fmiinput', it is expected that in event.detail contains 
   this structure `{ valuereference: number, value: number }`
+  * `showcontrols` - default `true`, shows/hides basic control buttons to start/stop/restart simulation 
 
 Example:
 ```xml

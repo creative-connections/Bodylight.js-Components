@@ -11,7 +11,8 @@
   labels="Intrathoracic Arteries,ExtraThoracic Arteries, Pulmonary Arteries, Intrathoracic Veins, Extrathoracic veins, Pulmonary Veins"
   initialdata="0,4,2,3" 
   refindex="2" 
-  refvalues="6"></bdl-chartjs>
+  refvalues="6"
+ animation="true"></bdl-chartjs>
 ``` 
 Creates a chartjs element controlled by Chartjs library.
 <bdl-chartjs 
@@ -25,6 +26,7 @@ Creates a chartjs element controlled by Chartjs library.
   refindex="2" 
   refvalues="6"></bdl-chartjs>
 
+  * `animate` - if `true`, smooth animation (by 500 ms) when data is updated. Default `false`.
 ### ChartJS time
 `<bdl-chartjs-time></bdl-chartjs-time>` time series in chartjs
 
