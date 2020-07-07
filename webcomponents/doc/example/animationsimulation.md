@@ -8,7 +8,8 @@
          valuereferences="33554435,637534265,637534241,637534290,16777312,637534466,637534294,637534268"
          valuelabels="Left Ventricle Volume,Pressure in Left Ventricle,Pressure in Aorta, Pressure in Left Atria, Heart Rate, LA elastance,MV open, AOV open"
          inputs="id1,16777312,1,60"
-         controlid="id5"></bdl-fmi>
+         controlid="id5"
+         showcontrols="false"></bdl-fmi>
 
 <bdl-range id="id1" min="40" max="180" step="1" default="60" title="Srdeční tep:"></bdl-range>
 

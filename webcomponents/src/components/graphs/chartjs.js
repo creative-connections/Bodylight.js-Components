@@ -11,6 +11,7 @@ export class Chartjs {
   @bindable initialdata='';
   @bindable width=600;
   @bindable height=300;
+  @bindable animate=false;
 
   constructor() {
     this.handleValueChange = e => {
@@ -19,7 +20,7 @@ export class Chartjs {
       this.chart.update();
     };
     this.handleReset = e => {
-      console.log('handlereset')
+      console.log('handlereset');
       this.resetdata();
       this.chart.update();
     };
@@ -30,13 +31,13 @@ export class Chartjs {
   }
   //returns color per number so the neighbouring colors are different
   selectColor(number) {
-    const hue = (number-1) * 137.508; // use golden angle approximation
+    const hue = (number - 1) * 137.508; // use golden angle approximation
     return `hsl(${hue},55%,55%)`;
   }
 
   bind() {
     this.refindex = parseInt(this.refindex, 10);
-    this.refvalues= parseInt(this.refvalues, 10);
+    this.refvalues = parseInt(this.refvalues, 10);
     this.refendindex = this.refindex + this.refvalues;
 
     this.chlabels = this.labels.split(',');
@@ -61,17 +62,29 @@ export class Chartjs {
       labels: this.chlabels,
       datasets: datasets
     };
+
+    //set animation options for animation and non-animation
+    let animopts1 = {
+      animateScale: true,
+      animateRotate: true,
+      duration: 500
+    };
+    let animopts2 = {duration: 0};
+    //bind - string value to boolean
+    if (typeof this.animate === 'string') {
+      this.animate = this.animate === 'true';
+    }
+
+    //select options based on attribute value - whether to animate or not
+    let animopts = this.animate ? animopts1 : animopts2;
+
     this.options = {
       responsive: true,
       legend: {
         display: false,
         position: 'top'
       },
-      animation: {
-        animateScale: true,
-        animateRotate: true,
-        duration: 500
-      },
+      animation: animopts,
       tooltips: {
         position: 'nearest',
         mode: 'index',

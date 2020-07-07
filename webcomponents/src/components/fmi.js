@@ -13,6 +13,7 @@ export class Fmi {
   @bindable src;
   @bindable fstepsize=0.01;
   @bindable controlid;
+  @bindable showcontrols=true;
 
   cosimulation=1;
   stepSize=0.01;//0.0078125;
@@ -93,6 +94,10 @@ export class Fmi {
       document.getElementById(this.controlid).addEventListener('fmistart', this.handleStart);
       document.getElementById(this.controlid).addEventListener('fmistop', this.handleStop);
     }
+
+    if (typeof this.showcontrols === 'string') {
+       this.showcontrols = this.showcontrols === 'true';
+     }
   }
 
   //get script element and registers 'onload' callback to be called when the script is loaded

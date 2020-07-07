@@ -6,6 +6,7 @@ export class BdlChartjsPv extends BdlChartjsXy {
   @bindable labels;
   @bindable refindex;
   @bindable refvalues;
+
   constructor(){
     super();
     this.handleValueChange = e => {
