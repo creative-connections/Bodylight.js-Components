@@ -52,12 +52,7 @@ export class Chartjs {
       data: this.mydata,
       backgroundColor: this.colors
     }];
-    /*
-    for (let i = 0; i < this.refvalues; i++) {
-      this.colors.push(this.selectColor(i));
-      datasets.push({data:[0,0.5*i,0.2*i,1.2*i,0.8*i,i], backgroundColor: this.colors})
-    }
-    */
+
     this.data = {
       labels: this.chlabels,
       datasets: datasets
@@ -109,5 +104,44 @@ export class Chartjs {
 
   detached() {
     if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
+  }
+
+  download() {
+    //ask for filename
+    let filename = prompt('File name (*.csv):', 'data.csv');
+    if (filename) {
+      //adds csv as extension
+      if (!filename.endsWith('.csv')) filename = filename.concat('.csv');
+      //labels first row
+      let content = 'Time,' + this.labels + '\n';
+      //transpose each row = variable in specific time
+      for (let i = 0; i < this.chart.data.labels.length; i++) {
+        let row = this.chart.data.labels[i];
+        for (let j = 0; j < this.chart.data.datasets.length; j++) {
+          row += ',' + this.chart.data.datasets[j].data[i];
+        }
+        content += row + '\n';
+      }
+      let blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
+      saveAs(blob, filename);
+    }
+  }
+  downloadflat() {
+    //ask for filename
+    let filename = prompt('File name (*.csv):', 'data.csv');
+    if (filename) {
+      //adds csv as extension
+      if (!filename.endsWith('.csv')) filename = filename.concat('.csv');
+      //labels first row - each row is then all data per variable - transposition might be needed
+      let content = 'variable name,values ...' + '\n';
+      let labels = this.labels.split(',');
+      // variable per row
+      //chart labels - usually time
+      content = content + 'Time,' + this.chart.data.labels.join(',') + '\n';
+      //dataset data on other rows
+      for (let i = 0; i < this.chart.data.datasets.length; i++) {content = content + labels[i] + ',' + this.chart.data.datasets[i].data.join(',') + '\n';}
+      let blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
+      saveAs(blob, filename);
+    }
   }
 }
