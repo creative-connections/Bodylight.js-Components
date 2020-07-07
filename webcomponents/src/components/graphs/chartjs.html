@@ -1,8 +1,8 @@
 <template bindable="id,width,height">
     <div id="canvas-holder">
     <span class="w3-small">
-      <i class="fa fa-download w3-theme-d1" title="download csv data, row=data in time point" click.delegate="download()"></i>
-      <i class="fa fa-download w3-theme-d2" title="download flat csv data, row=all data for variable" click.delegate="downloadflat()"></i>
+      <i class="fa fa-download" title="download csv data, row=data in time point" click.delegate="download()"></i>
+      <i class="fa fa-download fa-rotate-270" title="download flat csv data, row=all data for variable" click.delegate="downloadflat()"></i>
             <!--i class="fa fa-eye w3-border" title="preview csv data" click.delegate="preview()"></i-->
     </span>
     <canvas id="${id}-canvas" ref="chartcanvas" width="${width}" height="${height}"></canvas> <!-- width="${width}" height="${height}" -->
