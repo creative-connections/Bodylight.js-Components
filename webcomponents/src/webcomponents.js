@@ -41,7 +41,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-gif'))
     .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-sync-gif'))
     .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-control'))
-    .globalResources(PLATFORM.moduleName('components/quiz.html'))
+    .globalResources(PLATFORM.moduleName('components/interaction/bdl-quiz'))
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-increase'))
     .globalResources(PLATFORM.moduleName('components/bdl-audio-on-decrease'))
     .globalResources(PLATFORM.moduleName('components/bdl-sound-on-increase'))

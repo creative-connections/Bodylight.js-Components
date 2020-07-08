@@ -11,3 +11,4 @@ Stiskněte tlačítko pro animaci systoly a diastoly:
 
 animace:
 <bdl-animate-gif fromid="id4" src="doc/heart.gif"></bdl-animate-gif>
+

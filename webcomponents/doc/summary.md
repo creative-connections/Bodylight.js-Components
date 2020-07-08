@@ -23,6 +23,7 @@
     * [Animation](#doc/example/animation.md)
     * [Animation segments](#doc/example/animationsegments.md)
     * [Animation segments<br /> sync with simulation](#doc/example/animationsimulation.md)
+    * [Quiz](#doc/example/quiz.md)
   * [About](#doc/about.md)
   <hr/>
   
