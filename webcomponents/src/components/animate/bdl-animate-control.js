@@ -51,8 +51,10 @@ export class BdlAnimateControl {
     let isgreater = (a, b) => {return a > b;};
     let isequal = (a, b)=> {return a === b;};
     let islower = (a, b) => {return a < b;};
-    console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
+    //console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
+    this.eventprefix='animate';
     if (this.segmentcond) {
+      this.eventprefix='fmi';
       this.segmentconditions = [];
       let scs = this.segmentcond.split(';');
       for (let sc of scs) {
@@ -88,30 +90,33 @@ export class BdlAnimateControl {
       console.log('Canceling animation, this, this.request:', this, this.request);
       cancelAnimationFrame(this.request);
       //create custom event
-      let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
+      let event = new CustomEvent(this.eventprefix+'stop', {detail: {time: this.frame}});
       //dispatch event - it should be listened by some other component
       document.getElementById(this.id).dispatchEvent(event);
     } else {
       //this.animationstarted = true;
       let that = this;
+      console.log('startstop() animate using requestAnimationFrame');
       //animate using requestAnimationFrame
       const performAnimation = () => {
         //send event to do animation
-        this.step();
+        console.log('performAnimation()');
+        that.step();
         //decide whether and how to schedule next animation frame
-        if (this.playsegments && this.stopframe > 0 && this.frame > this.stopframe) {
-          this.animationstarted = false;
+        if (that.playsegments && that.stopframe > 0 && that.frame > that.stopframe) {
+          that.animationstarted = false;
           //if last segment reninit frame from begining
-          if (this.currentsegment >= this.segmentitems.length) { this.currentsegment = 0; this.frame = 0;}
+          if (that.currentsegment >= that.segmentitems.length) { that.currentsegment = 0; that.frame = 0;}
         } else {
           // speedfactor is defined - then requestAnimationFrame is scheduled for later
-          if (this.animationstarted) {
-            if (this.speedfactor) {
+          if (that.animationstarted) {
+            if (that.speedfactor) {
               //requestAnimationFrame is scheduled for later
               setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
-            } else
-            //requestAnimationFrame is scheduled immediately
-            {that.request = requestAnimationFrame(performAnimation);}
+            } else {
+              //requestAnimationFrame is scheduled immediately
+              that.request = requestAnimationFrame(performAnimation);
+            }
             //this.step();
           }
         }
@@ -123,8 +128,8 @@ export class BdlAnimateControl {
   step() {
     //create custom event
     let event = this.frame === 0
-      ? new CustomEvent('fmistart', {detail: {time: this.frame}}) //send start signal on frame 0
-      : new CustomEvent('fmidata', {detail: {time: this.frame}}); //send data signal - i.e. continue after pause
+      ? new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}}) //send start signal on frame 0
+      : new CustomEvent(this.eventprefix+'data', {detail: {time: this.frame}}); //send data signal - i.e. continue after pause
     //dispatch event - it should be listened by some other component
     document.getElementById(this.id).dispatchEvent(event);
     this.frame++;
@@ -157,7 +162,7 @@ export class BdlAnimateControl {
         let sdif = this.simsegmentitems[this.currentsegment] - this.simsegmentitems[this.currentsegment - 1];
         this.astep = adif / sdif;
       }
-      let event = new CustomEvent('fmistart', {detail: {time: this.frame}});
+      let event = new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
   }
