@@ -162,6 +162,7 @@ export class BdlAnimateControl {
         let sdif = this.simsegmentitems[this.currentsegment] - this.simsegmentitems[this.currentsegment - 1];
         this.astep = adif / sdif;
       }
+      console.log('BdlAnimateControl segment() astep', this.astep);
       let event = new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
@@ -173,31 +174,40 @@ export class BdlAnimateControl {
 
   processValue(value) {
     //compare with current segment condition
-    this.frame++;
-    this.previous_aframe = this.floor_aframe;
-    this.aframe += this.astep;
-    this.floor_aframe = Math.floor(this.aframe);
-    if (this.floor_aframe > this.previous_aframe) {
-      //fire animation event
-      console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
-      let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
-      //dispatch event - it should be listened by some other component
-      document.getElementById(this.id).dispatchEvent(event);
-    }
-    let referencevalue = this.segmentconditions[this.currentsegment].value;
-    //console.log('bdlanimatecontrol processValue',value,referencevalue);
-    //compute animation frames
-
     //do stop simulation if the condition in 'relation' is met - returns true
+    let referencevalue = this.segmentconditions[this.currentsegment].value;
     if (this.segmentconditions[this.currentsegment].relation(value, referencevalue)) {
+      //set aframe to the boundary frame;
+      this.aframe = this.segmentitems[this.currentsegment];
+      this.floor_aframe = Math.floor(this.aframe);
       let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
+
       this.currentsegment++;
       if (this.currentsegment >= this.segmentitems.length) {
         this.currentsegment = 0;
         this.frame = 0;
         this.aframe = 0;
       }
+    } else {
+      //do step
+      this.frame++;
+      this.previous_aframe = this.floor_aframe;
+      this.aframe += this.astep;
+      this.floor_aframe = Math.floor(this.aframe);
+      //if step - hits over a integer number
+      if (this.floor_aframe > this.previous_aframe) {
+        //fire animation event
+        console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
+        //do animation only if the aframe is lower than the prescribed boundary frame
+        if (this.floor_aframe <= this.segmentitems[this.currentsegment]) {
+          let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
+          //dispatch event - it should be listened by some other component
+          document.getElementById(this.id).dispatchEvent(event);
+        }
+      }
     }
+    //console.log('bdlanimatecontrol processValue',value,referencevalue);
+    //compute animation frames
   }
 }

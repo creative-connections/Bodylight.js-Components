@@ -16,7 +16,7 @@ export class BdlAnimateGif {
       if (!this.gif.get_loading()) this.gif.move_to(0);
     };
     this.handleStep = e => {
-      //console.log('AnimatedHeart step event from frame', this.gif.get_current_frame());
+      console.log('BdlAnimateGif step event from frame ' + this.gif.get_current_frame() + ' to frame ' + e.detail.time);
       //this.gif.play();
 
       if (!this.gif.get_loading()) {

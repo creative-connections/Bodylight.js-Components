@@ -44,11 +44,11 @@ export class Fmi {
       console.log('fmi handle detail change', this.changeinputs);
     };
     this.handleStart = e => {
-      console.log('handlestart');
+      //console.log('handlestart');
       this.startevent(e);
     };
     this.handleStop = e=> {
-      console.log('handlestop');
+      //console.log('handlestop');
       this.stopevent(e);
     };
     this.inst = {};
@@ -261,13 +261,13 @@ export class Fmi {
   }
 
   startevent(e) {
-    console.log('fmi startevent', e);
+    //console.log('fmi startevent', e);
     if (!this.animationstarted) this.startSimulation();
 
   }
 
   stopevent(e) {
-    console.log('fmi stopevent', e);
+    //console.log('fmi stopevent', e);
     if (this.animationstarted) this.stopSimulation();
   }
 
