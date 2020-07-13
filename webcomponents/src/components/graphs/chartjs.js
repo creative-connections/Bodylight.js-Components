@@ -7,11 +7,12 @@ export class Chartjs {
   @bindable refindex;
   @bindable refvalues;
   @bindable type='doughnut';
-  @bindable maxdata=300;
+  @bindable maxdata=512;
   @bindable initialdata='';
   @bindable width=600;
   @bindable height=300;
   @bindable animate=false;
+  @bindable id;
 
   constructor() {
     this.handleValueChange = e => {
@@ -45,7 +46,10 @@ export class Chartjs {
     let mydatastr = this.initialdata.split(',');
     this.mydata = mydatastr.map(x => {return parseFloat(x);});
     for (let i = 0; i < this.refvalues; i++) {
-      if (!this.mydata[i]) this.mydata.push(0);
+      if (!this.mydata[i]) {
+        //this.mydata.push(0);
+        console.log('chartjsno data');
+      }
       this.colors.push(this.selectColor(i));
     }
     let datasets = [{

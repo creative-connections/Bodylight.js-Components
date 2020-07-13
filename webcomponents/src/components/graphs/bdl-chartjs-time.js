@@ -42,8 +42,9 @@ export class BdlChartjsTime extends Chartjs {
     let datasets = []; let timelabels = [];
     let mydata1 = this.initialdata.split(';');
     for (let i = 0; i < this.refvalues; i++) {
-      let mydata2 = (mydata1[i])? mydata1[i].split(','):['0'];
+      let mydata2 = (mydata1[i]) ? mydata1[i].split(','):[];
       this.mydata[i] = mydata2.map(x => {return parseFloat(x);});
+      //console.log('chartjstime mydata i',this.mydata[i]);
     }
 
     for (let i = 0; i < this.refvalues; i++) {
