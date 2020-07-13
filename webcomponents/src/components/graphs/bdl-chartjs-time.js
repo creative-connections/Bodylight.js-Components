@@ -20,7 +20,11 @@ export class BdlChartjsTime extends Chartjs {
       let j = 0;
       for (let i = this.refindex; i < this.refindex + this.refvalues; i++) {
         //adds data to datasets
-        this.chart.data.datasets[j].data.push(e.detail.data[i]);
+
+        //if convert operation is defined as array then convert
+        if (this.operation && this.operation[j]) this.chart.data.datasets[j].data.push(this.operation[j](e.detail.data[i]));
+        //else push data directly
+        else this.chart.data.datasets[j].data.push(e.detail.data[i]);
         if (this.chart.data.datasets[j].data.length > this.maxdata) {
           //console.log('shifting dataset chartjs-time', this.chart.data.datasets[j].data);
           this.chart.data.datasets[j].data.shift();
@@ -42,7 +46,7 @@ export class BdlChartjsTime extends Chartjs {
     let datasets = []; let timelabels = [];
     let mydata1 = this.initialdata.split(';');
     for (let i = 0; i < this.refvalues; i++) {
-      let mydata2 = (mydata1[i]) ? mydata1[i].split(','):[];
+      let mydata2 = (mydata1[i]) ? mydata1[i].split(',') : [];
       this.mydata[i] = mydata2.map(x => {return parseFloat(x);});
       //console.log('chartjstime mydata i',this.mydata[i]);
     }

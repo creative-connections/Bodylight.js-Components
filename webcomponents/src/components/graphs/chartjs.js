@@ -13,11 +13,24 @@ export class Chartjs {
   @bindable height=300;
   @bindable animate=false;
   @bindable id;
+  @bindable ylabel;
+  @bindable xlabel;
+  @bindable convertors;
 
   constructor() {
     this.handleValueChange = e => {
       //sets data to dataset
-      this.chart.data.datasets[0].data = e.detail.data.slice(this.refindex, this.refendindex);
+      //apply value convert among all data
+      let rawdata = e.detail.data.slice(this.refindex, this.refendindex);
+      //if convert operation is defined as array
+      if (this.operation)
+        for (let i=0; i<rawdata.length; i++){
+          //if particular operation is defined
+          if (this.operation[i]) rawdata[i] = this.operation[i](rawdata[i]);
+        }
+      this.chart.data.datasets[0].data = rawdata;
+      //apply value convert among all data
+
       this.chart.update();
     };
     this.handleReset = e => {
@@ -40,6 +53,21 @@ export class Chartjs {
     this.refindex = parseInt(this.refindex, 10);
     this.refvalues = parseInt(this.refvalues, 10);
     this.refendindex = this.refindex + this.refvalues;
+
+    if (this.convertors) {
+      let convertvalues = this.convertors.split(';');
+      let identity = x => x;
+      this.operation = []
+      for (let i=0;i<convertvalues.length;i++) {
+        let convertitems = convertvalues[i].split(',');
+        if (convertitems[0]==='1' && convertitems[1]==='1') this.operation.push(identity);
+        else {
+          let numerator = parseFloat(convertitems[0]);
+          let denominator= parseFloat(convertitems[1]);
+          this.operation.push( x=> x*numerator/denominator );
+        }
+      }
+    }
 
     this.chlabels = this.labels.split(',');
     this.colors = [];
@@ -77,10 +105,29 @@ export class Chartjs {
     //select options based on attribute value - whether to animate or not
     let animopts = this.animate ? animopts1 : animopts2;
 
+    //if defined in xlabel and ylabel - set labels for axes in chartjs opts
+    let axisopts = {};
+    if (this.ylabel) {
+      axisopts.yAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.ylabel
+        }
+      }];
+    }
+    if (this.xlabel) {
+      axisopts.xAxes = [{
+        scaleLabel: {
+          display: true,
+          labelString: this.xlabel
+        }
+      }];
+    }
+
     this.options = {
       responsive: true,
       legend: {
-        display: false,
+        //display: false,
         position: 'top'
       },
       animation: animopts,
@@ -88,7 +135,8 @@ export class Chartjs {
         position: 'nearest',
         mode: 'index',
         intersect: false
-      }
+      },
+      scales: axisopts
     };
   }
 

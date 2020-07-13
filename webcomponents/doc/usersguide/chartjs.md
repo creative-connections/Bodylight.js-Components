@@ -12,7 +12,8 @@
   initialdata="0,4,2,3" 
   refindex="2" 
   refvalues="6"
- animation="true"></bdl-chartjs>
+  animation="true"
+  convertors="numerator1,denominator1;numerator2,denominator2"></bdl-chartjs>
 ``` 
 Creates a chartjs element controlled by Chartjs library.
 <bdl-chartjs 
@@ -26,6 +27,8 @@ Creates a chartjs element controlled by Chartjs library.
   refindex="2" 
   refvalues="6"></bdl-chartjs>
 
+If `convertors` are defined - then raw data obtained from fmi - via refvalues are converted as x=x*numerator/denominator;
+By default - no convertors - raw data (usually in SI) are presented in chart.
   * `animate` - if `true`, smooth animation (by 500 ms) when data is updated. Default `false`.
 ### ChartJS time
 `<bdl-chartjs-time></bdl-chartjs-time>` time series in chartjs
