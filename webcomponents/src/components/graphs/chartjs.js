@@ -16,18 +16,20 @@ export class Chartjs {
   @bindable ylabel;
   @bindable xlabel;
   @bindable convertors;
-
+  @bindable verticalline=false;
+  @bindable sectionid;  //id to listen addsection event
   constructor() {
     this.handleValueChange = e => {
       //sets data to dataset
       //apply value convert among all data
       let rawdata = e.detail.data.slice(this.refindex, this.refendindex);
       //if convert operation is defined as array
-      if (this.operation)
-        for (let i=0; i<rawdata.length; i++){
-          //if particular operation is defined
+      if (this.operation) {
+        for (let i = 0; i < rawdata.length; i++) {
+        //if particular operation is defined
           if (this.operation[i]) rawdata[i] = this.operation[i](rawdata[i]);
         }
+      }
       this.chart.data.datasets[0].data = rawdata;
       //apply value convert among all data
 
@@ -37,6 +39,9 @@ export class Chartjs {
       console.log('handlereset');
       this.resetdata();
       this.chart.update();
+    };
+    this.handleAddSection = e => {
+      this.addSection();
     };
   }
 
@@ -57,14 +62,14 @@ export class Chartjs {
     if (this.convertors) {
       let convertvalues = this.convertors.split(';');
       let identity = x => x;
-      this.operation = []
-      for (let i=0;i<convertvalues.length;i++) {
+      this.operation = [];
+      for (let i = 0; i < convertvalues.length; i++) {
         let convertitems = convertvalues[i].split(',');
-        if (convertitems[0]==='1' && convertitems[1]==='1') this.operation.push(identity);
+        if (convertitems[0] === '1' && convertitems[1] === '1') this.operation.push(identity);
         else {
           let numerator = parseFloat(convertitems[0]);
-          let denominator= parseFloat(convertitems[1]);
-          this.operation.push( x=> x*numerator/denominator );
+          let denominator = parseFloat(convertitems[1]);
+          this.operation.push( x=> x * numerator / denominator );
         }
       }
     }
@@ -133,11 +138,20 @@ export class Chartjs {
       animation: animopts,
       tooltips: {
         position: 'nearest',
-        mode: 'index',
+        mode: 'x-axis',
         intersect: false
       },
       scales: axisopts
     };
+    if (typeof this.verticalline === 'string') {
+      this.verticalline = this.verticalline === 'true';
+    }
+
+    //if sections are requested - define chartjs plugin to draw it in background
+    if (this.sectionid) {
+      this.options.section=[];
+    }
+
   }
 
   attached() {
@@ -145,13 +159,87 @@ export class Chartjs {
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
     document.getElementById(this.fromid).addEventListener('fmireset', this.handleReset);
     //this.chartcanvas; - reference to the DOM canvas
+    if (this.sectionid)
+    document.getElementById(this.sectionid).addEventListener('addsection', this.handleAddSection);
 
     let ctx = this.chartcanvas.getContext('2d');
+
+    //for verticalline option - register controller for Chartjs
+    if (this.verticalline) {
+      Chart.defaults.LineWithLine = Chart.defaults.line;
+      Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+        draw: function(ease) {
+          Chart.controllers.line.prototype.draw.call(this, ease);
+          if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+            let activePoint = this.chart.tooltip._active[0];
+            let ctx = this.chart.ctx;
+            let x = activePoint.tooltipPosition().x;
+            let topY = this.chart.legend.bottom;
+            let bottomY = this.chart.chartArea.bottom;
+
+            // draw line
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, topY);
+            ctx.lineTo(x, bottomY);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#555';
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      });
+    }
+
+    //for sections register chartjs plugin
+    if (this.sectionid) {
+      Chart.pluginService.register({
+        beforeDraw: function (chart, easing) {
+          if (chart.config.options.section && chart.config.options.section.length>0) {
+            var ctx = chart.chart.ctx;
+            var chartArea = chart.chartArea;
+            var meta = chart.getDatasetMeta(0);
+            var i;
+            ctx.save();
+            for (i=1;i<chart.config.options.section.length;i++) {
+              var start = meta.data[chart.config.options.section[i-1]]._model.x;
+              var stop  = meta.data[chart.config.options.section[i]]._model.x;
+
+              //console.log (start,stop);
+              const hue = (i - 1) * 137.508; // use golden angle approximation
+              var color = `hsl(${hue},85%,91%)`;
+              ctx.fillStyle = color;
+              //console.log (chartArea);
+              ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
+            }
+            ctx.restore();
+            //console.log('last i',i);
+            //last section
+            if (chart.config.options.section[i-1]<(meta.data.length-1)) {
+              //draw last section
+              var start = meta.data[chart.config.options.section[i-1]]._model.x;
+              var stop  = meta.data[meta.data.length-1]._model.x;
+
+              //console.log (start,stop);
+              const hue = (i - 1) * 137.508; // use golden angle approximation
+              var color = `hsl(${hue},85%,91%)`;
+              ctx.fillStyle = color;
+              //console.log (chartArea);
+              ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
+            }
+          }
+        }
+      });
+    }
+
     this.chart = new Chart(ctx, {
       type: this.type,
       data: this.data,
-      options: this.options
+      options: this.options,
+      tooltipEvents: ['mousemove', 'touchstart', 'touchmove', 'click']
     });
+
+
   }
 
   detached() {
@@ -195,5 +283,11 @@ export class Chartjs {
       let blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
       saveAs(blob, filename);
     }
+  }
+
+  //adds new section - index of last data element
+  addSection(){
+    console.log('chartjs.addsection()',this.chart.data.data.labels.length-1);
+    this.chart.config.options.section.push(this.chart.data.data.labels.length-1);
   }
 }

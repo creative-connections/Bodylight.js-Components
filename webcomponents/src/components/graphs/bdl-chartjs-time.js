@@ -69,7 +69,8 @@ export class BdlChartjsTime extends Chartjs {
       labels: timelabels,
       datasets: datasets
     };
-    this.type = 'line';
+    if (this.verticalline) this.type = 'LineWithLine';
+    else this.type = 'line';
   }
 
   resetdata() {

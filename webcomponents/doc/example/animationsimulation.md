@@ -15,7 +15,7 @@
 
 | Chartjs xy with borders | Chartjs time-series |
 | ---------- | ------------ |
-| <bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy> | <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3"></bdl-chartjs-time> | 
+| <bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy> | <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true" sectionid="id5"></bdl-chartjs-time> | 
 | <bdl-chartjs-time id="id12" width="400" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time> | <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif> |  
 
 <bdl-animate-control 

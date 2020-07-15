@@ -30,6 +30,7 @@ Creates a chartjs element controlled by Chartjs library.
 If `convertors` are defined - then raw data obtained from fmi - via refvalues are converted as x=x*numerator/denominator;
 By default - no convertors - raw data (usually in SI) are presented in chart.
   * `animate` - if `true`, smooth animation (by 500 ms) when data is updated. Default `false`.
+  * `sectionid` - if set, then listens the component with this id for 'addsection' event, bind it to `bdl-animatecontrol` component
 ### ChartJS time
 `<bdl-chartjs-time></bdl-chartjs-time>` time series in chartjs
 
