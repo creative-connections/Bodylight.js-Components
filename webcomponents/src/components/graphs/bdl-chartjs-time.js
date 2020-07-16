@@ -34,11 +34,11 @@ export class BdlChartjsTime extends Chartjs {
       this.chart.data.labels.push(e.detail.time);
       if (this.chart.data.labels.length > this.maxdata) {
         this.chart.data.labels.shift();
-        if (this.sectionid){
+        if (this.sectionid) {
           //shift sections
           if (this.chart.config.options.section[0] === 0) this.chart.config.options.section.shift();
           //decrement all indices in sections
-          for (item of this.chart.config.options.section) item--;
+          for (let i = 0; i < this.chart.config.options.section.length; i++) this.chart.config.options.section[i] -= 1;
         }
       }
       //shift - remove first element if data is too big
@@ -66,7 +66,7 @@ export class BdlChartjsTime extends Chartjs {
     for (let i = 0; i < this.refvalues; i++) {
       //this.colors.push(this.selectColor(i));
       datasets.push({
-        data: this.mydata[i+1],
+        data: this.mydata[i + 1],
         label: this.chlabels[i],
         backgroundColor: this.selectColor(i),
         borderColor: this.selectColor(i),

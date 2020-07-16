@@ -13,17 +13,17 @@
 
 <bdl-range id="id1" min="40" max="180" step="1" default="60" title="Srdeční tep:"></bdl-range>
 <div class="w3-row">
-<div class="w3-col s12 l3">
-<bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy>
+<div class="w3-col s12 l6">
+<bdl-chartjs-xy id="id10" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy>
 </div>
-<div class="w3-col s12 l3">
- <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true" sectionid="id5"></bdl-chartjs-time>
+<div class="w3-col s12 l6">
+ <bdl-chartjs-time   id="id11" fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true" sectionid="id5" maxdata="128"></bdl-chartjs-time>
  </div>
- <div class="w3-col s12 l3"> 
-<bdl-chartjs-time id="id12" width="400" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time>
+ <div class="w3-col s12 l6"> 
+<bdl-chartjs-time id="id12" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time>
 </div>
- <div class="w3-col s12 l3"> 
-<bdl-chartjs-time   id="id13"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true"></bdl-chartjs-time>
+ <div class="w3-col s12 l6"> 
+<bdl-chartjs-time   id="id13" fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true"></bdl-chartjs-time>
 </div>
 <div class="w3-col s12 l3">
  <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif>

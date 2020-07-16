@@ -7,7 +7,7 @@ export class Chartjs {
   @bindable refindex;
   @bindable refvalues;
   @bindable type='doughnut';
-  @bindable maxdata=512;
+  @bindable maxdata=256;
   @bindable initialdata='';
   @bindable width=600;
   @bindable height=300;
@@ -167,6 +167,10 @@ export class Chartjs {
       this.verticalline = this.verticalline === 'true';
     }
 
+    if (typeof this.maxdata === 'string') {
+      this.maxdata= parseInt(this.maxdata)
+    }
+
     //if sections are requested - define chartjs plugin to draw it in background
     if (this.sectionid) {
       this.options.section = [];
@@ -222,9 +226,9 @@ export class Chartjs {
             let meta = chart.getDatasetMeta(0);
             let i;
             ctx.save();
-            console.log('chartjs meta.data',meta.data);
+            //console.log('chartjs meta.data',meta.data);
             for (i = 1; i < chart.config.options.section.length; i++) {
-              console.log('chartjs sectionplugin:i, section[i-1], section[1],start,stop)', i, chart.config.options.section[i - 1],chart.config.options.section[i]);
+              //console.log('chartjs sectionplugin:i, section[i-1], section[1],start,stop)', i, chart.config.options.section[i - 1],chart.config.options.section[i]);
               var start = meta.data[chart.config.options.section[i - 1]]._model.x;
               var stop  = meta.data[chart.config.options.section[i]]._model.x;
               const hue = (i - 1) * 137.508; // use golden angle approximation

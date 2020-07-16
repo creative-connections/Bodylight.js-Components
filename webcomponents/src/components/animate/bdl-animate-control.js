@@ -87,7 +87,7 @@ export class BdlAnimateControl {
     if (! this.animationstarted) {
       //stop animation
       //this.animationstarted = false;
-      console.log('Canceling animation, this, this.request:', this, this.request);
+      //console.log('Canceling animation, this, this.request:', this, this.request);
       cancelAnimationFrame(this.request);
       //create custom event
       let event = new CustomEvent(this.eventprefix+'stop', {detail: {time: this.frame}});
@@ -96,11 +96,11 @@ export class BdlAnimateControl {
     } else {
       //this.animationstarted = true;
       let that = this;
-      console.log('startstop() animate using requestAnimationFrame');
+      //console.log('startstop() animate using requestAnimationFrame');
       //animate using requestAnimationFrame
       const performAnimation = () => {
         //send event to do animation
-        console.log('performAnimation()');
+        //console.log('performAnimation()');
         that.step();
         //decide whether and how to schedule next animation frame
         if (that.playsegments && that.stopframe > 0 && that.frame > that.stopframe) {
@@ -139,10 +139,10 @@ export class BdlAnimateControl {
     if (!this.segmentcond) {
       //play from current position up to the frame on the next segment
       this.stopframe = this.segmentitems[this.currentsegment];
-      console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
+      //console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
       this.currentsegment++;
-      console.log('AnimateControl segment() nextsegment:', this.currentsegment);
+      //console.log('AnimateControl segment() nextsegment:', this.currentsegment);
       this.startstop();
     } else {
 
@@ -162,7 +162,7 @@ export class BdlAnimateControl {
         let sdif = this.simsegmentitems[this.currentsegment] - this.simsegmentitems[this.currentsegment - 1];
         this.astep = adif / sdif;
       }
-      console.log('BdlAnimateControl segment() astep', this.astep);
+      //console.log('BdlAnimateControl segment() astep', this.astep);
       let event = new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
@@ -201,7 +201,7 @@ export class BdlAnimateControl {
       //if step - hits over a integer number
       if (this.floor_aframe > this.previous_aframe) {
         //fire animation event
-        console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
+        //console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
         //do animation only if the aframe is lower than the prescribed boundary frame
         if (this.floor_aframe <= this.segmentitems[this.currentsegment]) {
           let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
