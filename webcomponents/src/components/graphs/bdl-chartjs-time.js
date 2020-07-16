@@ -32,41 +32,53 @@ export class BdlChartjsTime extends Chartjs {
         j++;
       }
       this.chart.data.labels.push(e.detail.time);
-      if (this.chart.data.labels.length > this.maxdata) this.chart.data.labels.shift();
+      if (this.chart.data.labels.length > this.maxdata) {
+        this.chart.data.labels.shift();
+        if (this.sectionid){
+          //shift sections
+          if (this.chart.config.options.section[0] === 0) this.chart.config.options.section.shift();
+          //decrement all indices in sections
+          for (item of this.chart.config.options.section) item--;
+        }
+      }
       //shift - remove first element if data is too big
       //console.log('chartjs handlevaluechange() chart.data.datasets[0].data', this.chart.data.datasets[0].data);
       this.chart.update();
     };
   }
 
+  /**
+   * sets all tim-series specific options for chartjs
+   */
   bind() {
     super.bind();
-    this.chlabels = this.labels.split(',');
-    this.colors = [];
+    this.chlabels = this.labels.split(','); //labels for each dataset
+    //this.colors = [];
     let datasets = []; let timelabels = [];
     let mydata1 = this.initialdata.split(';');
-    for (let i = 0; i < this.refvalues; i++) {
+    for (let i = 0; i < (this.refvalues + 1); i++) { //mydata[0] == timelabels in x axis, mydata[1..n] ar in y axis
       let mydata2 = (mydata1[i]) ? mydata1[i].split(',') : [];
       this.mydata[i] = mydata2.map(x => {return parseFloat(x);});
       //console.log('chartjstime mydata i',this.mydata[i]);
     }
 
+    //initialize colors for each dataset
     for (let i = 0; i < this.refvalues; i++) {
-      this.colors.push(this.selectColor(i));
+      //this.colors.push(this.selectColor(i));
       datasets.push({
-        data: this.mydata[i],
+        data: this.mydata[i+1],
         label: this.chlabels[i],
-        backgroundColor: this.colors[i],
-        borderColor: this.colors[i],
+        backgroundColor: this.selectColor(i),
+        borderColor: this.selectColor(i),
         borderWidth: 1,
         pointRadius: 1,
         fill: false
       });
-      timelabels.push(i);
+      //timelabels.push(i);
     }
 
     this.data = {
-      labels: timelabels,
+      labels: this.mydata[0],
       datasets: datasets
     };
     if (this.verticalline) this.type = 'LineWithLine';
@@ -74,11 +86,7 @@ export class BdlChartjsTime extends Chartjs {
   }
 
   resetdata() {
-    let j = 0;
-    for (let i = this.refindex; i < this.refindex + this.refvalues; i++) {
-      this.chart.data.datasets[j].data = [];
-      this.chart.data.labels = [];
-      j++;
-    }
+    super.resetdata();
+    this.chart.data.labels = [];
   }
 }

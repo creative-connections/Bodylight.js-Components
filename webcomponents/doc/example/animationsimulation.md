@@ -12,12 +12,23 @@
          showcontrols="false"></bdl-fmi>
 
 <bdl-range id="id1" min="40" max="180" step="1" default="60" title="Srdeční tep:"></bdl-range>
-
-| Chartjs xy with borders | Chartjs time-series |
-| ---------- | ------------ |
-| <bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy> | <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true" sectionid="id5"></bdl-chartjs-time> | 
-| <bdl-chartjs-time id="id12" width="400" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time> | <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif> |  
-
+<div class="w3-row">
+<div class="w3-col s12 l3">
+<bdl-chartjs-xy id="id10" width="400" height="400" fromid="id4" labels="Pressure in Left Ventricle, Left Ventricle Volume" initialdata=";;0,0.00015;0,28000;0,0.00015;0,1400" refindex="0" refvalues="2"></bdl-chartjs-xy>
+</div>
+<div class="w3-col s12 l3">
+ <bdl-chartjs-time   id="id11"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true" sectionid="id5"></bdl-chartjs-time>
+ </div>
+ <div class="w3-col s12 l3"> 
+<bdl-chartjs-time id="id12" width="400" fromid="id4" labels="LA elastance" refindex="5" refvalues="1"></bdl-chartjs-time>
+</div>
+ <div class="w3-col s12 l3"> 
+<bdl-chartjs-time   id="id13"  width="700"  height="400"  fromid="id4"  labels="Pressure in Aorta,Pressure in Left Ventricle, Left Ventricle Volume" refindex="1"  refvalues="3" verticalline="true"></bdl-chartjs-time>
+</div>
+<div class="w3-col s12 l3">
+ <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif>
+</div>
+<div class="w3-col s12 l3">
 <bdl-animate-control 
 id="id5" 
 fromid="id4" 
@@ -26,5 +37,6 @@ segments="3;5;14;17;29"
 segmentlabels="4b plnění atriální systola;1 systola komor - isovolumická kontrakce;2 systola komor - ejekce;3 isovolumická relaxace;4a plnění" 
 segmentcond="6,eq,0;7,eq,1;7,eq,0;6,eq,1;5,gt,100000" 
 simsegments="14;24;35;52;76"></bdl-animate-control>
-
+</div>
+</div>
 

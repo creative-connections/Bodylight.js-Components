@@ -18,6 +18,10 @@ export class Chartjs {
   @bindable convertors;
   @bindable verticalline=false;
   @bindable sectionid;  //id to listen addsection event
+
+  /**
+   * initializes handlers for event processing - this is recommended way
+   */
   constructor() {
     this.handleValueChange = e => {
       //sets data to dataset
@@ -31,8 +35,6 @@ export class Chartjs {
         }
       }
       this.chart.data.datasets[0].data = rawdata;
-      //apply value convert among all data
-
       this.chart.update();
     };
     this.handleReset = e => {
@@ -45,20 +47,33 @@ export class Chartjs {
     };
   }
 
+  /**
+   * empties data in every dataset and empties section
+   */
   resetdata() {
-    this.chart.data.datasets[0].data = [];
+    for (let dataset of this.chart.data.dataset) dataset.data = [];
+    if (this.sectionid) this.chart.config.options.section = [];
   }
-  //returns color per number so the neighbouring colors are different
-  selectColor(number) {
-    const hue = (number - 1) * 137.508; // use golden angle approximation
+
+  /**
+   * Returns unique color per index- neighbouring colors are different using golden angle approximation
+   * @param index
+   * @returns {string} usable by CSS or DOM elements
+   */
+  selectColor(index) {
+    const hue = (index - 1) * 137.508; // use golden angle approximation
     return `hsl(${hue},55%,55%)`;
   }
 
+  /**
+   * process all attributes of <bdl-chart> component and sets appropriate settings of subesquent chartjs
+   */
   bind() {
     this.refindex = parseInt(this.refindex, 10);
     this.refvalues = parseInt(this.refvalues, 10);
     this.refendindex = this.refindex + this.refvalues;
 
+    //configure convertors - used to convert units received from fmi
     if (this.convertors) {
       let convertvalues = this.convertors.split(';');
       let identity = x => x;
@@ -74,6 +89,8 @@ export class Chartjs {
       }
     }
 
+    //sets color of each dataset as different as possible
+    //and set initial data in chart
     this.chlabels = this.labels.split(',');
     this.colors = [];
     let mydatastr = this.initialdata.split(',');
@@ -85,6 +102,7 @@ export class Chartjs {
       }
       this.colors.push(this.selectColor(i));
     }
+
     let datasets = [{
       data: this.mydata,
       backgroundColor: this.colors
@@ -95,22 +113,22 @@ export class Chartjs {
       datasets: datasets
     };
 
-    //set animation options for animation and non-animation
+    //bind - string value to boolean
+    if (typeof this.animate === 'string') {
+      this.animate = this.animate === 'true';
+    }
+    //set animation options
     let animopts1 = {
       animateScale: true,
       animateRotate: true,
       duration: 500
     };
     let animopts2 = {duration: 0};
-    //bind - string value to boolean
-    if (typeof this.animate === 'string') {
-      this.animate = this.animate === 'true';
-    }
 
     //select options based on attribute value - whether to animate or not
     let animopts = this.animate ? animopts1 : animopts2;
 
-    //if defined in xlabel and ylabel - set labels for axes in chartjs opts
+    //set labels for axes in chartjs opts
     let axisopts = {};
     if (this.ylabel) {
       axisopts.yAxes = [{
@@ -129,6 +147,7 @@ export class Chartjs {
       }];
     }
 
+    //initialize options - used later by chartjs instance
     this.options = {
       responsive: true,
       legend: {
@@ -143,24 +162,26 @@ export class Chartjs {
       },
       scales: axisopts
     };
+    //sets boolean value - if verticalline attribute is set
     if (typeof this.verticalline === 'string') {
       this.verticalline = this.verticalline === 'true';
     }
 
     //if sections are requested - define chartjs plugin to draw it in background
     if (this.sectionid) {
-      this.options.section=[];
+      this.options.section = [];
     }
-
   }
 
+  /**
+   * this is called when the DOM is attached to view - instantiate the chartjs and sets all necesary binding
+   */
   attached() {
     //listening to custom event fmidata and fmireset
     document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);
     document.getElementById(this.fromid).addEventListener('fmireset', this.handleReset);
     //this.chartcanvas; - reference to the DOM canvas
-    if (this.sectionid)
-    document.getElementById(this.sectionid).addEventListener('addsection', this.handleAddSection);
+    if (this.sectionid) {document.getElementById(this.sectionid).addEventListener('addsection', this.handleAddSection);}
 
     let ctx = this.chartcanvas.getContext('2d');
 
@@ -194,31 +215,29 @@ export class Chartjs {
     //for sections register chartjs plugin
     if (this.sectionid) {
       Chart.pluginService.register({
-        beforeDraw: function (chart, easing) {
-          if (chart.config.options.section && chart.config.options.section.length>0) {
-            var ctx = chart.chart.ctx;
-            var chartArea = chart.chartArea;
-            var meta = chart.getDatasetMeta(0);
-            var i;
+        beforeDraw: function(chart, easing) {
+          if (chart.config.options.section && chart.config.options.section.length > 0) {
+            let ctx = chart.chart.ctx;
+            let chartArea = chart.chartArea;
+            let meta = chart.getDatasetMeta(0);
+            let i;
             ctx.save();
-            for (i=1;i<chart.config.options.section.length;i++) {
-              var start = meta.data[chart.config.options.section[i-1]]._model.x;
+            console.log('chartjs meta.data',meta.data);
+            for (i = 1; i < chart.config.options.section.length; i++) {
+              console.log('chartjs sectionplugin:i, section[i-1], section[1],start,stop)', i, chart.config.options.section[i - 1],chart.config.options.section[i]);
+              var start = meta.data[chart.config.options.section[i - 1]]._model.x;
               var stop  = meta.data[chart.config.options.section[i]]._model.x;
-
-              //console.log (start,stop);
               const hue = (i - 1) * 137.508; // use golden angle approximation
-              var color = `hsl(${hue},85%,91%)`;
-              ctx.fillStyle = color;
-              //console.log (chartArea);
+              ctx.fillStyle = `hsl(${hue},85%,91%)`;
               ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
             }
             ctx.restore();
             //console.log('last i',i);
             //last section
-            if (chart.config.options.section[i-1]<(meta.data.length-1)) {
+            if (chart.config.options.section[i - 1] < (meta.data.length - 1)) {
               //draw last section
-              var start = meta.data[chart.config.options.section[i-1]]._model.x;
-              var stop  = meta.data[meta.data.length-1]._model.x;
+              var start = meta.data[chart.config.options.section[i - 1]]._model.x;
+              var stop  = meta.data[meta.data.length - 1]._model.x;
 
               //console.log (start,stop);
               const hue = (i - 1) * 137.508; // use golden angle approximation
@@ -238,14 +257,23 @@ export class Chartjs {
       options: this.options,
       tooltipEvents: ['mousemove', 'touchstart', 'touchmove', 'click']
     });
-
-
   }
 
+  /**
+   * called when component is detached from view - remove event listeners - no need to update chart
+   */
   detached() {
-    if (document.getElementById(this.fromid)) document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
+    if (document.getElementById(this.fromid)) {
+      document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
+      document.getElementById(this.fromid).removeEventListener('fmireset', this.handleReset);
+      if (this.sectionid) {document.getElementById(this.sectionid).removeEventListener('addsection', this.handleAddSection);}
+    }
   }
 
+  /**
+   * asks for filename and creates blob with CSV data from chart which initiates web browser download dialog.
+   * CSV -  time point per row
+   */
   download() {
     //ask for filename
     let filename = prompt('File name (*.csv):', 'data.csv');
@@ -266,6 +294,11 @@ export class Chartjs {
       saveAs(blob, filename);
     }
   }
+
+  /**
+   * asks for filename and creates blob with CSV data from chart which initiates web browser download dialog
+   * CSV - variable values per row
+   */
   downloadflat() {
     //ask for filename
     let filename = prompt('File name (*.csv):', 'data.csv');
@@ -285,9 +318,11 @@ export class Chartjs {
     }
   }
 
-  //adds new section - index of last data element
-  addSection(){
-    console.log('chartjs.addsection()',this.chart.data.data.labels.length-1);
-    this.chart.config.options.section.push(this.chart.data.data.labels.length-1);
+  /**
+   * Adds new section in chartarea - current last data in dataset
+   */
+  addSection() {
+    console.log('chartjs.addsection()', this.chart.data.labels.length - 1);
+    this.chart.config.options.section.push(this.chart.data.labels.length - 1);
   }
 }
