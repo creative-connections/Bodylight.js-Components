@@ -36,9 +36,9 @@ export class BdlChartjsTime extends Chartjs {
         this.chart.data.labels.shift();
         if (this.sectionid) {
           //shift sections
-          if (this.chart.config.options.section[0] === 0) this.chart.config.options.section.shift();
+          if (this.chart.config.options.section[0].index === 0) this.chart.config.options.section.shift();
           //decrement all indices in sections
-          for (let i = 0; i < this.chart.config.options.section.length; i++) this.chart.config.options.section[i] -= 1;
+          for (let i = 0; i < this.chart.config.options.section.length; i++) this.chart.config.options.section[i].index -= 1;
         }
       }
       //shift - remove first element if data is too big

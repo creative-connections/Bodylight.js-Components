@@ -18,6 +18,7 @@ export class Chartjs {
   @bindable convertors;
   @bindable verticalline=false;
   @bindable sectionid;  //id to listen addsection event
+  indexsection=0;
 
   /**
    * initializes handlers for event processing - this is recommended way
@@ -43,7 +44,7 @@ export class Chartjs {
       this.chart.update();
     };
     this.handleAddSection = e => {
-      this.addSection();
+      this.addSection(e.detail.label);
     };
   }
 
@@ -60,9 +61,11 @@ export class Chartjs {
    * @param index
    * @returns {string} usable by CSS or DOM elements
    */
-  selectColor(index) {
+  //  const hue = (i - 1) * 137.508; // use golden angle approximation
+  //  var color = `hsl(${hue},85%,91%)`;
+  selectColor(index, saturation = 55, lightness = 55) {
     const hue = (index - 1) * 137.508; // use golden angle approximation
-    return `hsl(${hue},55%,55%)`;
+    return `hsl(${hue},${saturation}%,${lightness}%)`;
   }
 
   /**
@@ -168,7 +171,7 @@ export class Chartjs {
     }
 
     if (typeof this.maxdata === 'string') {
-      this.maxdata= parseInt(this.maxdata)
+      this.maxdata = parseInt(this.maxdata);
     }
 
     //if sections are requested - define chartjs plugin to draw it in background
@@ -187,7 +190,6 @@ export class Chartjs {
     //this.chartcanvas; - reference to the DOM canvas
     if (this.sectionid) {document.getElementById(this.sectionid).addEventListener('addsection', this.handleAddSection);}
 
-    let ctx = this.chartcanvas.getContext('2d');
 
     //for verticalline option - register controller for Chartjs
     if (this.verticalline) {
@@ -226,34 +228,60 @@ export class Chartjs {
             let meta = chart.getDatasetMeta(0);
             let i;
             ctx.save();
-            //console.log('chartjs meta.data',meta.data);
+            //console.log('chartjs sections', chart.config.options.section);
             for (i = 1; i < chart.config.options.section.length; i++) {
               //console.log('chartjs sectionplugin:i, section[i-1], section[1],start,stop)', i, chart.config.options.section[i - 1],chart.config.options.section[i]);
-              var start = meta.data[chart.config.options.section[i - 1]]._model.x;
-              var stop  = meta.data[chart.config.options.section[i]]._model.x;
-              const hue = (i - 1) * 137.508; // use golden angle approximation
+              let start = meta.data[chart.config.options.section[i - 1].index]._model.x;
+              let stop  = meta.data[chart.config.options.section[i].index]._model.x;
+              /*const hue = (i - 1) * 137.508; // use golden angle approximation
               ctx.fillStyle = `hsl(${hue},85%,91%)`;
+               */
+              ctx.save();
+              //bar
+              ctx.fillStyle = chart.config.options.section[i - 1].color;
               ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
+              //label
+              //ctx.translate(start, chartArea.top);
+              //ctx.rotate(Math.PI / 2);
+              ctx.save();
+              ctx.translate(start, chartArea.top);
+              ctx.rotate(90*Math.PI / 180);
+              ctx.fillStyle = '#aaa';
+              ctx.font = '10px Helvetica';
+              ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
+              ctx.restore();
             }
             ctx.restore();
             //console.log('last i',i);
             //last section
-            if (chart.config.options.section[i - 1] < (meta.data.length - 1)) {
+            i = chart.config.options.section.length;
+            if ((i > 0) && (chart.config.options.section[i - 1].index < (meta.data.length - 1))) {
               //draw last section
-              var start = meta.data[chart.config.options.section[i - 1]]._model.x;
-              var stop  = meta.data[meta.data.length - 1]._model.x;
+              let start = meta.data[chart.config.options.section[i - 1].index]._model.x;
+              let stop  = meta.data[meta.data.length - 1]._model.x;
 
               //console.log (start,stop);
+              /*
               const hue = (i - 1) * 137.508; // use golden angle approximation
               var color = `hsl(${hue},85%,91%)`;
-              ctx.fillStyle = color;
+               */
+              ctx.fillStyle = chart.config.options.section[i - 1].color;
               //console.log (chartArea);
               ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
+              ctx.save();
+              ctx.translate(start, chartArea.top);
+              ctx.rotate(90*Math.PI / 180);
+              ctx.fillStyle = '#aaa';
+              ctx.font = '10px Helvetica';
+              ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
+              ctx.restore();
             }
           }
         }
       });
     }
+
+    let ctx = this.chartcanvas.getContext('2d');
 
     this.chart = new Chart(ctx, {
       type: this.type,
@@ -325,8 +353,14 @@ export class Chartjs {
   /**
    * Adds new section in chartarea - current last data in dataset
    */
-  addSection() {
+  addSection(label = '') {
+    this.indexsection++;
+    if (!label) label = '';
     console.log('chartjs.addsection()', this.chart.data.labels.length - 1);
-    this.chart.config.options.section.push(this.chart.data.labels.length - 1);
+    this.chart.config.options.section.push({
+      index: this.chart.data.labels.length - 1,
+      color: this.selectColor(this.indexsection, 85, 91),
+      label: label
+    });
   }
 }

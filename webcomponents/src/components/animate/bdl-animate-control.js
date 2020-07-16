@@ -183,15 +183,15 @@ export class BdlAnimateControl {
       let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
       //dispatch addsection event - if somebody listens - it should add new section/segment into it's visualisation
-      let event2 = new CustomEvent('addsection', {detail: {time: this.frame}});
-      document.getElementById(this.id).dispatchEvent(event2);
-
       this.currentsegment++;
       if (this.currentsegment >= this.segmentitems.length) {
         this.currentsegment = 0;
         this.frame = 0;
         this.aframe = 0;
       }
+      let event2 = new CustomEvent('addsection', {detail: {time: this.frame, label: this.segmentlabelarray[this.currentsegment]}});
+      document.getElementById(this.id).dispatchEvent(event2);
+
     } else {
       //do step
       this.frame++;
