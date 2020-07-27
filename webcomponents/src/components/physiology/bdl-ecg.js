@@ -3,7 +3,7 @@ import {bindable, useView} from 'aurelia-templating';
 @useView(PLATFORM.moduleName('../graphs/chartjs.html'))
 export class BdlEcg extends BdlChartjsTime {
   @bindable fromid;
-  @bindable labels;
+  @bindable labels = "ECG I (mV)";
   @bindable maxdata=40; //5*8 ecgvalues
   //@bindable refindex;
   refindex = 0;

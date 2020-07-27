@@ -3,9 +3,13 @@
 
 ```markdown
 <bdl-ecg 
-  id="id11" 
-  fromid="id4"
-  labels="relative time, segment"></bdl-ecg>
+  id="id11" /*unique ID of this component*/
+  fromid="id4" /*reference ID of controlling component, usually bdl-animation-control or bdl-fmi*/
+  type="normal" /*type of ECG - currently implemented 'normal', other types: 1degreeAVblock,... TBD*/
+  labels="ECG I (mV)" /* custom label - default is 'ECG I (mV)'*/ 
+  width="300" /* width of chart */
+  height="50" /* height of chart */
+></bdl-ecg>
 ```
 
 EKG:
