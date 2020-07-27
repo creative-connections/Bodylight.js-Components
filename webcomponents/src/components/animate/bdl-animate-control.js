@@ -53,6 +53,7 @@ export class BdlAnimateControl {
     let islower = (a, b) => {return a < b;};
     //console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
     this.eventprefix='animate';
+    //segment condition is defined - then segments are determined by fmi data sent by 'fromid' component
     if (this.segmentcond) {
       this.eventprefix='fmi';
       this.segmentconditions = [];
@@ -81,7 +82,7 @@ export class BdlAnimateControl {
   }
 
 
-  //fires fmistart/fmistop events
+  //fires fmistart/fmistop events and starts/stops continuous animation
   startstop() {
     this.animationstarted = !this.animationstarted;
     if (! this.animationstarted) {
@@ -125,27 +126,32 @@ export class BdlAnimateControl {
     }
   }
 
+  //creates customevent and sends time, relativetime: rt in segment, segment - number of segment
   step() {
+    this.countrelativeframe();
     //create custom event
     let event = this.frame === 0
-      ? new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}}) //send start signal on frame 0
-      : new CustomEvent(this.eventprefix+'data', {detail: {time: this.frame}}); //send data signal - i.e. continue after pause
+      ? new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}) //send start signal on frame 0
+      : new CustomEvent(this.eventprefix+'data', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
     //dispatch event - it should be listened by some other component
     document.getElementById(this.id).dispatchEvent(event);
     this.frame++;
   }
 
+  //plays only one segment of the animation
   segment() {
     if (!this.segmentcond) {
       //play from current position up to the frame on the next segment
       this.stopframe = this.segmentitems[this.currentsegment];
+      //position in segment
+      this.startrelativeframe();
+      this.countrelativeframe();
       //console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
       this.currentsegment++;
       //console.log('AnimateControl segment() nextsegment:', this.currentsegment);
       this.startstop();
     } else {
-
       //if segmentcond is set - play until the condition is met
       //this.stopframe= this.currentsegment+1; //do not know stopframe
       //register handler
@@ -166,6 +172,15 @@ export class BdlAnimateControl {
       let event = new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
+  }
+
+  startrelativeframe() {
+    this.startframe = this.frame;
+    this.framesinsegment = (this.stopframe - this.startframe);
+  }
+
+  countrelativeframe() {
+    this.relativeframe = (this.frame - this.startframe) / this.framesinsegment;
   }
 
   nonstopsegment() {

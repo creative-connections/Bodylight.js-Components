@@ -101,7 +101,7 @@ export class Chartjs {
     for (let i = 0; i < this.refvalues; i++) {
       if (!this.mydata[i]) {
         //this.mydata.push(0);
-        console.log('chartjsno data');
+        console.log('chartjs no data');
       }
       this.colors.push(this.selectColor(i));
     }
@@ -236,7 +236,7 @@ export class Chartjs {
               /*const hue = (i - 1) * 137.508; // use golden angle approximation
               ctx.fillStyle = `hsl(${hue},85%,91%)`;
                */
-              ctx.save();
+
               //bar
               ctx.fillStyle = chart.config.options.section[i - 1].color;
               ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
@@ -247,7 +247,7 @@ export class Chartjs {
               ctx.translate(start, chartArea.top);
               ctx.rotate(90*Math.PI / 180);
               ctx.fillStyle = '#aaa';
-              ctx.font = '10px Helvetica';
+              ctx.font = '12px Helvetica';
               ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
               ctx.restore();
             }
@@ -272,7 +272,7 @@ export class Chartjs {
               ctx.translate(start, chartArea.top);
               ctx.rotate(90*Math.PI / 180);
               ctx.fillStyle = '#aaa';
-              ctx.font = '10px Helvetica';
+              ctx.font = '12px Helvetica';
               ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
               ctx.restore();
             }

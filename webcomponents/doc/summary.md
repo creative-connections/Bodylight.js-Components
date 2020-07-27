@@ -13,6 +13,7 @@
       * [Capillary](#doc/usersguide/capillary.md)
       * [ChartJS](#doc/usersguide/chartjs.md)
       * [Dygraph](#doc/usersguide/dygraph.md)
+      * [ECG](#doc/usersguide/ecg.md)
       * [Markdown - documents with <br /> bodylight web components](#doc/usersguide/markdown.md)      
     * [Developer's Guide](#doc/developersguide.md)
   * [Examples](#doc/examples.md)
@@ -24,6 +25,7 @@
     * [Animation segments](#doc/example/animationsegments.md)
     * [Animation segments<br /> sync with simulation](#doc/example/animationsimulation.md)
     * [Quiz](#doc/example/quiz.md)
+    * [Animation with ECG](#doc/example/animationecg.md)
   * [About](#doc/about.md)
   <hr/>
   

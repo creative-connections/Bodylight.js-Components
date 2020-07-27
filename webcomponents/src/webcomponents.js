@@ -34,6 +34,7 @@ export function configure(aurelia) {
     //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html
     .globalResources(PLATFORM.moduleName('components/composite/simplegif'))
     .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))
+    .globalResources(PLATFORM.moduleName('components/physiology/bdl-ecg'))
     .globalResources(PLATFORM.moduleName('components/graphs/chartjs'))
     .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-time'))
     .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-xy'))
@@ -49,6 +50,7 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-app.html'))
     //.globalResources(BdlAudioOnDecreaseCustomElement)
     .globalResources(PLATFORM.moduleName('components/fmi'));
+
 
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
