@@ -28,6 +28,13 @@
 <div class="w3-col s12 l3">
  <bdl-animate-gif fromid="id5" src="doc/heart.gif"></bdl-animate-gif>
 </div>
+<div class="w3-col s12 l6">
+ <bdl-ecg 
+   id="id11" 
+   fromid="id5"
+   labels="ECG I (mV)"
+   ></bdl-ecg>      
+</div>
 <div class="w3-col s12 l3">
 <bdl-animate-control 
 id="id5" 

@@ -283,32 +283,36 @@ export class Chartjs {
     }
 
     if (this.datalabels) {
+      console.log('datalabels true ,setting plugin', this.datalabels);
       Chart.pluginService.register({
         afterDatasetsDraw: function(chartInstance, easing) {
           // To only draw at the end of animation, check for easing === 1
+          //if (dataset && dataset.datalabels) {
           let ctx = chartInstance.chart.ctx;
 
           chartInstance.data.datasets.forEach(function(dataset, i) {
-            let meta = chartInstance.getDatasetMeta(i);
-            if (!meta.hidden) {
-              meta.data.forEach(function(element, index) {
-                if (dataset.datalabels[index].length > 0) {
-                // Draw the text in black, with the specified font
-                  ctx.fillStyle = '#aaa';
-                  ctx.font = '12px Helvetica';
+            if (dataset && dataset.datalabels) {
+              let meta = chartInstance.getDatasetMeta(i);
+              if (!meta.hidden) {
+                meta.data.forEach(function(element, index) {
+                  if (dataset.datalabels[index].length > 0) {
+                    // Draw the text in black, with the specified font
+                    ctx.fillStyle = '#aaa';
+                    ctx.font = '12px Helvetica';
 
-                  // Just naively convert to string for now
-                  let dataString = dataset.datalabels[index];
+                    // Just naively convert to string for now
+                    let dataString = dataset.datalabels[index];
 
-                  // Make sure alignment settings are correct
-                  ctx.textAlign = 'center';
-                  ctx.textBaseline = 'middle';
+                    // Make sure alignment settings are correct
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
 
-                  let padding = 5;
-                  let position = element.tooltipPosition();
-                  ctx.fillText(dataString, position.x, position.y - (12 / 2) - padding);
-                }
-              });
+                    let padding = 5;
+                    let position = element.tooltipPosition();
+                    ctx.fillText(dataString, position.x, position.y - (12 / 2) - padding);
+                  }
+                });
+              }
             }
           });
         }

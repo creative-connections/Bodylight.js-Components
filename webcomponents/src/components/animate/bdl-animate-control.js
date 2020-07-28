@@ -52,10 +52,10 @@ export class BdlAnimateControl {
     let isequal = (a, b)=> {return a === b;};
     let islower = (a, b) => {return a < b;};
     //console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
-    this.eventprefix='animate';
+    this.eventprefix = 'animate';
     //segment condition is defined - then segments are determined by fmi data sent by 'fromid' component
     if (this.segmentcond) {
-      this.eventprefix='fmi';
+      this.eventprefix = 'fmi';
       this.segmentconditions = [];
       let scs = this.segmentcond.split(';');
       for (let sc of scs) {
@@ -91,7 +91,7 @@ export class BdlAnimateControl {
       //console.log('Canceling animation, this, this.request:', this, this.request);
       cancelAnimationFrame(this.request);
       //create custom event
-      let event = new CustomEvent(this.eventprefix+'stop', {detail: {time: this.frame}});
+      let event = new CustomEvent(this.eventprefix + 'stop', {detail: {time: this.frame}});
       //dispatch event - it should be listened by some other component
       document.getElementById(this.id).dispatchEvent(event);
     } else {
@@ -107,6 +107,7 @@ export class BdlAnimateControl {
         if (that.playsegments && that.stopframe > 0 && that.frame > that.stopframe) {
           that.animationstarted = false;
           //if last segment reninit frame from begining
+          that.currentsegment++;
           if (that.currentsegment >= that.segmentitems.length) { that.currentsegment = 0; that.frame = 0;}
         } else {
           // speedfactor is defined - then requestAnimationFrame is scheduled for later
@@ -128,11 +129,11 @@ export class BdlAnimateControl {
 
   //creates customevent and sends time, relativetime: rt in segment, segment - number of segment
   step() {
-    this.countrelativeframe();
+    this.countrelativeframe(this.frame);
     //create custom event
     let event = this.frame === 0
-      ? new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}) //send start signal on frame 0
-      : new CustomEvent(this.eventprefix+'data', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
+      ? new CustomEvent(this.eventprefix + 'start', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}) //send start signal on frame 0
+      : new CustomEvent(this.eventprefix + 'data', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
     //dispatch event - it should be listened by some other component
     document.getElementById(this.id).dispatchEvent(event);
     this.frame++;
@@ -145,17 +146,19 @@ export class BdlAnimateControl {
       this.stopframe = this.segmentitems[this.currentsegment];
       //position in segment
       this.startrelativeframe();
-      this.countrelativeframe();
+      this.countrelativeframe(this.frame);
       //console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
-      this.currentsegment++;
+      //this.currentsegment++; moved to startstop - animationframe
       //console.log('AnimateControl segment() nextsegment:', this.currentsegment);
       this.startstop();
     } else {
       //if segmentcond is set - play until the condition is met
-      //this.stopframe= this.currentsegment+1; //do not know stopframe
+      this.stopframe = this.segmentitems[this.currentsegment]; //do not know stopframe
       //register handler
       //send start signal to fmi
+      this.startrelativeframe();
+      this.countrelativeframe(this.frame);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
       //console.log('bdlanimatecontrol segments with condition sending fmistart');
       //this.frame=0;
@@ -169,7 +172,7 @@ export class BdlAnimateControl {
         this.astep = adif / sdif;
       }
       //console.log('BdlAnimateControl segment() astep', this.astep);
-      let event = new CustomEvent(this.eventprefix+'start', {detail: {time: this.frame}});
+      let event = new CustomEvent(this.eventprefix + 'start', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
     }
   }
@@ -179,8 +182,9 @@ export class BdlAnimateControl {
     this.framesinsegment = (this.stopframe - this.startframe);
   }
 
-  countrelativeframe() {
-    this.relativeframe = (this.frame - this.startframe) / this.framesinsegment;
+  countrelativeframe(frame) {
+    this.relativeframe = (frame - this.startframe) / this.framesinsegment;
+    return this.relativeframe;
   }
 
   nonstopsegment() {
@@ -204,9 +208,9 @@ export class BdlAnimateControl {
         this.frame = 0;
         this.aframe = 0;
       }
+      this.startrelativeframe();
       let event2 = new CustomEvent('addsection', {detail: {time: this.frame, label: this.segmentlabelarray[this.currentsegment]}});
       document.getElementById(this.id).dispatchEvent(event2);
-
     } else {
       //do step
       this.frame++;
@@ -219,7 +223,8 @@ export class BdlAnimateControl {
         //console.log('bdlanimatecontrol step, frame, aframe, floor aframe, floor prevousframe', this.astep, this.frame, this.aframe, this.floor_aframe, this.previous_aframe);
         //do animation only if the aframe is lower than the prescribed boundary frame
         if (this.floor_aframe <= this.segmentitems[this.currentsegment]) {
-          let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe}}); //send data signal - i.e. continue after pause
+          this.countrelativeframe(this.floor_aframe);
+          let event = new CustomEvent('animatedata', {detail: {time: this.floor_aframe, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
           //dispatch event - it should be listened by some other component
           document.getElementById(this.id).dispatchEvent(event);
         }

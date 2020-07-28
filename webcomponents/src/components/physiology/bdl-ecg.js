@@ -6,7 +6,7 @@ import {bindable, useView} from 'aurelia-templating';
  * (4b-atrial systole,1-ventricular systole,2-ejection,3-ventricular diastole,4a-diastole with filling)
  * For each segment received from 'animatedata' event it shows appropriate graph data,
  * 'animatedata' should contain these `event.detail` properties:
- * - 'segment' - numbers 1,2,3,4,5 (1=4a,2=1,3=2,4=3,5=4a)
+ * - 'segment' - numbers 1,2,3,4,5 (0=4b,1=1,2=2,3=3,4=4a)
  * - 'relativetime' - number between 0..1 inclusive, 0 means beginning of the segment, 0.5 half of the segment, 1 - full segment
  *                  - only the appopriate part of the segment is drawn
  *
@@ -38,6 +38,8 @@ export class BdlEcg extends BdlChartjsTime {
   ] //labels related to values
   ecgindex=0;
   ecgsegment=1;
+  @bindable width='300'
+  @bindable height='50'
 
   constructor() {
     super();
@@ -86,18 +88,17 @@ export class BdlEcg extends BdlChartjsTime {
     //count difference in this step
     let rd = myreltime - this.previousreltime; //e.g. 0.33 of segments
     //count how many points of ECG to draw - >1 -
-    let npoints = Math.round(this.ecgvalues[mysegment - 1].length * rd);
+    let npoints = Math.round(this.ecgvalues[mysegment].length * rd);
     this.index += npoints;
     //set previousreltime to current points of time used
-    this.previousreltime = this.previousreltime + (npoints / this.ecgvalues[mysegment - 1].length );
+    this.previousreltime = this.previousreltime + (npoints / this.ecgvalues[mysegment].length );
 
     //TODO push multiple values - per percent in current segment - or do approximation
     //push multiple values - if in ecgvalues
     console.log('bdl-ecg handlevaluechange npoints,previndex,index:', npoints, this.previousindex, this.index);
     if (npoints > 0) {
-
-      this.chart.data.datasets[0].data.push(...(this.ecgvalues[mysegment - 1].slice(this.previousindex, this.index)));
-      this.chart.data.datasets[0].datalabels.push(...(this.ecglabels[mysegment - 1].slice(this.previousindex, this.index)));
+      this.chart.data.datasets[0].data.push(...(this.ecgvalues[mysegment].slice(this.previousindex, this.index)));
+      this.chart.data.datasets[0].datalabels.push(...(this.ecglabels[mysegment].slice(this.previousindex, this.index)));
       //push npoints times the 'time' label
       this.chart.data.labels.push(...Array(npoints).fill(e.detail.time));
       //shift
