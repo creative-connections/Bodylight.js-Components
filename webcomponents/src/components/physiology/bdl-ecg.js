@@ -16,7 +16,7 @@ import {bindable, useView} from 'aurelia-templating';
 export class BdlEcg extends BdlChartjsTime {
   @bindable fromid;
   @bindable labels = 'ECG I (mV)';
-  @bindable maxdata=40; //5*8 ecgvalues
+  @bindable maxdata=80; //2 * 5*8 ecgvalues = 2 cardiac cycles
   //@bindable refindex;
   refindex = 0;
   //  @bindable refvalues;
@@ -54,6 +54,8 @@ export class BdlEcg extends BdlChartjsTime {
   bind() {
     super.bind();
     this.datalabels = true;
+    //disable labels on xaxes
+    this.options.scales.xAxes = [{ticks: { display: false}}];
   }
   attached() {
     super.attached();

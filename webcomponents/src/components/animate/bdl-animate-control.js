@@ -145,7 +145,7 @@ export class BdlAnimateControl {
       //play from current position up to the frame on the next segment
       this.stopframe = this.segmentitems[this.currentsegment];
       //position in segment
-      this.startrelativeframe();
+      this.startrelativeframe(this.frame);
       this.countrelativeframe(this.frame);
       //console.log('AnimateControl segment() stopframe,currentsegment:', this.stopframe, this.currentsegment);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
@@ -157,8 +157,8 @@ export class BdlAnimateControl {
       this.stopframe = this.segmentitems[this.currentsegment]; //do not know stopframe
       //register handler
       //send start signal to fmi
-      this.startrelativeframe();
-      this.countrelativeframe(this.frame);
+      this.startrelativeframe(this.aframe);
+      this.countrelativeframe(this.aframe);
       this.currentsegmentlabel = this.segmentlabelarray[this.currentsegment];
       //console.log('bdlanimatecontrol segments with condition sending fmistart');
       //this.frame=0;
@@ -177,8 +177,8 @@ export class BdlAnimateControl {
     }
   }
 
-  startrelativeframe() {
-    this.startframe = this.frame;
+  startrelativeframe(frame) {
+    this.startframe = frame;
     this.framesinsegment = (this.stopframe - this.startframe);
   }
 
@@ -201,6 +201,11 @@ export class BdlAnimateControl {
       this.floor_aframe = Math.floor(this.aframe);
       let event = new CustomEvent('fmistop', {detail: {time: this.frame}});
       document.getElementById(this.id).dispatchEvent(event);
+      this.countrelativeframe(this.aframe);
+      //dispatch animate data
+      event = new CustomEvent('animatedata', {detail: {time: this.aframe, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
+      //dispatch event - it should be listened by some other component
+      document.getElementById(this.id).dispatchEvent(event);
       //dispatch addsection event - if somebody listens - it should add new section/segment into it's visualisation
       this.currentsegment++;
       if (this.currentsegment >= this.segmentitems.length) {
@@ -208,7 +213,7 @@ export class BdlAnimateControl {
         this.frame = 0;
         this.aframe = 0;
       }
-      this.startrelativeframe();
+      this.startrelativeframe(this.aframe);
       let event2 = new CustomEvent('addsection', {detail: {time: this.frame, label: this.segmentlabelarray[this.currentsegment]}});
       document.getElementById(this.id).dispatchEvent(event2);
     } else {
