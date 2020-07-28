@@ -19,6 +19,7 @@ export class Chartjs {
   @bindable verticalline=false;
   @bindable sectionid;  //id to listen addsection event
   indexsection=0;
+  datalabels=false; //may be configured by subclasses
 
   /**
    * initializes handlers for event processing - this is recommended way
@@ -245,7 +246,7 @@ export class Chartjs {
               //ctx.rotate(Math.PI / 2);
               ctx.save();
               ctx.translate(start, chartArea.top);
-              ctx.rotate(90*Math.PI / 180);
+              ctx.rotate(90 * Math.PI / 180);
               ctx.fillStyle = '#aaa';
               ctx.font = '12px Helvetica';
               ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
@@ -270,13 +271,46 @@ export class Chartjs {
               ctx.fillRect(start, chartArea.top, stop - start, chartArea.bottom - chartArea.top);
               ctx.save();
               ctx.translate(start, chartArea.top);
-              ctx.rotate(90*Math.PI / 180);
+              ctx.rotate(90 * Math.PI / 180);
               ctx.fillStyle = '#aaa';
               ctx.font = '12px Helvetica';
               ctx.fillText(chart.config.options.section[i - 1].label, 5, -5);//start, chartArea.top);
               ctx.restore();
             }
           }
+        }
+      });
+    }
+
+    if (this.datalabels) {
+      Chart.pluginService.register({
+        afterDatasetsDraw: function(chartInstance, easing) {
+          // To only draw at the end of animation, check for easing === 1
+          let ctx = chartInstance.chart.ctx;
+
+          chartInstance.data.datasets.forEach(function(dataset, i) {
+            let meta = chartInstance.getDatasetMeta(i);
+            if (!meta.hidden) {
+              meta.data.forEach(function(element, index) {
+                if (dataset.datalabels[index].length > 0) {
+                // Draw the text in black, with the specified font
+                  ctx.fillStyle = '#aaa';
+                  ctx.font = '12px Helvetica';
+
+                  // Just naively convert to string for now
+                  let dataString = dataset.datalabels[index];
+
+                  // Make sure alignment settings are correct
+                  ctx.textAlign = 'center';
+                  ctx.textBaseline = 'middle';
+
+                  let padding = 5;
+                  let position = element.tooltipPosition();
+                  ctx.fillText(dataString, position.x, position.y - (12 / 2) - padding);
+                }
+              });
+            }
+          });
         }
       });
     }
