@@ -24,7 +24,6 @@
     "highlight.js": "^9.16.2",
     "i18next-resource-store-loader": "^0.1.2",
     "i18next-xhr-backend": "^3.2.2",
-    "katex": "^0.11.1",
     "libgif": "0.0.3",
     "markdown-it": "^10.0.0",
     "markdown-it-footnote": "^3.0.2",
