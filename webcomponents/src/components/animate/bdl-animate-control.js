@@ -10,6 +10,8 @@ export class BdlAnimateControl {
   @bindable segmentlabels;
   @bindable controlfmi=false;
   @bindable segmentcond;
+  @bindable allowcontinuous=false
+  continuousanimation = false;
   animationstarted = false;
   frame = 0;
   aframe = 0;
@@ -70,6 +72,10 @@ export class BdlAnimateControl {
       //console.log('bdlanimatecontrol fromid', this.fromid);
     //  if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
     }
+
+    if (typeof this.allowcontinuous === 'string') {
+      this.allowcontinuous = this.allowcontinuous === 'true';
+    }
   }
 
   attached() {
@@ -104,26 +110,34 @@ export class BdlAnimateControl {
         //console.log('performAnimation()');
         that.step();
         //decide whether and how to schedule next animation frame
-        if (that.playsegments && that.stopframe > 0 && that.frame > that.stopframe) {
-          that.animationstarted = false;
-          //if last segment reninit frame from begining
-          that.currentsegment++;
-          if (that.currentsegment >= that.segmentitems.length) { that.currentsegment = 0; that.frame = 0;}
-        } else {
-          // speedfactor is defined - then requestAnimationFrame is scheduled for later
-          if (that.animationstarted) {
-            if (that.speedfactor) {
-              //requestAnimationFrame is scheduled for later
-              setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
-            } else {
-              //requestAnimationFrame is scheduled immediately
-              that.request = requestAnimationFrame(performAnimation);
-            }
-            //this.step();
-          }
-        }
+        if (that.playsegments && that.stopframe > 0 && that.frame > that.stopframe) that.stopsegment(that,performAnimation); else that.scheduleAnimation(that, performAnimation);
       };
       this.request = requestAnimationFrame(performAnimation);
+    }
+  }
+
+  stopsegment(that,performAnimation) {
+    that.animationstarted = false;
+    that.currentsegment++;
+    //if last segment reninit frame from begining
+    if (that.currentsegment >= that.segmentitems.length) {
+      that.currentsegment = 0;
+      that.frame = 0;
+    }
+    if (that.continuousanimation) that.scheduleAnimation(that, performAnimation);
+  }
+
+  scheduleAnimation(that, performAnimation) {
+    // speedfactor is defined - then requestAnimationFrame is scheduled for later
+    if (that.animationstarted) {
+      if (that.speedfactor) {
+        //requestAnimationFrame is scheduled for later
+        setTimeout(() => that.request = requestAnimationFrame(performAnimation), 1000 / (60 * that.speedfactor / 100)); //60fps is normal - calculated as 1000 ms / framespersecond
+      } else {
+        //requestAnimationFrame is scheduled immediately
+        that.request = requestAnimationFrame(performAnimation);
+      }
+      //this.step();
     }
   }
 
@@ -177,6 +191,11 @@ export class BdlAnimateControl {
     }
   }
 
+  segmentcontinuous() {
+    this.continuousanimation = ! this.continuousanimation;
+    if (this.continuousanimation && ! this.animationstarted) this.segment();
+  }
+
   startrelativeframe(frame) {
     this.startframe = frame;
     this.framesinsegment = (this.stopframe - this.startframe);
@@ -216,6 +235,8 @@ export class BdlAnimateControl {
       this.startrelativeframe(this.aframe);
       let event2 = new CustomEvent('addsection', {detail: {time: this.frame, label: this.segmentlabelarray[this.currentsegment]}});
       document.getElementById(this.id).dispatchEvent(event2);
+      //if continuous is enabled - start immediatelly another segment
+      if (this.continuousanimation) this.segment();
     } else {
       //do step
       this.frame++;

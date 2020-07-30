@@ -23,6 +23,7 @@
     * [Charts](#doc/example/charts.md)
     * [Animation](#doc/example/animation.md)
     * [Animation segments](#doc/example/animationsegments.md)
+    * [Animation segments<br />continuous](#doc/example/animationsegmentscont.md)
     * [Animation segments<br /> sync with simulation](#doc/example/animationsimulation.md)
     * [Quiz](#doc/example/quiz.md)
     * [Animation with ECG](#doc/example/animationecg.md)
