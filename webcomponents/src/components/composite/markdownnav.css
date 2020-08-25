@@ -111,11 +111,11 @@ nav.vertical li a:hover:not(.active) {
   color: white;
 }
 
-/*this adds an space to every link*/
-/*nav.vertical li > a:before { content: ' ' }*/
+/*this adds a space and bullet to every link*/
+nav.vertical li > a:before { content: '\25cf\00a0' }
 
-/*this adds two spaces to every link*/
-nav.vertical li li > a:before { content: '\00a0\2022' }
+/*this adds spaces and a square to every link*/
+nav.vertical li li > a:before { content: '\00a0\00a0\00a0\25a0\00a0' }
 
-/*this adds two spaces to every link*/
-nav.vertical li li li > a:before { content: '\00a0\00a0\00a0\00a0' }
+/*this adds spaces and inverse square to every link*/
+nav.vertical li li li > a:before { content: '\00a0\00a0\00a0\00a0\00a0\00a0\25a1\00a0' }
