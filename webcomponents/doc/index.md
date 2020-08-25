@@ -1,18 +1,19 @@
 # Bodylight.js-Components v 2.0.beta
 
 Reusable components for composing interactive web simulators 
-  * based on `Modelica` models, 
+  * supports `Modelica` models, 
     * exported to FMU
     * FMU converted by [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) into JS code.
-  * supporting basic HTML inputs and outputs
-  * supporting dygraphs, chart.js charts outputs
+  * supports HTML (v5) inputs and outputs
+  * includes chart libraries (dygraphs, chart.js) 
   * enhanced markdown rendering with these components
   * integration to HTML, Markdown WIKI, Moodle, Adobe Captivate, ...
 
 Compared to version 1.0
+  * v 2.0 source with components can be edited in any text or Web editor, 1.0 source needs Bodylight Composer
   * BJP files from version 1.0 are not usable in v 2.0.beta. 
   * exported Application.HTML from version 1.0 can be integrated with v2.0.beta
-  * v 2.0.beta do not contain Composer - direct editing HTML or Markdown using common tools is recommended
+  * v 2.0.beta do not contain Composer app - direct editing HTML or Markdown using common tools is recommended
   * Adobe Animate graphics are not yet supported.
   * v 2.0.beta contains dygraph.js and chart.js libraries for charts, plotly is not yet supported as in v 1.0
   * v 1.0 HTML export can be used as iframes within v2.0.beta application
