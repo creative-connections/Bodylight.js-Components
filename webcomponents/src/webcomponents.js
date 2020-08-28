@@ -51,8 +51,6 @@ export function configure(aurelia) {
     //.globalResources(BdlAudioOnDecreaseCustomElement)
     .globalResources(PLATFORM.moduleName('components/fmi'));
 
-
-
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
   // here define start and register prefix bdl-
   aurelia.start().then(() => {

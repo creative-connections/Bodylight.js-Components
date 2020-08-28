@@ -9,21 +9,25 @@ import hljs from 'highlight.js'; //highlights in MD source blocks
 import {I18N} from 'aurelia-i18n';
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
+import {EventAggregator} from 'aurelia-event-aggregator';
+
+import {ContentUpdated} from './messages';
 
 /**
  * This is markdownaurelia component to be used as aurelia component,
  * in case of using as web-component, use mardkdown which inherits majority
  */
-@inject(I18N, HttpClient)
+@inject(I18N, HttpClient, EventAggregator)
 export class Markdownaurelia {
   @bindable src;
   @bindable watchhash;
   @bindable base='';
 
-  constructor(i18n, httpclient) {
+  constructor(i18n, httpclient, ea) {
     this.i18n = i18n;
     this.client = httpclient;
     this.html = '';
+    this.ea = ea;
   }
 
   attached() {
@@ -53,6 +57,7 @@ export class Markdownaurelia {
 
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
     this.readmd();
+    this.ea.subscribe(ContentUpdated, msg => this.updateContent(msg));
   }
 
   changesrc(...args) { //first is src, second is base
@@ -86,5 +91,10 @@ export class Markdownaurelia {
     //console.log('markdownaurelia update');
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();
+  }
+  updateContent(msg) {
+    this.text = msg.content;
+    this.html = this.md.render(this.text);
+    this.update();
   }
 }

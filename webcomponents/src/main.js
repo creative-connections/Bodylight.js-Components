@@ -31,7 +31,7 @@ export function configure(aurelia) {
 
         skipTranslationOnMissingKey: true
       });
-    })
+    });
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
   //aurelia.use.developmentLogging('debug');

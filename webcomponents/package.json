@@ -1,10 +1,13 @@
 {
-  "name": "webcomponents",
-  "description": "An Aurelia client application.",
-  "version": "0.1.0",
+  "name": "@creative-connections/bodylight",
+  "description": "Web Components for Bodylight framework, Modelica simulators in browser",
+  "version": "2.0.0",
   "repository": {
-    "type": "???",
-    "url": "???"
+    "type": "git",
+    "url": "git+https://github.com/creative-connections/Bodylight.js-Components.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "license": "MIT",
   "dependencies": {
@@ -126,5 +129,21 @@
       "text",
       "html"
     ]
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"
+  },
+  "homepage": "https://github.com/creative-connections/Bodylight.js-Components#readme",
+  "main": "dist/bodylight.bundle.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "keywords": [
+    "bodylight",
+    "modelica",
+    "simulation",
+    "browser"
+  ],
+  "author": "Tomas Kulhanek"
 }
