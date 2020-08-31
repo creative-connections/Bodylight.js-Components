@@ -107,5 +107,19 @@
       "text",
       "html"
     ]
+  },
+  "dependencies": {
+    "aurelia-web-components": "^1.0.0-beta.3",
+    "chart.js": "^2.9.3",
+    "dygraphs": "^2.1.0",
+    "file-saver": "^2.0.2",
+    "font-awesome": "^4.7.0",
+    "giffer": "^2.0.16",
+    "gifffer": "^1.5.4",
+    "highlight.js": "^10.1.2",
+    "libgif": "0.0.3",
+    "markdown-it": "^11.0.0",
+    "markdown-it-footnote": "^3.0.2",
+    "markdown-it-for-inline": "^0.1.1"
   }
 }
