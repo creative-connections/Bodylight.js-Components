@@ -6,6 +6,8 @@ All links should
 ### Markdown
 `<bdl-markdown src="[filename.md]" watchhash="true|false"></bdl-markdown>` renders markdown - which may contain all the above webcomponents.
 * `watchhash` if specified, then parameter in URL after hash is scanned and taken loaded instead `src`. The changes in hash are listened and document is replaced on change.
+* `fromid` optional, if specified the DOM element with id `fromid` is listened to customevent `concentupdate` and event.detail.content is then parsed and output is updated.
+* as aurelia component, the eventaggregator is subscribed to `ContentUpdate` - if any such message is received, then the content is rendered and output updated.
 
 Markdown-it is used to render markdown with following plugins enabled: 
 * highlight.js to highlight source code specifying language, e.g. Python 
