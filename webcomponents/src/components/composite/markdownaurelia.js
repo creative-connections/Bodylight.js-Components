@@ -11,7 +11,7 @@ import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-import {ContentUpdated} from './messages';
+import {ContentUpdate} from './messages';
 
 /**
  * This is markdownaurelia component to be used as aurelia component,
@@ -22,17 +22,24 @@ export class Markdownaurelia {
   @bindable src;
   @bindable watchhash;
   @bindable base='';
+  @bindable fromid;
 
   constructor(i18n, httpclient, ea) {
     this.i18n = i18n;
     this.client = httpclient;
     this.html = '';
     this.ea = ea;
+    //option function to be called when customevent retrieved
+    this.handleContentChange = e => {
+      this.updateContent(e.detail.content);
+    }
   }
 
   attached() {
     //console.log('makdownit attached hljs:', hljs);
     // eslint-disable-next-line new-cap
+    //optionally, register customevent handler for 'contentupdate' when fromid is defined
+    if (this.fromid) {document.getElementById(this.fromid).addEventListener('contentupdate', this.handleContentChange);}
     if (this.base && this.base.length > 0) window.bdlBaseHref = this.base; // define bdlbasehref only if not empty string
     this.md = Markdownit({
       html: true, //enable html tags - this enables also custom elements of components/webcomponents
@@ -57,7 +64,7 @@ export class Markdownaurelia {
 
     //if (this.i18n.getLocale() === 'cs') { //czech version} else {//english version}
     this.readmd();
-    this.ea.subscribe(ContentUpdated, msg => this.updateContent(msg));
+    this.ea.subscribe(ContentUpdate, msg => this.updateContent(msg.content));
   }
 
   changesrc(...args) { //first is src, second is base
@@ -92,8 +99,8 @@ export class Markdownaurelia {
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();
   }
-  updateContent(msg) {
-    this.text = msg.content;
+  updateContent(content) {
+    this.text = content;
     this.html = this.md.render(this.text);
     this.update();
   }
