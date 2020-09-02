@@ -20,6 +20,7 @@ export function configure(aurelia) {
     .plugin(PLATFORM.moduleName('aurelia-templating-resources'))
     .plugin(PLATFORM.moduleName('aurelia-templating-router'))
     .plugin(PLATFORM.moduleName('aurelia-dynamic-html'))
+    .plugin(PLATFORM.moduleName('bodylight-plugin'))
     .feature(PLATFORM.moduleName('resources/index'))
     //use this routine to register component as web component
     .globalResources(PLATFORM.moduleName('components/range.html'))

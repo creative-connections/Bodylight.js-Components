@@ -1,9 +1,0 @@
-<template bindable="bwidth,bwidthmin,bwidthmax,bheight,bheightmin,bheightmax,id,color">
-    <require from="../range.html"></require>
-    <require from="../beaker.html"></require>
-    <require from="../bind2previous"></require>
-
-    <range id="${id}-ranges" min="${bwidthmin}" max="${bwidthmax}" default="${bwidth}" title="Šířka" value.two-way="mybwidth"></range>
-    <range id="${id}-rangev" min="${bheightmin}" max="${bheightmax}" default="${bheight}" title="Výška" value.two-way="mybheight"></range>
-    <beaker id="${id}-beaker" bwidth.bind="mybwidth" bheight.bind="mybheight" width="400" height="400" color="${color}"></beaker>
-</template>
