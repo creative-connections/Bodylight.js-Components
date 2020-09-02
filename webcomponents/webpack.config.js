@@ -57,11 +57,13 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   output: {
     path: outDir,
     publicPath: baseUrl,
-    filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
-    sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
-    chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
+    filename: 'bodylight.bundle.js',
+    sourceMapFilename: 'bodylight.bundle.map'
+    //filename: production ? '[name].[chunkhash].bundle.js' : '[name].[hash].bundle.js',
+    //sourceMapFilename: production ? '[name].[chunkhash].bundle.map' : '[name].[hash].bundle.map',
+    //chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
   },
-  optimization: {
+  /*optimization: {
     runtimeChunk: true,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
@@ -75,12 +77,6 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
 
       // This is the HTTP/1.1 optimized maxSize.
       maxSize: 200000, // splits chunks if bigger than 200k, adjust as required (maxSize added in webpack v4.15)
-      /* This is the HTTP/2 optimized options.
-      maxInitialRequests: Infinity, // Default is 3, make this unlimited if using HTTP/2
-      maxAsyncRequests: Infinity, // Default is 5, make this unlimited if using HTTP/2
-      minSize: 10000, // chunk is only created if it would be bigger than minSize, adjust as required
-      maxSize: 40000, // splits chunks if bigger than 40k, adjust as required (maxSize added in webpack v4.15)
-      */
 
       cacheGroups: {
         default: false, // Disable the built-in groups default & vendors (vendors is redefined below)
@@ -125,69 +121,9 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
           minSize: 10000  // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
         }
 
-        /* This is the HTTP/2 optimized cacheGroup configuration.
-        // generic 'initial/sync' vendor node module splits: separates out larger modules
-        vendorSplit: { // each node module as separate chunk file if module is bigger than minSize
-          test: /[\\/]node_modules[\\/]/,
-          name(module) {
-            // Extract the name of the package from the path segment after node_modules
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-            return `vendor.${packageName.replace('@', '')}`;
-          },
-          priority: 20
-        },
-        vendors: { // picks up everything else being used from node_modules that is less than minSize
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          priority: 19,
-          enforce: true // create chunk regardless of the size of the chunk
-        },
-        // generic 'async' vendor node module splits: separates out larger modules
-        vendorAsyncSplit: { // vendor async chunks, create each asynchronously used node module as separate chunk file if module is bigger than minSize
-          test: /[\\/]node_modules[\\/]/,
-          name(module) {
-            // Extract the name of the package from the path segment after node_modules
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-            return `vendor.async.${packageName.replace('@', '')}`;
-          },
-          chunks: 'async',
-          priority: 10,
-          reuseExistingChunk: true,
-          minSize: 5000 // only create if 5k or larger
-        },
-        vendorsAsync: { // vendors async chunk, remaining asynchronously used node modules as single chunk file
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors.async',
-          chunks: 'async',
-          priority: 9,
-          reuseExistingChunk: true,
-          enforce: true // create chunk regardless of the size of the chunk
-        },
-        // generic 'async' common module splits: separates out larger modules
-        commonAsync: { // common async chunks, each asynchronously used module a separate chunk file if module is bigger than minSize
-          name(module) {
-            // Extract the name of the module from last path component. 'src/modulename/' results in 'modulename'
-            const moduleName = module.context.match(/[^\\/]+(?=\/$|$)/)[0];
-            return `common.async.${moduleName.replace('@', '')}`;
-          },
-          minChunks: 2, // Minimum number of chunks that must share a module before splitting
-          chunks: 'async',
-          priority: 1,
-          reuseExistingChunk: true,
-          minSize: 5000 // only create if 5k or larger
-        },
-        commonsAsync: { // commons async chunk, remaining asynchronously used modules as single chunk file
-          name: 'commons.async',
-          minChunks: 2, // Minimum number of chunks that must share a module before splitting
-          chunks: 'async',
-          priority: 0,
-          reuseExistingChunk: true,
-          enforce: true // create chunk regardless of the size of the chunk
-        }
-        */
       }
     }
-  },
+  },*/
   performance: { hints: false },
   devServer: {
     contentBase: outDir,

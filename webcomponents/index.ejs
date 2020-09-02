@@ -7,6 +7,9 @@
     <base href="<%- htmlWebpackPlugin.options.metadata.baseUrl %>">
     <!-- imported CSS are concatenated and added automatically -->
   </head>
-  <body aurelia-app="main">
+  <body aurelia-app="webcomponents">
+  <bdl-markdown-book index="index.cs.md" summary="summary.cs.md">
+    <img src="loading.gif"/>
+  </bdl-markdown-book>
   </body>
 </html>
