@@ -18,7 +18,7 @@ const title = 'Aurelia Navigation Skeleton';
 const outDir = path.resolve(__dirname, project.platform.output);
 const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
-const baseUrl = '/';
+const baseUrl = '';
 
 const cssRules = [
   {
@@ -236,7 +236,10 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   },
   plugins: [
     ...when(!tests, new DuplicatePackageCheckerPlugin()),
-    new AureliaPlugin(),
+    new AureliaPlugin({
+      dist: 'es2015',
+      aureliaApp:'webcomponents'
+    }),
     new ModuleDependenciesPlugin({
       'aurelia-testing': ['./compile-spy', './view-spy']
     }),

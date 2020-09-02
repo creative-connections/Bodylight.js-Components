@@ -4,13 +4,9 @@
  * @author Tomas Kulhanek <https://github.com/TomasKulhanek>
  * @since v2.0
  */
-
-//import 'core-js/stable';
-//import 'regenerator-runtime/runtime';
 import { CustomElementRegistry } from 'aurelia-web-components';
 import {PLATFORM} from 'aurelia-pal';
 import * as environment from '../config/environment.json';
-//import {BdlAudioOnDecreaseCustomElement} from './components/bdl-audio-on-decrease';
 
 export function configure(aurelia) {
   aurelia.use
@@ -20,37 +16,42 @@ export function configure(aurelia) {
     .plugin(PLATFORM.moduleName('aurelia-templating-resources'))
     .plugin(PLATFORM.moduleName('aurelia-templating-router'))
     .plugin(PLATFORM.moduleName('aurelia-dynamic-html'))
-    .plugin(PLATFORM.moduleName('bodylight-plugin'))
+    .plugin(PLATFORM.moduleName('bodylight-aurelia-plugin'))
     .feature(PLATFORM.moduleName('resources/index'))
     //use this routine to register component as web component
-    .globalResources(PLATFORM.moduleName('components/range.html'))
-    .globalResources(PLATFORM.moduleName('components/receptacle.html'))
-    .globalResources(PLATFORM.moduleName('components/bind2previous'))
-    .globalResources(PLATFORM.moduleName('components/graphs/dygraphchart'))
-    .globalResources(PLATFORM.moduleName('components/bdl-beaker.html'))
-    .globalResources(PLATFORM.moduleName('components/value'))
-    .globalResources(PLATFORM.moduleName('components/composite/bdl-beakercontrols.html'))
-    .globalResources(PLATFORM.moduleName('components/composite/markdown'))
-    .globalResources(PLATFORM.moduleName('components/composite/markdownnav'))
+    .globalResources([
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-range.html'),
+
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-receptacle.html'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-bind2previous'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-dygraphchart'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-beaker.html'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-value'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-beakercontrols.html'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-markdown'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-markdownnav'),
     //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html
-    .globalResources(PLATFORM.moduleName('components/composite/simplegif'))
-    .globalResources(PLATFORM.moduleName('components/physiology/capillary.html'))
-    .globalResources(PLATFORM.moduleName('components/physiology/bdl-ecg'))
-    .globalResources(PLATFORM.moduleName('components/graphs/chartjs'))
-    .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-time'))
-    .globalResources(PLATFORM.moduleName('components/graphs/bdl-chartjs-xy'))
-    .globalResources(PLATFORM.moduleName('components/physiology/cardiaccycle1.html'))
-    .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-gif'))
-    .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-sync-gif'))
-    .globalResources(PLATFORM.moduleName('components/animate/bdl-animate-control'))
-    .globalResources(PLATFORM.moduleName('components/interaction/bdl-quiz'))
-    .globalResources(PLATFORM.moduleName('components/bdl-audio-on-increase'))
-    .globalResources(PLATFORM.moduleName('components/bdl-audio-on-decrease'))
-    .globalResources(PLATFORM.moduleName('components/bdl-sound-on-increase'))
-    .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-book'))
-    .globalResources(PLATFORM.moduleName('components/composite/bdl-markdown-app.html'))
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-simplegif'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-capillary.html'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-ecg'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-chartjs'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-chartjs-time'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-chartjs-xy'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-cardiaccycle.html'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-animate-gif'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-animate-sync-gif'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-animate-control'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-quiz'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-audio-on-increase'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-audio-on-decrease'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-sound-on-increase'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-markdown-book'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-markdown-book-au'),
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-markdown-app.html'),
     //.globalResources(BdlAudioOnDecreaseCustomElement)
-    .globalResources(PLATFORM.moduleName('components/fmi'));
+    PLATFORM.moduleName('bodylight-aurelia-plugin/elements/bdl-fmi')
+
+  ]);
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
   // here define start and register prefix bdl-

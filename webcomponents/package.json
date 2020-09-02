@@ -8,8 +8,12 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@iktakahiro/markdown-it-katex": "^4.0.0",
+    "aurelia-animator-css": "^1.0.4",
     "aurelia-bootstrapper": "^2.3.3",
-    "aurelia-animator-css": "^1.0.4"
+    "aurelia-web-components": "^1.0.0-beta.3",
+    "bodylight-aurelia-plugin": "github:TomasKulhanek/bodylight-aurelia-plugin",
+    "katex": "^0.12.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
