@@ -57,7 +57,7 @@ and as input from `<bdl-range>`.
 </html>
 ```
 
-## Bodylight Web Components in Markdown
+## Bodylight Web Components in BdlMarkdown
 
 Bodylight web components contain special markdown components to read external MD file with components: 
 

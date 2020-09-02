@@ -26,9 +26,9 @@ export function configure(aurelia) {
     .globalResources(PLATFORM.moduleName('components/receptacle.html'))
     .globalResources(PLATFORM.moduleName('components/bind2previous'))
     .globalResources(PLATFORM.moduleName('components/graphs/dygraphchart'))
-    .globalResources(PLATFORM.moduleName('components/beaker.html'))
+    .globalResources(PLATFORM.moduleName('components/bdl-beaker.html'))
     .globalResources(PLATFORM.moduleName('components/value'))
-    .globalResources(PLATFORM.moduleName('components/composite/beakercontrols.html'))
+    .globalResources(PLATFORM.moduleName('components/composite/bdl-beakercontrols.html'))
     .globalResources(PLATFORM.moduleName('components/composite/markdown'))
     .globalResources(PLATFORM.moduleName('components/composite/markdownnav'))
     //.globalResources(PLATFORM.moduleName('components/composite/markdownaurelia')) //do not register mdaurelia is for internal au use with dynamic html

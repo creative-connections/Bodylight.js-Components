@@ -1,0 +1,11 @@
+<template>
+    <div id="canvas-holder">
+    <span class="w3-small">
+      <i class="fa fa-download" title="download csv data, row=data in time point" click.delegate="download()"></i>
+      <i class="fa fa-download fa-rotate-270" title="download flat csv data, row=all data for variable" click.delegate="downloadflat()"></i>
+    </span>
+      <div style="margin-top: -1.5em">
+    <canvas id="${id}-canvas" ref="chartcanvas" width="${width}" height="${height}"></canvas>
+      </div>
+    </div>
+</template>
