@@ -1,4 +1,12 @@
 # Bodylight.js-Components
+[![Project stage: DEPRECATED][project-stage-badge: DEPRECATED]][project-stage-page]
+
+[project-stage-badge: DEPRECATED]: https://img.shields.io/badge/Project%20Stage-%20!%20DEPRECATED%20%20%20!-ff0000.svg
+[project-stage-page]: https://blog.pother.ca/project-stages/
+
+This will be soon replaced by github.com/creative-connections/aurelia-bodylight-plugin
+
+## Introduction
 
 Reusable components for composing interactive web simulators 
   * based on `Modelica` models, 
