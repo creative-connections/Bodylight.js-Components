@@ -4,7 +4,7 @@
 [project-stage-badge: DEPRECATED]: https://img.shields.io/badge/Project%20Stage-%20!%20DEPRECATED%20%20%20!-ff0000.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
 
-This will be soon replaced by github.com/creative-connections/aurelia-bodylight-plugin
+This will be soon refactored and replaced by https://github.com/creative-connections/aurelia-bodylight-plugin with almost same/similar functionality
 
 ## Introduction
 
