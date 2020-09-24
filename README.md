@@ -1,4 +1,9 @@
 # Bodylight.js-Components
+ [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
+
+[project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
+[project-stage-page]: https://blog.pother.ca/project-stages/
+
 
 Reusable components for composing interactive web simulators 
   * based on `Modelica` models, 
