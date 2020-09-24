@@ -113,3 +113,6 @@ To test
 * Either manually copy `bodylight.bundle.js` to `/test` directory
 * OR `npm run build` - this will copy bundle into `/test` dir
 * THEN serve http from `/test` folder
+
+To publish
+* `np` - UI to publish `bodylight-components` into npm as package
