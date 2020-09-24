@@ -3,7 +3,8 @@
 node_modules
 
 # Compiled files
-/scripts
-/src/environment.js
-/dist
+    dd  /src/environment.js
+#/dist
 /test/coverage-jest
+/test/bodylight.bundle.js
+/test/bodylight.bundle.map
