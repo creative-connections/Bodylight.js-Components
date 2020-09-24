@@ -7,10 +7,10 @@
 Reusable components to build web-based simulator 
   * based on `Modelica` models, 
     * exported to FMU
-    * FMU converted by [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) into JS code.
-  * supporting basic HTML inputs and outputs
-  * supporting dygraphs, chart.js charts outputs
-  * supporting Adobe-Animate (exported as CreateJS/EaselJS) visualisation
+    * FMU converted by [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) into WebAssembly (JS) script.
+  * supports basic HTML inputs and outputs
+  * supports dygraphs, chart.js charts outputs
+  * supports Adobe-Animate (exported as CreateJS/EaselJS) visualisation
   * enhanced markdown rendering with these components
 
 # Usage
@@ -22,6 +22,7 @@ This plugin is distributed in 2 different way: 1) as standard web components or 
 ## 1. Standard web components
 
 1) Use `bodylight.bundle.js` from : 
+    * install bundle by npm: `npm i bodyligt-components`
     * download `bodylight.bundle.js` locally and refer it from your `<script>`:
     ```html
         <script type="module" src="bodylight.bundle.js"></script>
@@ -104,6 +105,10 @@ using direct URL as `Web Object`. You may use the `showmenu=false` URL parameter
 
 # Developer's Guide
 
+Download source code
+* `git clone https://github.com/creative-connections/Bodylight.js-Components.git`
+* `cd Bodylight.js-Components`
+
 To build
 * `npm i` - install depended packages
 * `npm run build` - builds production version to `/dist/bodylight.bundle.js`
@@ -115,4 +120,6 @@ To test
 * THEN serve http from `/test` folder
 
 To publish
+* `npm login` - logs into npmjs
+* `sudo npm i np -g` - installs `np` tool globally
 * `np` - UI to publish `bodylight-components` into npm as package
