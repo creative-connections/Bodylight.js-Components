@@ -21,11 +21,7 @@
     "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"
   },
   "homepage": "https://github.com/creative-connections/Bodylight.js-Components#readme",
-  "dependencies": {
-    "aurelia-bodylight-plugin": "^1.0.2",
-    "aurelia-web-components": "github:TomasKulhanek/web-components#master",
-    "createjs-module": "^0.8.3"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
@@ -39,6 +35,9 @@
     "aurelia-pal-nodejs": "^2.0.0",
     "aurelia-testing": "^1.0.0",
     "aurelia-webpack-plugin": "^4.0.0",
+    "aurelia-bodylight-plugin": "^1.0.2",
+    "aurelia-web-components": "github:TomasKulhanek/web-components#master",
+    "createjs-module": "^0.8.3",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.3.0",
     "babel-loader": "^8.1.0",
