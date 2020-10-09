@@ -15,10 +15,15 @@ All bodylight web components are registered with a bdl- prefix. Components are d
 This plugin is part of broader tools to enable in-browser simulation using modern web technologies: Web Assembly, HTML, Javascript (ECMAScript6).
 
 # Usage
+To build web simulator:
+1) You need to export Modelica model into FMU with source codes including source codes for solver (Dymola exports CVODE, OpenModelica 1.14.x exports Euler and 1.16.x is declared to support CVODE export too).
+2) Then you need to convert the FMU into WebAssembly - using [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) 
+3) the exported ZIP contains JS file - to be reffered from `bdl-fmi` component, and `modelDescription.xml` - standard FMU description with variable references.
+4) optional - export Adobe Animate animation into CreateJS library usable by `bdl-adobe` component.
+5) use the Bodylight components, This plugin is distributed in 2 different way: 1) as standard web components or 2) as aurelia components.
+   * **1. Standard web components** - follow this section to create web simulator using HTML or Markdown. 
+   * **2. Aurelia web components** - follow instruction at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
 
-This plugin is distributed in 2 different way: 1) as standard web components or 2) as aurelia components.
-* **1. Standard web components** - follow this section to create web simulator using HTML or Markdown. 
-* **2. Aurelia web components** - follow instruction at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
 
 ## 1. Standard web components
 
