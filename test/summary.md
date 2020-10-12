@@ -1,1 +1,2 @@
-* [Home](#index.md)
+* [README](#../README.md)
+* [DEMO](#index.md)
