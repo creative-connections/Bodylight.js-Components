@@ -28,8 +28,8 @@ To build web simulator:
 ## 1. Standard web components
 
 1) Use `bodylight.bundle.js` from : 
-    * install bundle by npm: `npm i bodyligt-components`
-    * download `bodylight.bundle.js` locally and refer it from your `<script>`:
+    * EITHER install bundle by npm: `npm i bodylight-components`
+    * OR download `bodylight.bundle.js` locally and refer it from your `<script>`:
     ```html
         <script type="module" src="bodylight.bundle.js"></script>
     ```  
