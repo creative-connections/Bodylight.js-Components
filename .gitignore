@@ -1,9 +1,9 @@
-
+.idea
 # Dependencies
 node_modules
 
 # Compiled files
-    dd  /src/environment.js
+/src/environment.js
 #/dist
 /test/coverage-jest
 /test/bodylight.bundle.js
