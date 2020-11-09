@@ -5,6 +5,8 @@ const project = require('./aurelia_project/aurelia.json');
 const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+//const ProvidePlugin = require('webpack/lib/ProvidePlugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || [];
@@ -64,6 +66,16 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     moduleIds: 'hashed',
     // Use splitChunks to breakdown the App/Aurelia bundle down into smaller chunks
     // https://webpack.js.org/plugins/split-chunks-plugin/
+    minimize: production ? true : false,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: {
+          pure_funcs: [ 'console.log' ],
+        },
+        mangle: { toplevel: true }
+      }
+    })],
+
   },
   performance: { hints: false },
   devServer: {
@@ -117,9 +129,12 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   plugins: [
     ...when(!tests, new DuplicatePackageCheckerPlugin()),
     new AureliaPlugin({
-      dist: 'es2015',
+      dist: 'es6',
       aureliaApp: 'webcomponents'
     }),
+/*    new ProvidePlugin({
+      Promise: 'bluebird'
+    }),*/
     new ModuleDependenciesPlugin({
       'aurelia-testing': ['./compile-spy', './view-spy']
     }),

@@ -1,7 +1,6 @@
 import * as environment from '../config/environment.json';
 import { CustomElementRegistry } from 'aurelia-web-components';
 import {PLATFORM} from 'aurelia-pal';
-import {Range} from 'aurelia-bodylight-plugin';
 export function configure(aurelia) {
     aurelia.use
         .standardConfiguration()

@@ -30,7 +30,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/register": "^7.11.5",
     "app-settings-loader": "^1.0.6",
-    "aurelia-bodylight-plugin": "^2.0.0",
+    "aurelia-bodylight-plugin": "^2.0.6",
     "aurelia-cli": "^2.0.2",
     "aurelia-loader-nodejs": "^1.1.0",
     "aurelia-pal-nodejs": "^2.0.0",
@@ -63,6 +63,7 @@
     "regenerator-runtime": "^0.13.7",
     "remove-files-webpack-plugin": "^1.4.4",
     "style-loader": "^1.2.1",
+    "terser-webpack-plugin": "^4.2.3",
     "tree-kill": "^1.2.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
@@ -75,7 +76,7 @@
     "dist"
   ],
   "browserslist": [
-    "defaults"
+    "last 1 version, not dead, ie >= 11"
   ],
   "scripts": {
     "build": "webpack --env.production --extractCss;cp dist/bodylight.bundle.js test/",
