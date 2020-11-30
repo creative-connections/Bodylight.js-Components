@@ -4,6 +4,8 @@
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
 
+This is wrapper for [aurelia-bodylight-plugin](https://github.com/creative-connections/aurelia-bodylight-plugin) registering all Aurelia[2] components as standard (framework agnostic) web components [1].
+
 Web components of the Bodylight library is a suite of custom elements enhancing HTML web documents with 
 * FMU component able to be execute in browser. `Modelica` model is exported to `FMU` using FMI standard and [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) can convert FMU with source codes and solver into WebAssembly script.
 * Adobe-Animate and Gif-Animate component able to control animation exported from Adobe-Animate or animated GIF and bind them to variables of model simulation.
@@ -14,6 +16,12 @@ All bodylight web components are registered with a bdl- prefix. Components are d
 
 This plugin is part of broader tools to enable in-browser simulation using modern web technologies: Web Assembly, HTML, Javascript (ECMAScript6).
 
+[^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
+
+[^2]: Aurelia framework: https://aurelia.io
+
+
+
 # Usage
 To build web simulator:
 1) You need to export Modelica model into FMU with source codes including source codes for solver (Dymola exports CVODE, OpenModelica 1.14.x exports Euler and 1.16.x is declared to support CVODE export too).
@@ -21,8 +29,8 @@ To build web simulator:
 3) the exported ZIP contains JS file - to be reffered from `bdl-fmi` component, and `modelDescription.xml` - standard FMU description with variable references.
 4) optional - export Adobe Animate animation into CreateJS library usable by `bdl-adobe` component.
 5) use the Bodylight components, This plugin is distributed in 2 different way: 1) as standard web components or 2) as aurelia components.
-   * **1. Standard web components** - follow this section to create web simulator using HTML or Markdown. 
-   * **2. Aurelia web components** - follow instruction at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
+   * **1. Standard web components** - distribution recommended to build web simulator using enhanced HTML or Markdown. 
+   * **2. Aurelia web components** - recommended for more complex web application, further info at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
 
 
 ## 1. Standard web components
@@ -106,10 +114,6 @@ For resources in github repo use `cdn.jsdelivr.net/gh/` which is returning corre
 
 Bodylight Web Components cannot be inserted directly into Adobe Captivate, however, content created in HTML or MD and hosted in some domain can be added
 using direct URL as `Web Object`. You may use the `showmenu=false` URL parameter, e.g.: https://bodylight.physiome.cz/Bodylight-Scenarios/#hemodynamics/hemo2.cs.md&showmenu=false
-
-[^1]: Web Components: https://developer.mozilla.org/en-US/docs/Web/Web_Components
-
-[^2]: Aurelia framework: https://aurelia.io
 
 # Developer's Guide
 
