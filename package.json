@@ -30,7 +30,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/register": "^7.11.5",
     "app-settings-loader": "^1.0.6",
-    "aurelia-bodylight-plugin": "^2.0.18",
+    "aurelia-bodylight-plugin": "^2.0.19",
     "aurelia-cli": "^2.0.2",
     "aurelia-loader-nodejs": "^1.1.0",
     "aurelia-pal-nodejs": "^2.0.0",
