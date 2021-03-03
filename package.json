@@ -21,7 +21,6 @@
     "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"
   },
   "homepage": "https://github.com/creative-connections/Bodylight.js-Components#readme",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.13.1",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
