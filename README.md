@@ -1,6 +1,7 @@
 # Bodylight.js-Components
  [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
  [![Version](https://img.shields.io/npm/v/bodylight-components.svg)](https://www.npmjs.com/package/bodylight-components)
+ [![Zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.4575354.svg)](https://doi.org/10.5281/zenodo.4575354)
 
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
