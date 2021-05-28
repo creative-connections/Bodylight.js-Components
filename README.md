@@ -38,15 +38,15 @@ To build web simulator:
 ## 1. Standard web components
 
 1) Use `bodylight.bundle.js` from : 
-    * EITHER install bundle by npm: `npm i bodylight-components`
+    * from jsdelivr CDN:
+    ```html
+      <script src="https://cdn.jsdelivr.net/npm/bodylight-components/dist/bodylight.bundle.js"></script>
+    ```
+    * OR install bundle by npm: `npm i bodylight-components`
     * OR download `bodylight.bundle.js` locally and refer it from your `<script>`:
     ```html
         <script src="bodylight.bundle.js"></script>
     ```  
-    * OR refer bundle directly from CDN:
-    ```html
-      <script src="https://cdn.jsdelivr.net/gh/creative-connections/Bodylight.js-Components/dist/bodylight.bundle.js"></script>
-    ```
    
 2) Add attribute `aurelia-app="webcomponents"` to `div` or `body` where web components will be located (note web-components are custom elements with prefix `bdl-`:
 ```html
