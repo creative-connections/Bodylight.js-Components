@@ -6,15 +6,14 @@
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
 
-This is wrapper for [aurelia-bodylight-plugin](https://github.com/creative-connections/aurelia-bodylight-plugin) registering all Aurelia[2] components as standard (framework agnostic) web components [1].
-
 Web components of the Bodylight library is a suite of custom elements enhancing HTML web documents with 
 * FMU component able to be execute in browser. `Modelica` model is exported to `FMU` using FMI standard and [Bodylight FMU Compiler](https://github.com/creative-connections/Bodylight.js-FMU-Compiler) can convert FMU with source codes and solver into WebAssembly script.
 * Adobe-Animate and Gif-Animate component able to control animation exported from Adobe-Animate or animated GIF and bind them to variables of model simulation.
 * ChartJS and DygraphJS components to visualise model variables in different chart types.
 * Following Web components standard at [1].
 
-All bodylight web components are registered with a bdl- prefix. Components are defined in source code without the prefix, which may be used to build application internally in an Aurelia framework [2]. However, web components way is framework agnostic standard way.
+All bodylight web components are registered with a bdl- prefix. Components are defined in source code without the prefix, which may be used to build application internally in an Aurelia framework [2]. This is wrapper for [aurelia-bodylight-plugin](https://github.com/creative-connections/aurelia-bodylight-plugin) registering all Aurelia[2] components as standard (framework agnostic) web components [1].
+
 
 This plugin is part of broader tools to enable in-browser simulation using modern web technologies: Web Assembly, HTML, Javascript (ECMAScript6).
 
