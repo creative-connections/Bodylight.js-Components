@@ -56,6 +56,7 @@
     "jest-transform-stub": "^2.0.0",
     "json-loader": "^0.5.7",
     "latest-createjs": "^1.0.24",
+    "lodash": "^4.17.21",
     "markdown-it-katexx": "^3.2.0",
     "mini-css-extract-plugin": "^0.11.2",
     "minimatch": "^3.0.4",
@@ -124,6 +125,6 @@
     ]
   },
   "dependencies": {
-    "aurelia-bodylight-plugin": "^2.1.0"
+    "aurelia-bodylight-plugin": "^2.1.1"
   }
 }
