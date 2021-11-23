@@ -2,6 +2,7 @@
  [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
  [![Version](https://img.shields.io/npm/v/bodylight-components.svg)](https://www.npmjs.com/package/bodylight-components)
  [![Zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.4575354.svg)](https://doi.org/10.5281/zenodo.4575354)
+ [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
 
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
@@ -33,6 +34,9 @@ To build web simulator:
    * **1. Standard web components** - distribution recommended to build web simulator using enhanced HTML or Markdown. 
    * **2. Aurelia web components** - recommended for more complex web application, further info at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
 
+# Live demo and tutorial 
+
+https://bodylight.physiome.cz/Bodylight-docs/tutorial/#basic.md
 
 ## 1. Standard web components
 
@@ -119,13 +123,15 @@ using direct URL as `Web Object`. You may use the `showmenu=false` URL parameter
 # Developer's Guide
 
 Download source code
+* `git clone https://github.com/creative-connections/aurelia-bodylight-plugin.git`
 * `git clone https://github.com/creative-connections/Bodylight.js-Components.git`
-* `cd Bodylight.js-Components`
 
-To build
-* `npm i` - install depended packages
-* `npm run build` - builds production version to `/dist/bodylight.bundle.js`
-* `npm run build:dev` - build developers version to `/dist/bodylight.bundle.js`
+To develop
+* components sources at
+* `cd aurelia-bodylight-plugin`
+* `npm i`
+* `au build` - builds the plugin
+* `build-all.sh` - builds plugin and ../Bodylight.js-Components at once
 
 To test
 * Either manually copy `bodylight.bundle.js` to `/test` directory
