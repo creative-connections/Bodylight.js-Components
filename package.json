@@ -1,6 +1,6 @@
 {
   "name": "bodylight-components",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Custom elements enhancing HTML to enable model simulation in FMU, visualization using Adobe Animate exports or animated gifs, charts using chartjs and documenting in enhanced markdown.",
   "main": "dist/bodylight.bundle.js",
   "repository": {
