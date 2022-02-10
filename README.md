@@ -1,11 +1,8 @@
 # Bodylight.js-Components
- [![Project stage: Development][project-stage-badge: Development]][project-stage-page]
+[![stability-beta](https://img.shields.io/badge/stability-beta-33bbff.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#beta)
  [![Version](https://img.shields.io/npm/v/bodylight-components.svg)](https://www.npmjs.com/package/bodylight-components)
  [![Zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.4575354.svg)](https://doi.org/10.5281/zenodo.4575354)
  [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
-
-[project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
-[project-stage-page]: https://blog.pother.ca/project-stages/
 
 Web components of the Bodylight library. For full documentation see https://bodylight.physiome.cz/Bodylight-docs/reference/. Project portal with links to samples at https://bodylight.physiome.cz/
 
