@@ -66,12 +66,12 @@
     "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^4.2.3",
     "tree-kill": "^1.2.2",
-    "uglifyjs-webpack-plugin": "^1.1.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^3.9.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.8.1"
   },
   "files": [
     "dist"
@@ -125,6 +125,6 @@
     ]
   },
   "dependencies": {
-    "aurelia-bodylight-plugin": "^2.1.16"
+    "aurelia-bodylight-plugin": "^2.1.17"
   }
 }
