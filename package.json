@@ -125,6 +125,6 @@
     ]
   },
   "dependencies": {
-    "aurelia-bodylight-plugin": "^2.1.23"
+    "aurelia-bodylight-plugin": "^2.1.24"
   }
 }
