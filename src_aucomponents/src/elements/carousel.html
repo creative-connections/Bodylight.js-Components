@@ -1,0 +1,13 @@
+<template>
+  <require from="./carousel.css"></require>
+  <div class="w3-content w3-display-container w3-center">
+    <img repeat.for="img of imgs" class="mySlides w3-animate-right" src="${img.src}" show.bind="img.show" >
+    <slot></slot>
+    <div class="w3-center w3-display-bottommiddle" style="width:100%">
+      <div class="w3-left" click.delegate="plusDivsC(-1)">&#10094;</div>
+      <div class="w3-right" click.delegate="plusDivsC(1)">&#10095;</div>
+      <span repeat.for="item of items" class.bind="item.show?'w3-badge demo w3-border w3-amber w3-hover-amber':'w3-badge demo w3-border w3-transparent w3-hover-amber'" click.delegate="currentDiv(item)"></span>
+    </div>
+  </div>
+  <div class="w3-center"><i>${currentinfo}</i></div>
+</template>

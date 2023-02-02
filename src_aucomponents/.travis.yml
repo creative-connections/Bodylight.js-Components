@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 14
+install:
+  - npm install
+script:
+  - au build-plugin
+  - au build
+  - au test

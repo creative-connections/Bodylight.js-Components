@@ -2,7 +2,7 @@
   "name": "bodylight-web-components",
   "type": "project:plugin",
   "paths": {
-    "root": "src",
+    "root": "src_webcomponents",
     "resources": "resources",
     "elements": "resources/elements",
     "attributes": "resources/attributes",

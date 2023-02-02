@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
+</head>
+<body aurelia-app="webcomponents">
+  <bdl-markdown-book2 index="index.md" summary="summary.md">
+    <img src="Bodylight_loading2_amber.gif" height="140" width="85" style="display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"/>
+  </bdl-markdown-book2>
+
+  <bdl-*> </bdl-*>
+
+<script>
+  class Range extends HTMLElement {...}
+  window.customElements.define('range', Range);
+</script>
+
+  <range></range>
+
+</body>
+</html>

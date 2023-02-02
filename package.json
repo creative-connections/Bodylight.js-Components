@@ -93,7 +93,7 @@
       "^aurelia-binding$": "<rootDir>/node_modules/aurelia-binding"
     },
     "modulePaths": [
-      "<rootDir>/src",
+      "<rootDir>/src_webcomponents",
       "<rootDir>/node_modules"
     ],
     "moduleFileExtensions": [
@@ -111,7 +111,7 @@
     "testEnvironment": "node",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js",
+      "src_webcomponents/**/*.js",
       "!**/*.spec.js",
       "!**/node_modules/**",
       "!**/test/**"

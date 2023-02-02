@@ -1,0 +1,32 @@
+<template bindable="base,summary,index,model">
+    <require from="./w3.css"></require>
+    <require from="./w3-theme-amber.css"></require>
+    <require from="./markdown-top-nav"></require>
+    <require from="./markdown-bottom-nav"></require>
+    <require from="./markdown"></require>
+    <require from="./markdown-nav2"></require>
+    <require from="../attributes/watchhash"></require>
+    <require from="./watch-url-hash"></require>
+    <require from="./w3fonts.css"></require>
+    <require from="./markdown-book2.css"></require>
+    <markdown-top-nav base="${base}" src="${summary}" index="${index}" nav.two-way="shownav" toc.two-way="showtoc"></markdown-top-nav>
+    <div class="w3-row">
+        <div class="bdl-sidebar m4 l2 w3-hide-small w3-border-right" show.bind="shownav">
+                <watch-url-hash></watch-url-hash>
+                <markdown-nav2 navstyle="vertical" base="${base}" src="${summary}"></markdown-nav2>
+            &nbsp;
+        </div>
+        <div class.bind="shownav?'bdl-contentbar m4 l2':''">
+            <div class="w3-rest" style="margin:0 20px">
+                <div class="w3-hide-small w3-hide-medium w3-small w3-sans-serif w3-border-left w3-right" show.bind="showtoc">
+                    <div ref="mytoc"></div>
+                </div>
+                <span if.bind="model">
+                <markdown base="${base}" src.bind="model"></markdown>
+                </span>
+                <markdown class="w3-padding  w3-palatino" base="${base}" src="${index}" watchhash="index,0;base,3" toc.two-way="toc"></markdown>
+                <markdown-bottom-nav class="w3-padding  w3-palatino" base="${base}" index="${index}" src="${summary}" show.bind="shownav"></markdown-bottom-nav>
+            </div>
+        </div>
+    </div>
+</template>

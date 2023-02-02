@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bodylight Web Components 2.0 Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--script src="scripts/createjs.js"></script-->
+    <script src="scripts/bodylight.bundle.js" data-main="aurelia-bootstrapper"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/bodylight-components/dist/bodylight.bundle.js" data-main="aurelia-bootstrapper"></script-->
+    <!-- imported CSS are concatenated and added automatically -->
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="pdbe-molstar-1.1.1.css">
+    <!-- JS -->
+    <!--script type="text/javascript" src="pdbe-molstar-component-1.1.1.js"></script-->
+    <!--script type="text/javascript" src="https://www.ebi.ac.uk/pdbe/pdb-component-library/js/pdbe-molstar-component-1.1.0.js"></script-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pdbe-molstar@1.2.0/build/pdbe-molstar-component-1.2.0.js"></script>
+
+</head>
+<body aurelia-app="webcomponents" style="position:relative;min-height:100vh">
+<bdl-markdown-book2 index="index.md" summary="summarymodel.md" model="model.md">
+    <img src="Bodylight_loading2_amber.gif" height="140" width="85" style="display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);"/>
+</bdl-markdown-book2>
+<br />
+<br />
+<footer class="w3-bar w3-center" style="background:#4a4a4a; color:white;position:absolute;bottom:0;z-index:1">
+    <span class="w3-hide-small">2021 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+        COM-Sys Trade s.r.o., Creative-Connections s.r.o., 1.lékařská fakulta Univerzity Karlovy</span>
+    <a href="/Bodylight-Scenarios/" class="w3-bar-item w3-button w3-left"><img style="width:7%" src="bodylight_logo.svg" alt="Bodylight.js">Bodylight Simulators</a>
+    <a class="w3-bar-item w3-button w3-right" href="/Bodylight-docs/" target="_self">Docs</a>
+    <a class="w3-bar-item w3-button w3-right" href="https://github.com/creative-connections" target="_self">GitHub</a>
+</footer>
+</body>
+</html>
