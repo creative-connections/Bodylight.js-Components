@@ -3,6 +3,8 @@
  [![Version](https://img.shields.io/npm/v/bodylight-components.svg)](https://www.npmjs.com/package/bodylight-components)
  [![Zenodo](https://zenodo.org/badge/doi/10.5281/zenodo.4575354.svg)](https://doi.org/10.5281/zenodo.4575354)
  [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/owner/my-element)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc0ab8b096ec5f22c586/maintainability)](https://codeclimate.com/github/creative-connections/Bodylight.js-Components/maintainability)
+ [![Codacy Badge](https://app.codacy.com/project/badge/Grade/c20c72d78ce548599333538be94e1199)](https://www.codacy.com/gh/creative-connections/Bodylight.js-Components/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=creative-connections/Bodylight.js-Components&amp;utm_campaign=Badge_Grade)
 
 Web components of the Bodylight library. For full documentation see https://bodylight.physiome.cz/Bodylight-docs/reference/. Project portal with links to samples at https://bodylight.physiome.cz/
 
