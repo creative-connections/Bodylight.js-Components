@@ -34,8 +34,7 @@ To build web simulator:
 4) optional - export Adobe Animate animation into CreateJS library usable by `bdl-adobe` component.
 5) use the Bodylight components, This plugin is distributed in 2 different way: 1) as standard web components or 2) as aurelia components.
    * **1. Standard web components** - distribution recommended to build web simulator using enhanced HTML or Markdown. 
-   * **2. Aurelia web components** - recommended for more complex web application, further info at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
-
+   * **2. Aurelia web components** - recommended for more complex web application
 # Live demo and tutorial 
 
 https://bodylight.physiome.cz/Bodylight-docs/tutorial/#basic.md
@@ -122,6 +121,38 @@ For resources in github repo use `cdn.jsdelivr.net/gh/` which is returning corre
 Bodylight Web Components cannot be inserted directly into Adobe Captivate, however, content created in HTML or MD and hosted in some domain can be added
 using direct URL as `Web Object`. You may use the `showmenu=false` URL parameter, e.g.: https://bodylight.physiome.cz/Bodylight-Scenarios/#hemodynamics/hemo2.cs.md&showmenu=false
 
+## 2. Aurelia web components
+
+We recommend to use [aurelia](https://aurelia.io) framework to build web application with Bodylight Web components.
+Follow Aurelia doc's how to prepare your project and  install `aurelia-bodylight-plugin` by `npm` command-line:
+```bash
+npm i aurelia-bodylight-plugin
+```
+
+In your `main.js` file enable the plugin by `aurelia.use.plugin(PLATFORM.moduleName('aurelia-bodylight-plugin'))`, so it may look like:
+```javascript
+//main.js
+import {PLATFORM} from 'aurelia-pal';
+
+export function configure(aurelia) {
+  aurelia.use
+    .standardConfiguration()
+    .plugin(PLATFORM.moduleName('aurelia-bodylight-plugin'))
+
+  aurelia.start().then(() => {
+    aurelia.setRoot(PLATFORM.moduleName('app'));
+  });
+}
+```
+Bodylight web components are available in any template, use them without `bdl-` prefix:
+```html
+<template>
+  <range id="id1" min="40" max="180" default="60" title="Heart rate"></range>
+  <fmi ...></fmi>
+  <chartjs ...></chartjs>
+...
+</template>
+```
 # Developer's Guide
 
 Download source code
