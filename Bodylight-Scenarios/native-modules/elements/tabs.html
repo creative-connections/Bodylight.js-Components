@@ -1,0 +1,5 @@
+<template>
+    <div class="w3-bar" ref="controlid">
+        <button repeat.for="id of ids" class.bind="id.cls" click.delegate="open(id)">${id.title}</button>
+    </div>
+</template>

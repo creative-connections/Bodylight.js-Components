@@ -1,0 +1,1 @@
+{"version":3,"sources":["elements/base.js"],"names":["Base","attached","window","bdlBaseHref","href","bindable"],"mappings":";;;;;AAAA;;;;;;;;;;IAEaA,I;;;;;;;SAEXC,Q,GAAA,oBAAW;AACTC,IAAAA,MAAM,CAACC,WAAP,GAAqB,KAAKC,IAA1B,CADS,CACuB;AACjC,G;;;yEAHAC,2B","file":"base.js","sourceRoot":"../../../src/"}

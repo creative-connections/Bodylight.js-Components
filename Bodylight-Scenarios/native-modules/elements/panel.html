@@ -1,0 +1,15 @@
+<template bindable="href,icon,title">
+    <!--require from="../w3.css"></require-->
+    
+    <div class="w3-cell w3-mobile w3-container">
+      <div class="w3-card-2">
+      <div class="w3-center">
+        <a href="${href}" class="w3-button w3-hover-light-grey" style="word-wrap:break-word;white-space: inherit">
+          <img if.bind="icon" src="${icon}" style="width:100%"/>
+          <h5 class="w3-theme-l2" style="text-transform: uppercase">${title}</h5>
+          <p class="w3-justify w3-theme-light w3-small"><slot></slot></p>
+        </a>
+      </div>
+      </div>
+    </div>
+  </template>

@@ -1,0 +1,16 @@
+<template>
+  <fieldset>
+    ${question}
+    <ul style="list-style-type: none">
+    <li repeat.for="answer of answer_exp_array">
+      <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult"/><label>${answer.answer}</label>
+      <span show.bind="showresult" class="w3-theme-l5">
+        <span show.bind="answer.user===answer.correct" title="OK"><i class="fa fa-thumbs-o-up"></i></span>
+        <span show.bind="answer.user!==answer.correct" title="incorrect"><i class="fa fa-times"></i></span>
+        <input type="checkbox" checked.bind="answer.correct" disabled/> <label>${answer.explanation}</label>
+      </span>
+    </li>
+    </ul>
+    <input type="submit" value.bind="buttontitle" click.delegate="submit()"/>
+  </fieldset>
+</template>

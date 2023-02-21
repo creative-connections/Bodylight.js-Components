@@ -1,0 +1,8 @@
+<template bindable="values">
+    <button class="w3-button w3-theme" click.delegate="switchvalues()">${title}</button>
+    <span show.bind="showinputs">
+        <span repeat.for="myid of createids">
+            <input id="${myid}" value="" type="number" />
+        </span>
+    </span>
+</template>
