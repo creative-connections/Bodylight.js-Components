@@ -34,8 +34,7 @@ To build web simulator:
 4) optional - export Adobe Animate animation into CreateJS library usable by `bdl-adobe` component.
 5) use the Bodylight components, This plugin is distributed in 2 different way: 1) as standard web components or 2) as aurelia components.
    * **1. Standard web components** - distribution recommended to build web simulator using enhanced HTML or Markdown. 
-   * **2. Aurelia web components** - recommended for more complex web application, further info at [aurelia-bodylight-plugin at GITHUB](https://github.com/creative-connections/aurelia-bodylight-plugin)   
-
+   * **2. Aurelia web components** - recommended for more complex web application
 # Live demo and tutorial 
 
 https://bodylight.physiome.cz/Bodylight-docs/tutorial/#basic.md
