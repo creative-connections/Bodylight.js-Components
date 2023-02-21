@@ -1,8 +1,0 @@
-<template bindable="min,max,default,step,value,title">
-  <label>${title}</label>
-  <span style="white-space:nowrap">
-    <button show.bind="showicons" class="w3-theme w3-small" style="border:none" click.delegate="setDefault()"><i class="fa fa-refresh"></i></button>
-    <input style.bind="showicons?'':'width:100%'" ref="refinput" class="w3-theme w3-small" type="range" min="${min}" max="${max}" value.bind="value" value="${default}" step="${step}"/>
-    <input show.bind="showicons"  ref="refnumber" class="w3-small" type="number" min="${min}" max="${max}" value.bind="value" value="${default}" step="${step}"/>
-  </span>
-</template>
