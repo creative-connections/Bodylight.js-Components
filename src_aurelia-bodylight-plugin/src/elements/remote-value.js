@@ -169,14 +169,24 @@ export class RemoteValue {
         let url = this.remoteurl + (id ? '/' + id : '');
         if (!this.posterror)
         this.client.fetch(url, {method: 'post', headers: myheaders, body: this.postvalue})
-            .then(response => response.json())// do response.json() for json result
+            //.then(response => response.json())// do response.json() for json result
             .then(data => {
-                //console.log('markdownaurelia fetched md:', data)
-                this.remotevalue = data;
-                this.remotevalueformatted = JSON.stringify(this.remotevalue, null, 4)
+                //console.log('returned data:', data)
+                this.remotevalueraw = data;                
+                try {
+                  
+                  this.remotevalue = data.json();  
+                  console.log('returned data:', this.remotevalue);
+                  this.remotevalueformatted = JSON.stringify(this.remotevalue);
+                } catch(error) {
+                  console.warn('probably zero data returned', error);
+                  console.warn('raw data:', data);                  
+                  //this.remotevalue = "";
+                  //this.remotevalueformatted = "";
+                }
             })
             .catch(err => {
-            console.error('error posting data',err);
+            console.warn('probably no data returned',err);
             this.posterror = true;
         });
         /*this.client.get(this.remoteurl)

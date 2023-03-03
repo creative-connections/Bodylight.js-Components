@@ -159,6 +159,13 @@ export class Chartjs {
       this.generatelabels = this.generatelabels === 'true';
     }
     if (typeof this.minichart === 'string') this.minichart = (this.minichart === 'true');
+    if (typeof this.colorindex === 'string') {
+      this.colorindex = parseInt(this.colorindex, 10);
+    }
+    if (typeof this.colorsegmentindex === 'string') {
+      this.colorsegmentindex = parseInt(this.colorsegmentindex, 10);
+    }
+
     //sets color of each dataset as different as possible
     //and set initial data in chart
     //set labels - separated by comma
@@ -310,12 +317,6 @@ export class Chartjs {
     }
 
     this.tooltips = ['mousemove', 'touchstart', 'touchmove', 'click'];
-    if (typeof this.colorindex === 'string') {
-      this.colorindex = parseInt(this.colorindex, 10);
-    }
-    if (typeof this.colorsegmentindex === 'string') {
-      this.colorsegmentindex = parseInt(this.colorsegmentindex, 10);
-    }
     /*if (this.minichart) {
       this.options.plugins.legend.display = false
     }*/

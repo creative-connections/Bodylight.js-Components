@@ -14,6 +14,7 @@ export class ChartjsTime extends Chartjs {
     @bindable min;
     @bindable max;
     @bindable minichart;
+    @bindable colorindex;
     refindices;
 
     constructor() {
