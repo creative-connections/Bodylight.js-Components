@@ -75,6 +75,10 @@ export class Dygraphchart {
     this.initialdata = true;
   }
 
+  bind() {
+    
+  }
+
   attached() {
     //listening to custom event fmidata
     console.log('dygraph attached');

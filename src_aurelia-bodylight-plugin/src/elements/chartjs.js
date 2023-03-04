@@ -162,6 +162,7 @@ export class Chartjs {
     if (typeof this.colorindex === 'string') {
       this.colorindex = parseInt(this.colorindex, 10);
     }
+    if (!this.colorindex) this.colorindex = 0; //in case not defined or null
     if (typeof this.colorsegmentindex === 'string') {
       this.colorsegmentindex = parseInt(this.colorsegmentindex, 10);
     }

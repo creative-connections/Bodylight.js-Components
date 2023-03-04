@@ -9,4 +9,7 @@
 `<bdl-sachart></bdl-sachart>` creates Sigaard Andersen Nomogram - implemented in Dygraph library.
 
 <bdl-sachart width="600" height="200" fromid="id4" inputs="pH,pCO2" refindex="0" refvalues="2"></bdl-sachart>
-<sachart width="600" height="200" fromid="id4" inputs="pH,pCO2" refindex="0" refvalues="2"></sachart>
+
+<div class="w3-black">
+<bdl-sachart width="600" height="200" fromid="id4" inputs="pH,pCO2" refindex="0" refvalues="2" showdownload="false"></bdl-sachart>
+</div>

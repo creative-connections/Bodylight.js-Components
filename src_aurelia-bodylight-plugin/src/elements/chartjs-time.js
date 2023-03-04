@@ -84,8 +84,8 @@ export class ChartjsTime extends Chartjs {
             datasets.push({
                 data: this.mydata[i + 1],
                 label: this.chlabels[i],
-                backgroundColor: this.selectColor(i),
-                borderColor: this.selectColor(i),
+                backgroundColor: this.selectColor(i+this.colorindex),
+                borderColor: this.selectColor(i+this.colorindex),
                 borderWidth: 1,
                 pointRadius: 1,
                 fill: false

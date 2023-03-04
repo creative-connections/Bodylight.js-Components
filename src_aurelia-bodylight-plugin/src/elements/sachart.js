@@ -14,6 +14,8 @@ export class Sachart extends Dygraphchart {
     @bindable width=400;
     @bindable height=400;
     @bindable convertors;
+    @bindable pointSize = 10;
+    @bindable showdownload = false;
 
     constructor(){
         super();
@@ -21,7 +23,14 @@ export class Sachart extends Dygraphchart {
         this.xy = true; //set xy chart - datapoint will not contain time point
     }
 
-    initdygraph(){
+    bind(){
+        super.bind();
+        if (typeof this.showdownload ==='string') 
+          this.showdownload = this.showdownload === 'true';
+
+    }
+
+    initdygraph(){        
         console.log('sachart - initdygraph');
         this.data = [[7.4,40]];
         this.xaxis = "pH";
@@ -54,6 +63,7 @@ export class Sachart extends Dygraphchart {
         this.dygraph = new Dygraph(this.dygraphcanvas, this.data, {
                 labels:[this.xaxis, this.yaxis],
                 drawPoints:true,
+                highlightCircleSize: this.pointSize,
                 xlabel:this.xaxis,
                 ylabel:this.yaxis,
                 logscale:this.logscale,
@@ -90,13 +100,14 @@ export class Sachart extends Dygraphchart {
                         canvas.stroke();
                     } //for
                     for (let i = 0; i < acidbaseannotation.length; i++) {
-                        canvas.font = "12px sans";
-                        //console.log("x,y,text"+ g.toDomXCoord(acidbaseannotation[i][0])+" "+ g.toDomYCoord(acidbaseannotation[i][1])+" "+ acidbaseannotation[i][2]);
+                        canvas.fillStyle = "#6080ff";
+                        canvas.font = "10px Verdana";
+                        
                         let cx = g.toDomXCoord(acidbaseannotation[i][0]);
                         let cy = g.toDomYCoord(acidbaseannotation[i][1]);
                         if ((cx > 0) && (cx < 600) && (cy > 0) && (cy < 400))
-                            canvas.strokeText(acidbaseannotation[i][2], cx, cy);
-                        //rotateText(acidbaseannotation[i][0], acidbaseannotation[i][1], acidbaseannotation[i][2],acidbase[i][3],canvas);
+                            canvas.fillText(acidbaseannotation[i][2], cx, cy);
+                        
                     }
                 } //underlaycallback
             });
