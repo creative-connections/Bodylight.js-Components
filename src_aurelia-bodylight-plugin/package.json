@@ -164,5 +164,9 @@
     "modelica",
     "webassembly"
   ],
-  "author": "Tomas Kulhanek"
+  "author": "Tomas Kulhanek",
+  "np": {
+    "yarn": false,
+    "contents": "."
+  }
 }
