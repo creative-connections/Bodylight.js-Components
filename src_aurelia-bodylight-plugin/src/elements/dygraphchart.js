@@ -5,6 +5,8 @@ import {bindable} from 'aurelia-framework';
 import {saveAs} from 'file-saver';
 
 export class Dygraphchart {
+  @bindable width;
+  @bindable height;
   @bindable inputs;
   @bindable fromid;
   @bindable maxdata=300;
@@ -12,6 +14,7 @@ export class Dygraphchart {
   @bindable refvalues=1;
   @bindable throttle=200; //time to throttle chart update, if it is too much at once
   @bindable convertors;
+  @bindable minichart;
   initialdata = true;
   refindices = null;
   xy = false;
@@ -76,7 +79,7 @@ export class Dygraphchart {
   }
 
   bind() {
-    
+    if (typeof this.minichart === 'string') this.minichart = this.minichart === 'true';
   }
 
   attached() {

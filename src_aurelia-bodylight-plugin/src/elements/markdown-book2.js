@@ -15,7 +15,7 @@ export class MarkdownBook2 extends MarkdownBook {
       super();
       this.params = 'shownav,1;showtoc,2;showmenu,3;base,4';
       this.shownav = true;
-      this.showtoc = true;
+      this.showtoc = false;
     }
 
     bind() {

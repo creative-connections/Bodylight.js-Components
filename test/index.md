@@ -1,10 +1,10 @@
-# Index
-Demo:
-# Hemodynamika
+# <span t="title-hemo">Hemodynamika</span>
+<span t="title-hemo">title</span>
 <div class="w3-row">
 <div class="w3-half"> 
 <sup>podle modelu Burkhoffa a spol.</sup>
 
+<span t="title-hemo">title</span>
 Hemodynamika popisuje proudění krve jakožto vazké tekutiny 
 z fyzikálního hlediska. Vzhledem ke složitosti krevního oběhu 
 a neustálým změnám tlaku v důsledku tepajícího srdce je fyzikální a 

@@ -139,9 +139,11 @@
     "katex": "^0.12.0",
     "latest-createjs": "^1.0.24",
     "libgif": "0.0.3",
+    "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "markdown-it": "^12.0.4",
     "markdown-it-abbr": "^1.0.4",
+    "markdown-it-attrs": "^4.1.6",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-katexx": "^3.2.0",
     "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git"

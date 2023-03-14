@@ -1,0 +1,20 @@
+<template>        
+    <span class="" title="switch language" click.delegate="switchlanguage()">        
+        <i class="fa fa-cog"></i>
+    </span>
+    <div class="w3-modal" style="z-index:7;display:block" show.bind="showdialog">
+        <div class="w3-modal-content w3-animate-opacity">
+            <div class="w3-white">
+        <div class="w3-center w3-panel w3-theme-d1" t="select-lang">Select languages:</div>
+                <p class="w3-padding">
+        <button class="w3-button w3-theme-l4 w3-large" title="submit" click.delegate="selecten()">English</button></p>
+        <p class="w3-padding">
+        <button class="w3-button w3-theme-l4 w3-large" title="submit" click.delegate="selectcz()">Česky</button></p>
+    
+    </div>
+    <div class="w3-center">
+        <button class="w3-button w3-theme-d1 w3-xlarge w3-center" title="submit" click.delegate="closelanguage()" t="confirm">OK</button>
+    </div>
+    </div>
+    </div>
+</template>

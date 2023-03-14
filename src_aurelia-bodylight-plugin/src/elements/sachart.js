@@ -2,7 +2,7 @@ import {Dygraph} from '../utils/dygraph';
 import {bindable, useView} from 'aurelia-templating';
 import {Dygraphchart} from "./dygraphchart";
 @useView('./dygraphchart.html')
-export class Sachart extends Dygraphchart {
+export class Sachart extends Dygraphchart {    
     @bindable inputs;
     @bindable fromid;
     @bindable maxdata=120;
@@ -11,11 +11,11 @@ export class Sachart extends Dygraphchart {
     @bindable pH=7.4;
     @bindable pCO2=40;
     @bindable throttle=2000; //time to throttle chart update, if it is too much at once
-    @bindable width=400;
-    @bindable height=400;
+    @bindable width;
+    @bindable height;
     @bindable convertors;
     @bindable pointSize = 10;
-    @bindable showdownload = false;
+    @bindable minichart;
 
     constructor(){
         super();
@@ -25,9 +25,9 @@ export class Sachart extends Dygraphchart {
 
     bind(){
         super.bind();
-        if (typeof this.showdownload ==='string') 
-          this.showdownload = this.showdownload === 'true';
-
+        if (!this.width) this.width=400;
+        if (!this.height) this.height=400;
+        //console.warn('sachart bind() width height'+this.width+' '+this.height);
     }
 
     initdygraph(){        
@@ -73,7 +73,7 @@ export class Sachart extends Dygraphchart {
                 tomatonSelectXY: true,
                 underlayCallback:function (canvas, area, g) {
                     //draw area of limit borders
-                    console.log("gradients [0][0..2]:" + g.toDomXCoord(gradient[0][0]) + " " + g.toDomXCoord(gradient[0][1]) + " " + g.toDomXCoord(gradient[0][2]));
+                    //console.log("gradients [0][0..2]:" + g.toDomXCoord(gradient[0][0]) + " " + g.toDomXCoord(gradient[0][1]) + " " + g.toDomXCoord(gradient[0][2]));
                     var my_gradient = canvas.createRadialGradient(g.toDomXCoord(gradient[0][0]), g.toDomYCoord(gradient[0][1]), g.toDomXCoord(gradient[0][2]) - g.toDomXCoord(0),
                         g.toDomXCoord(gradient[1][0]), g.toDomYCoord(gradient[1][1]), g.toDomXCoord(gradient[1][2]) - g.toDomXCoord(0));
                     my_gradient.addColorStop(0, "#ffffaa");

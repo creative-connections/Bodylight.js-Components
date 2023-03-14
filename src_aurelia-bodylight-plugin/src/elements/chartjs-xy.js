@@ -21,8 +21,11 @@ export class ChartjsXy extends ChartjsTime {
       //let datapoints =e.detail.data.slice(this.refindex, this.refendindex);
       let j = 0;
       //put first value on x axis, others on y axis other values
-      for (let i = (this.refindex + 1); i < this.refindex + this.refvalues; i++) {
-        this.chart.data.datasets[j].data.push({x: e.detail.data[this.refindex], y: e.detail.data[i]});
+      for (let i = 1; i < this.refvalues; i++) {
+        if (this.operation && this.operation[i]) 
+          this.chart.data.datasets[j].data.push({x: this.operation[0](e.detail.data[this.refindex]), y:this.operation[i](e.detail.data[this.refindex+i])});
+        else 
+          this.chart.data.datasets[j].data.push({x: e.detail.data[this.refindex], y: e.detail.data[this.refindex+i]});
         //console.log('adding from data[], i, data[i]', e.detail.data, i, e.detail.data[i]);
         if (this.chart.data.datasets[j].data.length > this.maxdata) {
           //console.log('shifting dataset chartjs-xy', this.chart.data.datasets[j].data);

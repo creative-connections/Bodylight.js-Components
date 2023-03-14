@@ -3,7 +3,8 @@ set -x
 rm -rf dist/
 mkdir dist
 au build-plugin
-cp -TRv dist/ ../../Bodylight.js-Components/node_modules/aurelia-bodylight-plugin/dist/
+cp -TRv dist/ ../node_modules/aurelia-bodylight-plugin/dist/
+cp -TRv src/ ../node_modules/aurelia-bodylight-plugin/src/
 # build components
 cd ..
 #npm run build

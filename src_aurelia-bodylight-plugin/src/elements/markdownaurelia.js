@@ -6,7 +6,8 @@ import {bodylightFootnotePlugin} from './markdown-it-bfootnote';
 import mk from 'markdown-it-katexx'; //math in md, iktakahiro version seems to be most updated - works with latest katex
 import hljs from 'highlight.js'; //highlights in MD source blocks
 import mka from 'markdown-it-abbr';
-import {markdownitbtoc} from './markdown-it-btoc';
+import mda from 'markdown-it-attrs';
+//import {markdownitbtoc} from './markdown-it-btoc'; //commented out - breaks with markdown-it-attrs headers h1 h2 h3
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -25,14 +26,14 @@ export class Markdownaurelia {
   @bindable watchhash;
   @bindable base='';
   @bindable fromid;
-  @bindable toc;
+  //@bindable toc;
   @bindable content;
   previoussrc='';
   constructor(i18n, httpclient, ea) {
     //this.i18n = i18n;
     this.client = httpclient;
     this.html = '';
-    this.toc = '';
+    //this.toc = '';
     this.ea = ea;
     this.i18n = i18n;
     //console.log('bdlmarkdownaurelia eventaggregator:', ea);
@@ -78,10 +79,11 @@ export class Markdownaurelia {
     }).use(bodylightFootnotePlugin) //footnote - extension to MD - otherwise no link between [^1] and [^1]:
       //.use(MarkdownitAttrs)
       .use(mk, {'throwOnError': true, 'errorColor': ' #cc0000'}) //math-> katex - should be faster than mathjax and crossbrowser compatible when chrom do not support mathml
-      .use(mka)
+      .use(mka) //abbreviation      
       //.use(markdownItAnchor, { permalink: true, permalinkBefore: true, permalinkSymbol: '§' } )
       //.use(markdownItTocDoneRight);
-      .use(markdownitbtoc);
+      //.use(markdownitbtoc) //generate small table of content
+      .use(mda); //attributes
     if (this.i18n.getLocale() === 'cs') {
       console.log('czech version');
     } else {
@@ -119,8 +121,10 @@ export class Markdownaurelia {
         this.text = data;
         //convert from md to html
         this.html = this.md.render(this.text);
+        /* comment out TOC
         let tocregex = /<div[^<>]*id="toc"[^<>]*>(.*?)<\/div>/g;
         this.toc = this.md.render('@[toc] \n' + this.text).match(tocregex)[0];
+        */
         //console.log('readmd toc:', this.toc);
         this.update();
       });
@@ -136,6 +140,9 @@ export class Markdownaurelia {
     //if (window.MathJax) window.MathJax.typeset();
     //scroll to top of the page
     window.scrollTo(0, 0);
+    console.log('i18n',this.i18n);
+    console.log('updating translation',this.mydiv);
+    this.i18n.updateTranslations(this.mydiv);
     //send fmiregister event for possible shared fmi component to bind to input components
     setTimeout(() => {
       let event = new CustomEvent('fmiregister');
