@@ -58,6 +58,6 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/sachart'),
     PLATFORM.moduleName('./elements/panels.html'),
     PLATFORM.moduleName('./elements/panel.html'),
-    PLATFORM.moduleName('./elements/panel2.html'),
+    PLATFORM.moduleName('./elements/panel2.html')
   ]);
 }
