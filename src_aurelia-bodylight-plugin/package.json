@@ -149,9 +149,9 @@
     "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git"
   },
   "bugs": {
-    "url": "https://github.com/creative-connections/aurelia-bodylight-plugin/issues"
+    "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"
   },
-  "homepage": "https://github.com/creative-connections/aurelia-bodylight-plugin#readme",
+  "homepage": "https://github.com/creative-connections/Bodylight.js-Components#readme",
   "directories": {
     "doc": "docs",
     "test": "test"
