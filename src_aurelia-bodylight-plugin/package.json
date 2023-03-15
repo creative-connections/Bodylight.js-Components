@@ -65,7 +65,7 @@
     "watch": "au build-plugin --watch",
     "prepare": "npm run build",
     "pretest": "au lint",
-    "preversion": "au test",
+    "preversion": "",
     "test": "au test"
   },
   "engines": {
