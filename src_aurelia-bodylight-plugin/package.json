@@ -4,7 +4,7 @@
   "version": "2.2.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creative-connections/aurelia-bodylight-plugin.git"
+    "url": "git+https://github.com/creative-connections/Bodylight.js-Component.git"
   },
   "license": "MIT",
   "devDependencies": {
