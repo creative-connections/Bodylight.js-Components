@@ -16,13 +16,11 @@
   </div>
   <div if.bind="type === 'match'" class="w3-row">
     <div class="w3-half">
-      <div repeat.for="term of randomterms">
-        <button click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled">${term.title}</button>
+      <div repeat.for="term of randomterms" click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled">${term.title}
       </div>
     </div>
     <div class="w3-half">
-      <div repeat.for="answer of randomanswers">
-         <button click.delegate="selectAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">${answer.title}</button>
+      <div repeat.for="answer of randomanswers" click.delegate="selectAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">${answer.title}
       </div>
     </div>
   </div>

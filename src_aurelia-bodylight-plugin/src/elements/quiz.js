@@ -1,5 +1,5 @@
 import {bindable} from 'aurelia-templating';
-import { random } from 'lodash';
+import _ from 'lodash';
 export class Quiz {
   @bindable question='?';
   @bindable terms; //for matching test
@@ -33,22 +33,26 @@ export class Quiz {
       //prepare randomterms and randomanswers
       let indices1 = [...Array(this.terms_array.length).keys()];
       let indices2 = [...Array(this.answers_array.length).keys()];
-      let shuffled1indices = this.shuffle(indices1);
-      let shuffled2indices = this.shuffle(indices2);
+      let shuffled1indices = _.shuffle(indices1);
+      let shuffled2indices = _.shuffle(indices2);
       this.randomterms = [];
       this.randomanswers = [];
       for (let i=0;i<this.terms_array.length;i++) {
-        const myterm = {title:this.terms_array[shuffled1indices[i]],index:shuffled1indices[i],disabled:false,class:'w3-button'}
+        const termindex = shuffled1indices[i];
+        const termtitle = this.terms_array[termindex];
+        const myterm = {title:termtitle,index:shuffled1indices[i],disabled:false,class:this.unselected}
         this.randomterms.push(myterm);
       }
       for (let i=0;i<this.answers_array.length;i++) {
-        const myterm = {title:this.answers_array[shuffled2indices[i]],index:shuffled2indices[i],disabled:false,class:'w3-button'}
+        const myterm = {title:this.answers_array[shuffled2indices[i]],index:shuffled2indices[i],disabled:false,class:this.unselected}
         this.randomanswers.push(myterm);
       }
+      console.log('quiz match, randomterms',this.randomterms);
+      console.log('quiz match, randomanswers',this.randomanswers);
     }
   }
 
-  shuffle(array) {
+  /*shuffle(array) {
     var i = array.length,
         j = 0,
         temp;
@@ -64,17 +68,17 @@ export class Quiz {
 
     }
     return array;
-}
+}*/
 
   submit() {
     //console.log('Bdlquis submit()');
     this.showresult = true;
   }
 
-  unselected = 'w3-button';
-  selected = 'w3-green w3-button';
-  correct = 'w3-button';
-  incorrect = 'w3-red w3-button';
+  unselected = 'w3-border w3-margin w3-round-medium w3-grey w3-hover-green';//class="w3-border w3-margin w3-round-small"
+  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green';
+  correct = 'w3-border w3-margin w3-round-medium ';
+  incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green';
   correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-red','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
 
   checkTermAnswerMatch(){
@@ -92,6 +96,7 @@ export class Quiz {
   }
 
   selectTerm(term){
+    if (term.disabled) return;
     if (this.selectedTerm) {this.selectedTerm.class = this.unselected;}
     this.selectedTerm = term;
     if (this.selectedAnswer) {
@@ -102,6 +107,7 @@ export class Quiz {
   }
 
   selectAnswer(answer){
+    if (answer.disabled) return;
     if (this.selectedAnswer) {this.selectedAnswer.class= this.unselected;}
     this.selectedAnswer = answer;
     if (this.selectedTerm) {

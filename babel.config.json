@@ -6,7 +6,8 @@
         "loose": true,
         "exclude": [
           "@babel/plugin-proposal-dynamic-import"
-        ]
+        ],
+        "targets": "supports es6-module and defaults"
       }
     ]
   ],
