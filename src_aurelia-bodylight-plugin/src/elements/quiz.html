@@ -1,6 +1,7 @@
 <template>
   <fieldset>
     ${question}
+    <div if.bind="type === 'choice'">
     <ul style="list-style-type: none">
     <li repeat.for="answer of answer_exp_array">
       <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult"/><label>${answer.answer}</label>
@@ -12,5 +13,18 @@
     </li>
     </ul>
     <input type="submit" value.bind="buttontitle" click.delegate="submit()"/>
+  </div>
+  <div if.bind="type === 'match'" class="w3-row">
+    <div class="w3-half">
+      <div repeat.for="term of randomterms">
+        <button click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled">${term.title}</button>
+      </div>
+    </div>
+    <div class="w3-half">
+      <div repeat.for="answer of randomanswers">
+         <button click.delegate="selectAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">${answer.title}</button>
+      </div>
+    </div>
+  </div>
   </fieldset>
 </template>

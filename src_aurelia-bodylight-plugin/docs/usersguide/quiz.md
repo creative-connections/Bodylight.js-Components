@@ -34,3 +34,20 @@ Creates a quiz component,
           button="Custom check answer title">
 </bdl-quiz>
 
+```html
+<bdl-quiz question="Match terms and definition:"
+	  type="match"
+	  terms="unstressed volume | stressed volume | volume"
+	  answers="volume that does not generate pressure | volume that generates pressure | sum of unstressed and stressed volume"
+	  explanations="explanation why answer 1 is false (separated by pipe)|explanation why answer 2 is true"
+	  title="Custom check answer title">
+</bdl-quiz>
+```
+
+<bdl-quiz question="Match terms and definition:"
+	  type="match"
+	  terms="unstressed volume | stressed volume | volume"
+	  answers="volume that does not generate pressure | volume that generates pressure | sum of unstressed and stressed volume"
+	  explanations="explanation why answer 1 is false (separated by pipe)|explanation why answer 2 is true"
+	  title="Custom check answer title">
+</bdl-quiz>
