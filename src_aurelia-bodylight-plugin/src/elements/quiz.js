@@ -1,5 +1,9 @@
 import {bindable} from 'aurelia-templating';
+import {inject} from 'aurelia-framework';
 import _ from 'lodash';
+import {EventAggregator} from 'aurelia-event-aggregator';
+  
+@inject(EventAggregator)
 export class Quiz {
   @bindable question='?';
   @bindable terms; //for matching test
@@ -8,9 +12,15 @@ export class Quiz {
   @bindable correctoptions;
   @bindable buttontitle='check answers';
   @bindable type='choice'; //could be choice|match for multiple choice|matching test
+  @bindable id;
+  
+  constructor(eventAggregator) {
+    this.ea = eventAggregator;
+  }
 
   bind() {
     this.useranswer = [];
+    this.showquiz=true;
     this.showresult = false;
     this.answers_array = (this.answers)? this.answers.split('|').map(s => s.trim()): [];
     this.terms_array = (this.terms)? this.terms.split('|').map(s => s.trim()): [];
@@ -50,7 +60,26 @@ export class Quiz {
       console.log('quiz match, randomterms',this.randomterms);
       console.log('quiz match, randomanswers',this.randomanswers);
     }
+    this.ea.subscribe('quizshow', quizid => {
+      if (this.id === quizid)  this.show();//quizid);
+    });
+    this.ea.subscribe('quizhide', quizid => {
+      if (this.id === quizid) this.hide();//quizid);
+    });
+    
   }
+
+  attached(){
+  }
+
+  show(){
+    this.showquiz = true;
+  }
+
+  hide(){
+    this.showquiz = false;
+  }
+
 
   /*shuffle(array) {
     var i = array.length,
@@ -75,11 +104,11 @@ export class Quiz {
     this.showresult = true;
   }
 
-  unselected = 'w3-border w3-margin w3-round-medium w3-grey w3-hover-green';//class="w3-border w3-margin w3-round-small"
-  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green';
-  correct = 'w3-border w3-margin w3-round-medium ';
-  incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green';
-  correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-red','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
+  unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-hover-green w3-large w3-padding';//class="w3-border w3-margin w3-round-small"
+  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green w3-large w3-padding';
+  correct = 'w3-border w3-margin w3-round-medium w3-large w3-padding';
+  incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green w3-large w3-padding';
+  correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
 
   checkTermAnswerMatch(){
     if (this.selectedAnswer.index == this.selectedTerm.index) {
@@ -89,6 +118,8 @@ export class Quiz {
       this.selectedAnswer.disabled = true;
       this.selectedAnswer = null;
       this.selectedTerm = null;
+      //check if all terms are disabled
+      if (this.randomterms.filter(x => !x.disabled).length === 0) this.ea.publish('quizdone',this.id);
     } else {
       this.selectedTerm.class = this.incorrect; 
       this.selectedAnswer.class=  this.incorrect;

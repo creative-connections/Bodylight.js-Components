@@ -38,12 +38,38 @@ Creates a quiz component,
 <bdl-quiz question="Match terms and definition:"
 	  type="match"
 	  terms="unstressed volume | stressed volume | volume"
-	  answers="volume that does not generate pressure | volume that generates pressure | sum of unstressed and stressed volume">
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
 </bdl-quiz>
 ```
 
 <bdl-quiz question="Match terms and definition:"
 	  type="match"
 	  terms="unstressed volume | stressed volume | volume"
-	  answers="volume that does not generate pressure | volume that generates pressure | sum of unstressed and stressed volume">
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
 </bdl-quiz>
+
+```html
+<bdl-quiz-control ids="q1,q2"><bdl-quiz-control>
+<bdl-quiz question="Match terms and definition:"
+	  type="match"
+	  terms="unstressed volume | stressed volume | volume"
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
+</bdl-quiz>
+<bdl-quiz question="Match terms and definition2:"
+	  type="match"
+	  terms="unstressed volume2 | stressed volume2 | volume2"
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
+</bdl-quiz>
+</bdl-quiz-control>  
+```
+<bdl-quiz id="q1" question="Match terms and definition:"
+	  type="match"
+	  terms="unstressed volume | stressed volume | volume"
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
+</bdl-quiz>
+<bdl-quiz id="q2" question="Match terms and definition2:"
+	  type="match"
+	  terms="unstressed volume2 | stressed volume2 | volume2"
+	  answers="volume that does not generate pressure | gen.pressure | sum of unstressed and stressed volume and all blood in circulation system, with long description and markup <i>l</i> <b>bold</b>">
+</bdl-quiz>
+<bdl-quiz-control ids="q1,q2"></bdl-quiz-control>
