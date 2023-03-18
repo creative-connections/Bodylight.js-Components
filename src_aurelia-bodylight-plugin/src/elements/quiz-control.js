@@ -55,7 +55,7 @@ export class QuizControl {
     }
 
     shownext() {
-        if (this.quizindex<this.quizids.length) {
+        if (this.quizindex<(this.quizids.length-1)) {
             this.showforward = true;
         } else {
             this.allquizdone();
@@ -74,7 +74,7 @@ export class QuizControl {
     }
 
     allquizdone(){
-
+        //TODO enable navigation to NEXT page in markdown-book
     }
 
 }
