@@ -325,7 +325,9 @@ export class AnimateAdobe {
       window.AdobeAn.compositionLoaded(window.ani.lib.properties.id);
       //window.ani.handleResize();
       fnStartAnimation();
-      setTimeout(()=>{
+      let fnStopInitialAnimation = function() {
+        console.log('stopinitialanimation');
+        //window.ani.stopinitialanimation = false;
         /*
         //get all objects from animation
         window.ani.objs = Object.keys(window.ani.exportRoot.children[0]);
@@ -347,6 +349,7 @@ export class AnimateAdobe {
           for (let robj of window.ani.rangeobjs) {robj.setValue(50);}
         } else {
           console.log('error, Animate object is not yet accessible. Try to refresh after while');
+          return;
         }
         //stop animation if it is not yet started by other events, adobe automatically starts animation
         if (!window.ani.animationstarted) {
@@ -359,10 +362,15 @@ export class AnimateAdobe {
           //workaround after resize the artifacts are updated
           //window.ani.handleResize();
         }
-        let event = new CustomEvent('fmiregister');
-        document.dispatchEvent(event);
-
-      }, 1000);
+        //send registering only once
+        if (!window.ani.stopinitialanimation) {
+          let event = new CustomEvent('fmiregister');
+          document.dispatchEvent(event);
+        }
+        window.ani.stopinitialanimation = true;
+      }
+      setTimeout(fnStopInitialAnimation, 3000);
+      //setTimeout(fnStopInitialAnimation, 5000);
     }
     /**
    * Discovers animable objects in Adobe Animation
@@ -591,7 +599,7 @@ export class AnimateAdobe {
         if (animateobj) {  
         animateobj.addEventListener('change', e=> { 
           //range.animateobj.value 
-          e.detail = { id: animateobj.name, value: animateobj.value }          
+          e.detail = { id: range.name, value: animateobj.value }          
           //handlevaluechange
           range.handleValueChange(e);        
         });

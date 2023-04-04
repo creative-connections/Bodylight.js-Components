@@ -54,7 +54,7 @@ export class Fmi {
       if (this.changeinputs[targetid] && this.changeinputs[targetid].value === targetvalue) return;
       this.changeinputs[targetid] = {id:targetid, value:targetvalue}; //detail will hold the value being changed
       //determine whether it is fixed parameter - further reset is needed?
-      this.resetBeforeChange = this.resetBeforeChange || this.inputreferences[targetid].fixed;
+      this.resetBeforeChange = this.resetBeforeChange || (this.inputreferences[targetid] && this.inputreferences[targetid].fixed);
       //do step if mode is onestep
       //TODO may be do throttle here - if more events will come do step shot only once
       if (this.isOnestep) setTimeout(this.step.bind(this),200); //do simulation step after 200 ms
@@ -159,6 +159,7 @@ export class Fmi {
 
   deregisterInputs() {
     //do removeListeners()
+    window.animateranges = [];
     if (this.inputs) {
       let inputparts = this.inputs.split(';');
       for (let inputpart of inputparts) {
@@ -183,8 +184,7 @@ export class Fmi {
     console.log('fmi attached');
     this.mydata = [0, 0];
     //split references by ,
-    this.references = this.valuereferences.split(',');
-
+    this.references = this.valuereferences.split(',');    
     this.registerInputs();
 
     //if src is not specified - then expects that fmi scripts is loaded in HTML page prior thus should be available
@@ -296,7 +296,7 @@ export class Fmi {
         } else //do simulation step after 100 ms
         if (this.startafter>0)
         {
-          setTimeout(window.thisfmi.sendStartEvent.bind(window.thisfmi),1000*this.startafter);
+          setTimeout(window.thisfmi.startstop.bind(window.thisfmi),1000*this.startafter);
         }
       });
     } else { //older EMSDK prior 3.x compiles directly to api, keep compatibility
@@ -702,14 +702,15 @@ export class Fmi {
       //console.log('changing inputs', myinputs);
       //set real - reference is in - one input one reference
       //sets individual values - if id is in input, then reference is taken from inputs definition
-      console.log('changing inputs,id,value', this.inputreferences, myinputs.id, myinputs.value);
-      for (let iref of this.inputreferences[myinputs.id].refs) {
-        let normalizedvalue = myinputs.value * iref.numerator / iref.denominator + iref.addconst;
-        if (myinputs.id) this.setSingleReal(iref.ref, normalizedvalue);
-        // if reference is in input, then it is set directly
-        else if (myinputs.valuereference) this.setSingleReal(myinputs.valuereference, normalizedvalue);
+      console.log('changing inputs for myinputs.id '+myinputs.id+" value "+myinputs.value, this.inputreferences);
+      if (this.inputreferences[myinputs.id]) {
+        for (let iref of this.inputreferences[myinputs.id].refs) {
+          let normalizedvalue = myinputs.value * iref.numerator / iref.denominator + iref.addconst;
+          if (myinputs.id) this.setSingleReal(iref.ref, normalizedvalue);
+          // if reference is in input, then it is set directly
+          else if (myinputs.valuereference) this.setSingleReal(myinputs.valuereference, normalizedvalue);
+        }
       }
-
     }
     this.flushRealQueue();
     if (!this.isOneshot && !this.isOnestep) {

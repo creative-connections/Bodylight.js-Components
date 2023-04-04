@@ -11,6 +11,7 @@ export class Bind2animtext extends Bind2animation {
   }
 
   convertf2a(x) {
+    if (! x) {console.warn('undefined x, findex:'+this.findex+' aname:'+this.aname);      return "";}
     if (this.operation) x = this.operation(x);
     //let xstr = x.toPrecision(4);
     //return x.toPrecision(4);
