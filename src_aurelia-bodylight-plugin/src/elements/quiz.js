@@ -104,10 +104,10 @@ export class Quiz {
     this.showresult = true;
   }
 
-  unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-hover-green w3-large w3-padding';//class="w3-border w3-margin w3-round-small"
-  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green w3-large w3-padding';
-  correct = 'w3-border w3-margin w3-round-medium w3-large w3-padding';
-  incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green w3-large w3-padding';
+  unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-hover-green w3-padding';//class="w3-border w3-margin w3-round-small"
+  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green w3-padding';
+  correct = 'w3-border w3-margin w3-round-medium w3-padding';
+  incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green w3-padding';
   correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
 
   checkTermAnswerMatch(){

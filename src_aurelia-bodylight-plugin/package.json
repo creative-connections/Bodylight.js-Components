@@ -116,7 +116,8 @@
     ]
   },
   "dependenciesbackup": {
-    "aurelia-web-components": "^1.0.0-beta.3"
+    "aurelia-web-components": "^1.0.0-beta.3",
+    "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git"
   },
   "dependencies": {
     "aurelia-bootstrapper": "^2.3.2",
@@ -146,7 +147,7 @@
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-katexx": "^3.2.0",
-    "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git"
+    "pdbe-molstar": "^3.1.0"
   },
   "bugs": {
     "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"

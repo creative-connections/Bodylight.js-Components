@@ -369,7 +369,7 @@ export class AnimateAdobe {
         }
         window.ani.stopinitialanimation = true;
       }
-      setTimeout(fnStopInitialAnimation, 3000);
+      setTimeout(fnStopInitialAnimation, 1000);
       //setTimeout(fnStopInitialAnimation, 5000);
     }
     /**
