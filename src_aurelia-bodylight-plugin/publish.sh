@@ -1,4 +1,5 @@
 # publish new version npm package 
 # - omit cleanup, otherwise testing on canvas will fail
 # need to install by `npm install canvas --build-from-sources` again
-np --yolo --no-tests
+# np --yolo --no-tests 
+npm publish
