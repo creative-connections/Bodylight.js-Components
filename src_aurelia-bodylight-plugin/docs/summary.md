@@ -43,4 +43,5 @@
     * [Performance](#example/performance.md)
     * [Remote Value](#example/remotevaluedemo.md)
     * [Manequin Demo](#example/manequindemo.md)
+    * [Animation Range](#example/animationrange.md)
   * [About](#about.md)

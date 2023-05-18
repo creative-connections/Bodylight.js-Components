@@ -10,6 +10,7 @@ export class Range {
     @bindable title;
     @bindable showicons = true;
     @bindable globalanim = false;
+    @bindable animobj;
     //@bindable firedata = false; //'position'
     @bindable fireevent = 'input'; //name of the event to be dispatched - should be same as fmi eventlisten
     refinput;
@@ -172,8 +173,21 @@ export class Range {
             //single value is change e.g. externally
             this.setValue(newValue);
             if (this.globalanim) {
-                if (window.ani && window.ani.exportRoot)
-                    window.ani.exportRoot.children[0].gotoAndStop(newValue);
+                if (this.animobj) {
+                    //animate local object
+                    if (!window.ani.animationstarted ) window.ani.enableAnimation();
+
+                    if (window.ani) window.ani.setAnimationValue(this.animobj, newValue);
+                }
+                else {
+                    //animate globally
+                    if (window.ani && window.ani.exportRoot) {
+                        for (animchild of window.ani.exportRoot.children) {
+                        if (typeof animchild.gotoAndStop === 'function')
+                           animchild.gotoAndStop (newValue);                    
+                        }
+                    }
+                }
             }
         }
     }
