@@ -5,9 +5,11 @@ export class Carousel {
   @bindable images;
   @bindable badges;
   @bindable infos;
+  @bindable links;
   items = [];
   imgs = [];
   infoarray = [];
+  linkarray = [];
   currentinfo = '';
   @bindable interval;
   timeoutinterval = 15000; //default is 15000 ms
@@ -18,6 +20,14 @@ export class Carousel {
     //either badges are defined - images in slot, or images are defined
     //badges = 5, defines number of dots/badges generated
     //create items array - numbers from 0 to 'badges -1'
+    if (this.infos) {
+      this.infoarray = this.infos.split('|');
+      this.currentinfo = this.infoarray[0];
+    }
+    if (this.links) {
+      this.linkarray = this.links.split('|');
+      this.currentlink = this.linkarray[0];
+    }
     if (this.badges) {
       let numbadges = parseInt(this.badges, 10);
       for (let i = 0; i < numbadges; i++) {
@@ -29,7 +39,7 @@ export class Carousel {
       if (this.images) {
         let imagesarray = this.images.split('|'); //split by pipe or comma
         for (let i = 0; i < imagesarray.length; i++) {
-          this.imgs.push({src: imagesarray[i], show: (i === 0)});
+          this.imgs.push({src: imagesarray[i], show: (i === 0), link: this.links?this.linkarray[i]:''});
           this.items.push({index: i, show: (i === 0)});
         }
       }
@@ -37,6 +47,10 @@ export class Carousel {
     if (this.infos) {
       this.infoarray = this.infos.split('|');
       this.currentinfo = this.infoarray[0];
+    }
+    if (this.links) {
+      this.linkarray = this.links.split('|');
+      this.currentlink = this.linkarray[0];
     }
     //if defined, then recount timeoutinterval to ms based on interval attribute
     if (this.interval) {
@@ -96,6 +110,7 @@ export class Carousel {
     this.imgs[this.slideIndex].show = true;
     this.items[this.slideIndex].show = true;
     if (this.infoarray.length > this.slideIndex) this.currentinfo = this.infoarray[this.slideIndex];
+    if (this.linkarray.length > this.slideIndex) this.currentlink = this.linkarray[this.slideIndex];
   }
 
   detached() {

@@ -43,8 +43,11 @@ export class AnimateAdobe {
       this.animateData = e => {
 
       }
-      this.handleFMIStart = e => { this.enableAnimation();}
-      this.handleFMIStop = e => {this.disableAnimation();}
+      //this.handleFMIStart = e => { this.enableAnimation();} 
+      //fix bind-2a-play objects not animated in loop after start
+      this.handleFMIStart = e => { this.startAllAnimation();}
+      //this.handleFMIStop = e => {this.disableAnimation();}
+      this.handleFMIStop = e => {this.stopAllAnimation();}
       this.handlaAnimateStart = e => {this.startAllAnimation();}
       this.handleAnimateStop = e => {this.stopAllAnimation();}
     }
@@ -370,6 +373,7 @@ export class AnimateAdobe {
         window.ani.stopinitialanimation = true;
       }
       setTimeout(fnStopInitialAnimation, 1000);
+      //setTimeout(fnStopInitialAnimation, 1000);
       //setTimeout(fnStopInitialAnimation, 5000);
     }
     /**
@@ -487,16 +491,15 @@ export class AnimateAdobe {
       if (window.ani.stage) {
         window.ani.stage.stop();
       }
+      if (window.ani.animationstarted) window.ani.disableAnimation();//window.createjs.Ticker.addEventListener('tick', window.ani.stage);
     }
 
     disableAnimation() {
       console.log('animateadobe disableAnimation');
       if (window.ani) {
-        window.ani.animationstarted = false;
-        if (window.ani.stage) {
-          window.createjs.Ticker.removeEventListener('tick', window.ani.stage);
-          this.deregisterInputs();
-        }
+        window.ani.animationstarted = false;        
+        window.createjs.Ticker.removeAllEventListeners()
+        this.deregisterInputs();        
       }
     }
 
