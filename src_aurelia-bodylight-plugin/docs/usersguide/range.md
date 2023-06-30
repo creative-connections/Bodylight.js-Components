@@ -4,6 +4,7 @@
   * `min`, `max` minimum and maximum range value (default 0,100)
   * `step`, step between the range values (default 1)
   * `default`, default value of the range component (default 50)
+  * `initdefault`, send default value to fmi after initialization (200ms) set it if default value differs from what is in the model.
 
 Example:
   * `<bdl-range id="id1" min="10" max="20" step="2" default="12"></bdl-range>` will render range from 10 to 20 with default value 12 and step 2.

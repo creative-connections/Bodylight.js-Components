@@ -15,6 +15,8 @@ export class ChartjsTime extends Chartjs {
     @bindable max;
     @bindable minichart;
     @bindable colorindex;
+    @bindable timedenom; //coeficient which will be denominated from time (e.g. 60 => time/60 in minutes 3600 => time/3600 in hours)
+    @bindable timedenomfixed = 1;
     refindices;
 
     constructor() {
@@ -43,7 +45,7 @@ export class ChartjsTime extends Chartjs {
 
             if (this.refindices) for (let i of this.refindices) handleIndex.call(this, i);
             else for (let i = this.refindex; i < this.refindex + this.refvalues; i++) handleIndex.call(this, i);
-            this.chart.data.labels.push(e.detail.time);
+            this.chart.data.labels.push(this.timeoperation(e.detail.time));
             if (this.chart.data.labels.length > this.maxdata) {
                 this.chart.data.labels.shift();
                 if (this.sectionid) {
@@ -64,7 +66,14 @@ export class ChartjsTime extends Chartjs {
      */
     bind() {
         super.bind();
-
+        if (typeof this.timedenomfixed === 'string') this.timedenomfixed = parseInt(this.timedenomfixed,10);
+        if (typeof this.timedenom === 'string') {
+            
+            this.timedenom = parseFloat(this.timedenom, 10);
+            this.timeoperation = x => {return (x/this.timedenom).toFixed(this.timedenomfixed)}; //time operation is denomination 
+        } else {
+            this.timeoperation = x => { return x }; //time operation is identity - no operation on number is performed
+        }
         //done in super
         //this.chlabels = this.labels.split(','); //labels for each dataset
         //this.colors = [];

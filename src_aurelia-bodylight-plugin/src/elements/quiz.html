@@ -1,15 +1,15 @@
 <template bindable="id">  
   <div show.bind="showquiz">
-  <fieldset>
-    ${question}
+  <fieldset>    
     <div if.bind="type === 'choice'">
+    ${question}
     <ul style="list-style-type: none">
     <li repeat.for="answer of answer_exp_array">
-      <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult"/><label>${answer.answer}</label>
+      <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult"/><label innerhtml.bind="answer.answer"></label>
       <span show.bind="showresult" class="w3-theme-l5">
         <span show.bind="answer.user===answer.correct" title="OK"><i class="fa fa-thumbs-o-up"></i></span>
         <span show.bind="answer.user!==answer.correct" title="incorrect"><i class="fa fa-times"></i></span>
-        <input type="checkbox" checked.bind="answer.correct" disabled/> <label>${answer.explanation}</label>
+        <input type="checkbox" checked.bind="answer.correct" disabled/> <label innerhtml.bind="answer.explanation"></label>
       </span>
     </li>
     </ul>
@@ -25,6 +25,17 @@
       </div>
     </div>
   </div>
-  </fieldset>
+  <div if.bind="type === 'choise2'" class="w3-row">
+    <div class="w3-half">
+      <div innerhtml.bind="question">
+      </div>
+    </div>
+    <div class="w3-half">
+      <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled" innerhtml.bind="answer.title">
+      </div>
+    </div>
+  </div>
+
+  </fieldset>  
   </div>
 </template>

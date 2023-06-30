@@ -12,6 +12,8 @@ export class Value {
   @bindable throttle=500;
   @bindable dataevent=false;
   @bindable adobeid;
+  @bindable tohash=false; //will change window.location.hash if true
+  previousvalue = '';
 
   //constructor(){}
 
@@ -45,6 +47,7 @@ export class Value {
     //register throttled update function    
     if (typeof this.throttle === 'string') this.throttle = parseInt(this.throttle, 10);
     if (typeof this.dataevent === 'string') this.dataevent = this.dataevent === 'true';
+    if (typeof this.tohash === 'string') this.tohash = this.tohash === 'true';
     if (typeof this.precision === 'string') this.precision = parseInt(this.precision, 10);
     this.myupdatevalue = _.throttle(this.updateValue, this.throttle);
     if (this.default && typeof this.default === 'string') this.value = parseFloat(this.default);
@@ -119,6 +122,13 @@ export class Value {
     if (this.dataevent) {
       let c = new CustomEvent('fmivalue', {detail: {value: this.value}});
       this.element.dispatchEvent(c);
+    }
+    if (this.tohash) {
+      if (this.previousvalue != this.value) {  //change only if it differs from previous value
+        this.previousvalue = this.value;
+        if (this.value.length>0 && this.value[0] === '#') window.location.hash = this.value;
+        else window.location.hash = '#'+this.value; //add hash if it is missing in the string value
+      }
     }
   }
 }

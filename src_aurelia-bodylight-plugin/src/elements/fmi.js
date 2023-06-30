@@ -536,6 +536,9 @@ export class Fmi {
     this.animationstarted = true;
     this.fpsInterval = 1000 / (isNaN(this.fpslimit) ? parseInt(this.fpslimit, 10) : this.fpslimit);
     this.then = window.performance.now();
+    //read input values
+    
+    //define performAnimation
     const performAnimation = (newtime) => {
       if (!this.animationstarted) return;
       this.request = requestAnimationFrame(performAnimation);

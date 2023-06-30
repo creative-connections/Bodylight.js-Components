@@ -137,7 +137,7 @@ export class Quiz {
     }
   }
 
-  selectAnswer(answer){
+  selectAnswer(answer){ //in choice - answer was selected
     if (answer.disabled) return;
     if (this.selectedAnswer) {this.selectedAnswer.class= this.unselected;}
     this.selectedAnswer = answer;
@@ -146,6 +146,10 @@ export class Quiz {
     } else {
       this.selectedAnswer.class= this.selected;
     }
+
+  }
+
+  checkAnswer(answer) { //in choice2 - answer was selected
 
   }
 }

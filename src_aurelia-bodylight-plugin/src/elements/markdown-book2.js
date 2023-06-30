@@ -8,6 +8,7 @@ export class MarkdownBook2 extends MarkdownBook {
     @bindable params;
     @observable toc = '<p>some toc</p>'
     @bindable model;
+    @bindable icon;
     //shownav=true;
 
 

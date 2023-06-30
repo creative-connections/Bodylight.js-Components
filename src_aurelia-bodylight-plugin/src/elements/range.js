@@ -27,6 +27,8 @@ export class Range {
     @bindable throttle = 1000; //throttle update value from fromid, default every 1s
     @bindable smooth = false;
     @bindable smoothstep = 1;
+    @bindable initdefault = false;
+    counterToInit = 5;
 
     constructor() {
         this.handleValueChange = e => {
@@ -112,6 +114,7 @@ export class Range {
         } else {//directly call update
             this.updatevalue = this.setCurrentValue.bind(this);
         }
+        if (typeof this.initdefault === 'string') this.initdefault = this.initdefault === 'true';
     }
 
     attached() {
@@ -128,6 +131,15 @@ export class Range {
             if (fromidel) fromidel.addEventListener('fmidata', this.handleValueChange)
             else console.warn('range fromid element not found with id:',this.fromid);
 
+        }
+        //send event about default value        
+        if (this.initdefault) this.checkSetDefault(); 
+    }
+
+    checkSetDefault(){
+        if (window.thisfmi) this.setDefault();
+        else {
+         if (this.counterToInit-- > 0 ) _.debounce(this.checkSetDefault.bind(this), 1000); //try after 1 s but only 5 times
         }
     }
 

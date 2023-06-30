@@ -19,6 +19,7 @@ export class MarkdownTopNav {
     nexttitle='';//Hemodynamics in Left Ventricle'
     navtitle='';//Hemodynamics in Left Atria';
     currentlink='';
+    
 
     constructor(ea) {
       //super(i18n, httpclient);

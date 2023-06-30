@@ -27,12 +27,14 @@ export class Sachart extends Dygraphchart {
         super.bind();
         if (!this.width) this.width=400;
         if (!this.height) this.height=400;
+        if (typeof this.pH === 'string') this.pH = parseFloat(this.pH,10);
+        if (typeof this.pCO2 === 'string') this.pCO2 = parseFloat(this.pCO2,10);
         //console.warn('sachart bind() width height'+this.width+' '+this.height);
     }
 
     initdygraph(){        
         console.log('sachart - initdygraph');
-        this.data = [[7.4,40]];
+        this.data = [[this.pH,this.pCO2]];
         this.xaxis = "pH";
         this.yaxis = "pCO2mmHg";
         this.logscale = true;
@@ -43,8 +45,8 @@ export class Sachart extends Dygraphchart {
         this.acidbaseannotation = [[7.4,40,"Normal area"],
             [7.2,64,"Acute Hypercapnia"],
             [7.1,35,"Acute Base Deficit"],
-            [7.2,17,"Chronic Base Deficit"],
-            [7.43,20,"Chronic Hypocapnia"],
+            [7.2,21,"Chronic Base Deficit"],
+            [7.43,21,"Chronic Hypocapnia"],
             [7.56,22,"Acute Hypocapnia"],
             [7.5,49,"Chronic Base Excess"],
             [7.3,80,"Chronic Hypercapnia"]];
@@ -100,12 +102,12 @@ export class Sachart extends Dygraphchart {
                         canvas.stroke();
                     } //for
                     for (let i = 0; i < acidbaseannotation.length; i++) {
-                        canvas.fillStyle = "#6080ff";
+                        canvas.fillStyle = "#1030ff";
                         canvas.font = "10px Verdana";
                         
                         let cx = g.toDomXCoord(acidbaseannotation[i][0]);
                         let cy = g.toDomYCoord(acidbaseannotation[i][1]);
-                        if ((cx > 0) && (cx < 600) && (cy > 0) && (cy < 400))
+                        //if ((cx > 0) && (cx < 600) && (cy > 0) && (cy < 400))
                             canvas.fillText(acidbaseannotation[i][2], cx, cy);
                         
                     }
