@@ -5,8 +5,9 @@ import {bodylightFootnotePlugin} from './markdown-it-bfootnote';
 //import mk from '@liradb2000/markdown-it-katex'; //math in md, iktakahiro version seems to be most updated - works with latest katex
 import mk from 'markdown-it-katexx'; //math in md, iktakahiro version seems to be most updated - works with latest katex
 import hljs from 'highlight.js'; //highlights in MD source blocks
-import mka from 'markdown-it-abbr';
-import mda from 'markdown-it-attrs';
+//import mka from 'markdown-it-abbr'; //adds markdown with <abbr> support
+import mka from './markdown-it-abbr-ext'; //adds markdown with <abbr> support with extension
+import mda from 'markdown-it-attrs'; //adds classes/attributes and other in curly brackets as attributes {.class #identifier attr=value attr2="spaced value"}
 //import {markdownitbtoc} from './markdown-it-btoc'; //commented out - breaks with markdown-it-attrs headers h1 h2 h3
 import {bindable, inject} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
@@ -163,7 +164,12 @@ export class Markdownaurelia {
     //continue with rendering
     this.text = content;
     this.html = this.md.render(this.text);
+    this.registerCustomElementFunction()    
     this.update();
+  }
+
+  registerCustomElementFunction(){
+    //register e.g. click on abbr element will show title and allows expand to url - wikipedia content
   }
 
   contentChanged(newvalue, oldvalue) {

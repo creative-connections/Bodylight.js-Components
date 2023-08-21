@@ -52,7 +52,7 @@ https://bodylight.physiome.cz/Bodylight-docs/tutorial/#basic.md
         <script src="bodylight.bundle.js"></script>
     ```  
    
-2) Add attribute `aurelia-app="webcomponents"` to `div` or `body` where web components will be located (note web-components are custom elements with prefix `bdl-`:
+2) Add attribute `aurelia-app="webcomponents"` to `div` or `body` where web components will be located (note that web-components are distinguished by the prefix `bdl-` from other HTML elements:
 ```html
 index.html
 ...
