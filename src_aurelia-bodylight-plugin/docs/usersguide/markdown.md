@@ -11,6 +11,12 @@ All links should
 * `fromid` optional, if specified the DOM element with id `fromid` is listened to customevent `concentupdate` and event.detail.content is then parsed and output is updated.
 * as aurelia component, the eventaggregator is subscribed to `ContentUpdate` - if any such message is received, then the content is rendered and output updated.
 
+Abbreviations support
+*[cytochrom]: Cytochrome protein | More detailed info about cytochromeprotein | https://en.wikipedia.org/Cytochrome
+
+Now the abbreviation cytochrom is higlighted, hover over will show title, click on it show detail info and link to further info.
+<abbr data>
+
 BdlMarkdown-it is used to render markdown with following plugins enabled: 
 * highlight.js to highlight source code specifying language, e.g. Python 
  ```markdown

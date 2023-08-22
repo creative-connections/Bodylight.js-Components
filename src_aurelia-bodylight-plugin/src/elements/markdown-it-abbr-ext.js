@@ -5,8 +5,9 @@
 
 'use strict';
 
-
-module.exports = function sub_plugin(md) {
+export default sub_plugin;
+//module.exports = function sub_plugin(md) {
+function sub_plugin(md) {
   var escapeRE        = md.utils.escapeRE,
       arrayReplaceAt  = md.utils.arrayReplaceAt;
 
@@ -122,6 +123,7 @@ module.exports = function sub_plugin(md) {
           }
 
           token         = new state.Token('abbr_open', 'abbr', 1);
+
           var temp = state.env.abbreviations[':' + m[2]];
           token.attrs   = [ [ 'title', temp.title],
                             ['data-content',temp.content],
@@ -134,6 +136,31 @@ module.exports = function sub_plugin(md) {
 
           token         = new state.Token('abbr_close', 'abbr', -1);
           nodes.push(token);
+
+          token = new state.Token('dialog_open','dialog',1);
+          nodes.push(token);
+
+          token = new state.Token('text', '', 0);
+          token.content = temp.content;          
+          nodes.push(token);
+
+          token = new state.Token('br_openclose','br',0);
+          nodes.push(token);
+
+          token = new state.Token('a_open','a',1);
+          token.attrs = [['src',temp.url]];
+          nodes.push(token);
+
+          token = new state.Token('text','',0);
+          token.content = temp.url;
+          nodes.push(token);
+
+          token = new state.Token('a_close','a',-1);
+          nodes.push(token);
+
+          token = new state.Token('dialog_close','dialog',-1);
+          nodes.push(token);
+
 
           reg.lastIndex -= m[3].length;
           pos = reg.lastIndex;

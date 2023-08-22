@@ -30,6 +30,7 @@ export class Markdownaurelia {
   //@bindable toc;
   @bindable content;
   previoussrc='';
+  showmodal = false;
   constructor(i18n, httpclient, ea) {
     //this.i18n = i18n;
     this.client = httpclient;
@@ -139,6 +140,9 @@ export class Markdownaurelia {
     //console.log('markdownaurelia update');
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();
+
+    //register some custom implementation for elements
+    this.registerCustomElementFunction()    
     //scroll to top of the page
     window.scrollTo(0, 0);
     console.log('i18n',this.i18n);
@@ -170,6 +174,24 @@ export class Markdownaurelia {
 
   registerCustomElementFunction(){
     //register e.g. click on abbr element will show title and allows expand to url - wikipedia content
+    //click on abbr will show extended modal info and link 
+    
+    //click on abbreviation shows a sibling dialog, if presented
+    let abbrs = document.getElementsByTagName('abbr');
+    for (let abbr of abbrs) {
+      abbr.onclick = (e) => {
+        let content = e.target.attributes["data-content"];
+        let url = e.target.attributes["data-wiki"];
+        console.log('clicked abbr',e);
+        let mydialog = e.target.parentNode.nextSibling;//closest('dialog');
+        if (mydialog) mydialog.show();
+      }
+    }
+    //click on dialog will hide it
+    let dialogs = document.getElementsByTagName('dialog');
+    for (let dialog of dialogs) {
+      dialog.onclick = (e) => {e.target.close()}
+    }
   }
 
   contentChanged(newvalue, oldvalue) {
