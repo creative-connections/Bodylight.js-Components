@@ -1,7 +1,7 @@
 {
   "name": "aurelia-bodylight-plugin",
   "description": "Bodylight plugin for Aurelia framework",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/creative-connections/Bodylight.js-Components.git"
@@ -143,7 +143,6 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "markdown-it": "^12.0.4",
-    "markdown-it-abbr": "^1.0.4",
     "markdown-it-attrs": "^4.1.6",
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-katexx": "^3.2.0",

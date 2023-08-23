@@ -1,1 +1,14 @@
 img{max-width:100%}
+.abbr_dialog {
+    display:none;
+    position:absolute;
+
+}
+.abbr_dialog_show {
+    display: block !important;    
+    border: 1px black solid;
+    border-radius:2px;
+    background-color: white;
+    padding:10px;
+    max-width:50%;
+}

@@ -137,7 +137,8 @@ function sub_plugin(md) {
           token         = new state.Token('abbr_close', 'abbr', -1);
           nodes.push(token);
 
-          token = new state.Token('dialog_open','dialog',1);
+          token = new state.Token('span_open','span',1);
+          token.attrs = [['class', 'abbr_dialog']]
           nodes.push(token);
 
           token = new state.Token('text', '', 0);
@@ -158,7 +159,7 @@ function sub_plugin(md) {
           token = new state.Token('a_close','a',-1);
           nodes.push(token);
 
-          token = new state.Token('dialog_close','dialog',-1);
+          token = new state.Token('span_close','span',-1);
           nodes.push(token);
 
 

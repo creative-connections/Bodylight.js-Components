@@ -12,10 +12,13 @@ All links should
 * as aurelia component, the eventaggregator is subscribed to `ContentUpdate` - if any such message is received, then the content is rendered and output updated.
 
 Abbreviations support
-*[cytochrom]: Cytochrome protein | More detailed info about cytochromeprotein | https://en.wikipedia.org/Cytochrome
+```
+*[cytochrome]: Cytochrome protein | More detailed info about cytochromeprotein | https://en.wikipedia.org/wiki/Cytochrome
+```
+*[cytochrome]: Cytochrome protein | More detailed info about cytochromeprotein | https://en.wikipedia.org/wiki/Cytochrome
+*[protein]: Protein is macromolecule | detail info about protein | https://en.wikipedia.org/wiki/Protein
 
-Now the abbreviation cytochrom is higlighted, hover over will show title, click on it show detail info and link to further info.
-<abbr data>
+Then any mention of cytochrome is available with optional details on mouse hover or mouse click. Multipletimes cytochrome is higlighted as well as protein.
 
 BdlMarkdown-it is used to render markdown with following plugins enabled: 
 * highlight.js to highlight source code specifying language, e.g. Python 
