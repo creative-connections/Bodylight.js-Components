@@ -141,7 +141,7 @@ function sub_plugin(md) {
           token.attrs = [['class', 'abbr_dialog']]
           nodes.push(token);
 
-          token = new state.Token('text', '', 0);
+          token = new state.Token('html_inline', '', 0);
           token.content = temp.content;          
           nodes.push(token);
 

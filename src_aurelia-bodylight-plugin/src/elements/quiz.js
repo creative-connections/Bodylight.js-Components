@@ -53,11 +53,40 @@ export class Quiz {
         const myterm = {title:termtitle,index:shuffled1indices[i],disabled:false,class:this.unselected}
         this.randomterms.push(myterm);
       }
-      for (let i=0;i<this.answers_array.length;i++) {
+      for (let i=0;i<this.answer_exp_array.length;i++) {
         const myterm = {title:this.answers_array[shuffled2indices[i]],index:shuffled2indices[i],disabled:false,class:this.unselected}
         this.randomanswers.push(myterm);
       }
       console.log('quiz match, randomterms',this.randomterms);
+      console.log('quiz match, randomanswers',this.randomanswers);
+    }
+    if (this.type === 'choice2') {
+      //prepare randomterms and randomanswers
+      //let indices1 = [...Array(this.terms_array.length).keys()];
+      let indices2 = [...Array(this.answer_exp_array.length).keys()];
+      //let shuffled1indices = _.shuffle(indices1);
+      let shuffled2indices = _.shuffle(indices2);
+      //this.randomterms = [];
+      this.randomanswers = [];
+      //for (let i=0;i<this.terms_array.length;i++) {
+        //const termindex = shuffled1indices[i];
+        //const termtitle = this.terms_array[termindex];
+        //const myterm = {title:termtitle,index:shuffled1indices[i],disabled:false,class:this.unselected}
+        //this.randomterms.push(myterm);
+      //}
+      for (let i=0;i<this.answer_exp_array.length;i++) {
+//        const myterm = {title:this.answers_array[shuffled2indices[i]].answer,index:shuffled2indices[i],disabled:false,class:this.unselected}
+        const myterm = {
+          title:this.answer_exp_array[shuffled2indices[i]].answer,
+          index:shuffled2indices[i],
+          disabled:false,
+          class:this.unselected,
+          correct:this.answer_exp_array[shuffled2indices[i]].correct,
+          explanation: this.answer_exp_array[shuffled2indices[i]].explanation,
+        }
+        this.randomanswers.push(myterm);
+      }
+//      console.log('quiz match, randomterms',this.randomterms);
       console.log('quiz match, randomanswers',this.randomanswers);
     }
     this.ea.subscribe('quizshow', quizid => {
@@ -102,10 +131,17 @@ export class Quiz {
   submit() {
     //console.log('Bdlquis submit()');
     this.showresult = true;
+    if (this.type === 'choice2') {
+      if (this.selectedAnswer.correct) this.selectedAnswer.class = this.selectedcorrect;
+      else this.selectedAnswer.class = this.selectedincorrect;
+    }
+    this.ea.publish('quizdone',this.id);
   }
 
   unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-hover-green w3-padding';//class="w3-border w3-margin w3-round-small"
-  selected = 'w3-border w3-margin w3-round-medium w3-green w3-hover-light-green w3-padding';
+  selected = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-blue';
+  selectedcorrect = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-green';
+  selectedincorrect = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-red';
   correct = 'w3-border w3-margin w3-round-medium w3-padding';
   incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green w3-padding';
   correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
@@ -150,6 +186,9 @@ export class Quiz {
   }
 
   checkAnswer(answer) { //in choice2 - answer was selected
-
+    if (answer.disabled) return;
+    if (this.selectedAnswer) {this.selectedAnswer.class= this.unselected;}
+    this.selectedAnswer = answer;
+    this.selectedAnswer.class= this.selected;
   }
 }

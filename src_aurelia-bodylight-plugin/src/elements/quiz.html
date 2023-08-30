@@ -16,6 +16,7 @@
     <input type="submit" value.bind="buttontitle" click.delegate="submit()"/>
   </div>
   <div if.bind="type === 'match'" class="w3-row">
+    ${question}
     <div class="w3-half">
       <div repeat.for="term of randomterms" click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled" innerhtml.bind="term.title">
       </div>
@@ -25,15 +26,15 @@
       </div>
     </div>
   </div>
-  <div if.bind="type === 'choise2'" class="w3-row">
-    <div class="w3-half">
-      <div innerhtml.bind="question">
-      </div>
-    </div>
-    <div class="w3-half">
-      <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled" innerhtml.bind="answer.title">
-      </div>
-    </div>
+  <div if.bind="type === 'choice2'" class="w3-row">
+    ${question}    
+      <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">
+        <span innerhtml.bind="answer.title"></span>
+        <span show.bind="showresult" class="w3-theme-l5">
+          <label innerhtml.bind="answer.explanation"></label>
+        </span>
+      </div>       
+    <input type="submit" value.bind="buttontitle" click.delegate="submit()"/>
   </div>
 
   </fieldset>  
