@@ -235,10 +235,10 @@ export class Fmi {
         // try to insert script by other app for previewing - scripts might be inserted into DOM
         if (window.editorapi && (typeof window.editorapi.insertScriptById === 'function')) {
           console.log('inserting script by thirdparty api');
-          window.editorapi.insertScriptById(source, 'fmiobj');
+          window.editorapi.insertScriptById(source, 'fmiobj-'+source);
         }
         //do callback even if isAbort - scripts might be inserted into DOM by another app
-        if (callback) setTimeout(callback, 1200);
+        if (callback) setTimeout(callback, 1500);
       }
     };
 
@@ -368,6 +368,10 @@ export class Fmi {
     if (this.controlid) {
       document.getElementById(this.controlid).removeEventListener('fmistart', this.handleStart);
       document.getElementById(this.controlid).removeEventListener('fmistop', this.handleStop);
+    }
+    if (window.editorapi && (typeof window.editorapi.removeScriptById === 'function')) {
+      console.log('inserting script by thirdparty api');
+      window.editorapi.removeScriptById(this.src, 'fmiobj-'+this.src);
     }
   }
 
