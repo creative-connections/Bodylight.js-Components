@@ -4,11 +4,11 @@ import _ from 'lodash';
 export const thirdpartytimeout = 5000;
 
 export class Fmi {
-  @bindable fminame='N/A';
+  @bindable fminame='';
   @bindable tolerance=0.000001;//0.000030517578
   @bindable starttime=0;
   @bindable stoptime=0; //if >0 then fmi will stop at stoptime
-  @bindable guid='N/A';
+  @bindable guid='';
   @bindable id;
   @bindable inputs;
   @bindable otherinputs;
@@ -192,7 +192,7 @@ export class Fmi {
       console.log('loading script first, then init fmi');
       //keep 'this' reference in global for callback
       window.thisfmi = this;
-      this.getScript(this.src, this.initfmi);
+      this.getScript(this.src, this.initfmi.bind(this));
     } else { //src is specified, thus load it - browser loads it at the end, thus adding the rest as callback after loaded
       console.log('init fmi without loading script: fminame, this:', this.fminame, this);
       this.initfmi();
@@ -260,13 +260,19 @@ export class Fmi {
   initfmi() {
     console.log('fmi initfmi()');
     let that = {};
-    if (window.thisfmi) {
-      that.fminame = window.thisfmi.fminame;
-      console.log('using global fmi initfmi() fminame', that.fminame );
-    } else {
+    /* global/local fminame */
+    
+    if (this.fminame) {
       that.fminame = this.fminame;
       console.log('using local fmi initfmi() fminame', that.fminame );
-    }
+    } else {
+      //try to use global fminame
+      that.fminame = window.thisfmi.fminame;
+      console.log('using global fmi initfmi() fminame', that.fminame );
+    }    
+    
+    //bug fmu cosimulation
+    that.fminame = this.fminame;
 
     //create instance
     let myinst = window[that.fminame]();
@@ -509,12 +515,16 @@ export class Fmi {
 
   startevent(e) {
     console.log('fmi startevent recieved', e);
-    if (!this.animationstarted) this.startSimulation();
+    //if (!this.animationstarted) 
+    this.perfstart();
+    this.startSimulation();
   }
 
   stopevent(e) {
     console.log('fmi stopevent recieved', e);
-    if (this.animationstarted) this.stopSimulation();
+    //if (this.animationstarted) 
+    this.stopSimulation();
+    this.perfend();
   }
 
   //action to be performed when clicking the play/pause button

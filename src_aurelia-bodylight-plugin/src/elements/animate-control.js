@@ -14,10 +14,12 @@ export class AnimateControl {
   @bindable segmentcond;
   @bindable allowcontinuous=false;
   @bindable playafterstart=false;
+  @bindable showstep=true;
   continuousanimation = false;
   animationstarted = false;
   firstframe=true;
   frame = 0;
+  lastframe = 0;
   aframe = 0;
   currentsegment=0;
   animationframe=0;
@@ -66,8 +68,11 @@ export class AnimateControl {
     let isgreater = (a, b) => {return a > b;};
     let isequal = (a, b)=> {return a === b;};
     let islower = (a, b) => {return a < b;};
-    //console.log('bdlanimatecontro segmentcond1:', this.segmentcond);
-    this.eventprefix = 'animate';
+    //console.log('bdlanimatecontro segmentcond1:', this.segmentcond);    
+    if (this.showstep && typeof this.showstep === 'string') this.showstep = this.showstep === 'true';
+    if (this.controlfmi && typeof this.controlfmi === 'string') this.controlfmi = this.controlfmi === 'true';
+    if (this.controlfmi) this.eventprefix = 'fmi'
+    else this.eventprefix = 'animate';
     //segment condition is defined - then segments are determined by fmi data sent by 'fromid' component
     if (this.segmentcond) {
       this.eventprefix = 'fmi';
@@ -131,6 +136,7 @@ export class AnimateControl {
       //this.animationstarted = true;
       //if (window.ani) window.ani.enableAnimation();
       let that = this;
+      this.lastframe = this.frame; //will fire fmistart when lastframe = frame;
       //console.log('startstop() animate using requestAnimationFrame');
       //animate using requestAnimationFrame
       const performAnimation = () => {
@@ -173,7 +179,7 @@ export class AnimateControl {
   step() {
     this.countrelativeframe(this.frame);
     //create custom event
-    let event = this.frame === 0
+    let event = this.frame === this.lastframe
       ? new CustomEvent(this.eventprefix + 'start', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}) //send start signal on frame 0
       : new CustomEvent(this.eventprefix + 'data', {detail: {time: this.frame, relativetime: this.relativeframe, segment: this.currentsegment}}); //send data signal - i.e. continue after pause
     //dispatch event - it should be listened by some other component
