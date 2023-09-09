@@ -17,6 +17,7 @@ export class Chartjs {
   @bindable refvalues;
   @bindable type='doughnut';
   @bindable maxdata=256;
+  @bindable sampledata=false; //TODO, whether to sample data in each throttle, otherwise all data are stored
   @bindable initialdata='';
   @bindable width=300;
   @bindable height=200;
@@ -157,6 +158,9 @@ export class Chartjs {
     //sets boolean value - if verticalline attribute is set
     if (typeof this.generatelabels === 'string') {
       this.generatelabels = this.generatelabels === 'true';
+    }
+    if (typeof this.sampledata === 'string') {
+      this.sampledata = this.sampledata === 'true';
     }
     if (typeof this.minichart === 'string') this.minichart = (this.minichart === 'true');
     if (typeof this.colorindex === 'string') {
@@ -641,5 +645,10 @@ export class Chartjs {
       color: this.selectColor((this.indexsection+this.colorsegmentindex), 85, 93),
       label: label
     });
+  }
+
+  update(){
+    if (this.sampledata)
+    this.chart.update();
   }
 }
