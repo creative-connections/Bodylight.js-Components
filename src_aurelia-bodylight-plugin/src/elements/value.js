@@ -9,6 +9,7 @@ export class Value {
   @bindable convertor;
   @bindable default;
   @bindable precision=4;
+  @bindable tofixed;
   @bindable throttle=500;
   @bindable dataevent=false;
   @bindable adobeid;
@@ -46,6 +47,7 @@ export class Value {
   bind() {
     //register throttled update function    
     if (typeof this.throttle === 'string') this.throttle = parseInt(this.throttle, 10);
+    if (typeof this.tofixed === 'string') this.tofixed = parseInt(this.tofixed, 10);
     if (typeof this.dataevent === 'string') this.dataevent = this.dataevent === 'true';
     if (typeof this.tohash === 'string') this.tohash = this.tohash === 'true';
     if (typeof this.precision === 'string') this.precision = parseInt(this.precision, 10);
@@ -59,8 +61,8 @@ export class Value {
       let identity = x => x;
       this.operation = [];
       for (let i = 0; i < convertvalues.length; i++) {
-        if (convertvalues[i].includes(',')) {
-          //convert values are in form numerator,denominator contains comma ','
+        if (convertvalues[i].includes(',') && !convertvalues[i].includes('(')) {
+          //convert values are in form numerator,denominator contains comma ',' and not parenthesis, e.g. function 'max(1,2)'
           let convertitems = convertvalues[i].split(',');
           if (convertitems[0] === '1' && convertitems[1] === '1' && convertitems[2] === '0') this.operation.push(identity);
           else {
@@ -76,7 +78,7 @@ export class Value {
           else {
             // for eval() security filter only allowed characters:
             // algebraic, digits, e, dot, modulo, parenthesis and 'x' and 'e' is allowed
-            let expression = convertvalues[i].replace(/[^-\d/*+.()%xeMathroundsic]/g, '');
+            let expression = convertvalues[i].replace(/[^-\d/*+.()%xeMathroundsicm]/g, '');
             console.log('chartjs bind(), evaluating expression:' + convertvalues[i] + ' securely filtered to :' + expression);
             // eslint-disable-next-line no-eval
             this.operation.push(x => eval(expression));
@@ -115,9 +117,16 @@ export class Value {
   }
 
   updateValue(rawvalue) {
-    if (rawvalue.toPrecision) {
-      if (this.operation) this.value = this.operation[0](rawvalue).toPrecision(this.precision); // * this.numerator / this.denominator + this.addconst;
-      else this.value = rawvalue.toPrecision(this.precision);
+    if (rawvalue.toPrecision) {  
+      if ((this.tofixed !== null) && (this.tofixed !== undefined) && (this.tofixed>=0)) {
+        //probably will have toFixed function
+        if (this.operation) this.value = this.operation[0](rawvalue).toFixed(this.tofixed); // * this.numerator / this.denominator + this.addconst;
+        else this.value = rawvalue.toFixed(this.tofixed);
+      } else {    
+        //go with toPrecision function
+        if (this.operation) this.value = this.operation[0](rawvalue).toPrecision(this.precision); // * this.numerator / this.denominator + this.addconst;
+        else this.value = rawvalue.toPrecision(this.precision);
+      }
     } else this.value = rawvalue;
     if (this.dataevent) {
       let c = new CustomEvent('fmivalue', {detail: {value: this.value}});

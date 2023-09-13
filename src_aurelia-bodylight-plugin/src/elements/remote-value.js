@@ -17,6 +17,7 @@ export class RemoteValue {
     @bindable inputs;
     inputids = [];
     posterror = false;
+    counterr = 0;
 
     constructor(httpclient) {
         this.client = httpclient;
@@ -67,7 +68,7 @@ export class RemoteValue {
             for (let myid of this.inputids) {
                 const myidel = document.getElementById(myid);
                 if (myidel) myidel.addEventListener('input', this.handleValueChange);
-                else console.warn('cannot add listener to input for vaue change',myid);
+                else console.warn('cannot add listener to input for value change',myid);
             }
         }
     }
@@ -117,6 +118,7 @@ export class RemoteValue {
             .then(response => response.json())// do response.json() for json result
             .then(data => {
                 //console.log('markdownaurelia fetched md:', data)
+                this.counterr = 0;
                 this.remotevalue = data;
                 this.remotevalueformatted = JSON.stringify(this.remotevalue, null, 4)
                 if (this.id) {
@@ -135,7 +137,9 @@ export class RemoteValue {
             })
             .catch(err => {
                 console.log('error', err);
-                this.stop();
+                this.remotevalueformatted = err;
+                this.counterr++;
+                if (this.counterr>5) this.stop();
             }); //stops on error
         /*this.client.get(this.remoteurl)
             .then(response => response.json())// do response.json() for json result
