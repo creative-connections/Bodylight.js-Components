@@ -153,7 +153,7 @@ export class Range {
             this.refinput.value = value;
             this.refinput.dispatchEvent(new Event(this.fireevent, {
                 bubbles: true,
-                cancelable: true
+                cancelable: true                
             }));
         }
     }

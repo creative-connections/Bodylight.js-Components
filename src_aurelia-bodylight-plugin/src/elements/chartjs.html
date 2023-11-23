@@ -6,7 +6,7 @@
             <i class="fa fa-download fa-rotate-270" title="download flat csv data, row=all data for variable"
                click.delegate="downloadflat()"> </i>
         </div>
-        <div css="${minichart ? '' : 'margin-top: -1.5em'}">
+        <div css="${minichart ? '' : 'margin-top: -1.5em'}" resizable resize.trigger="resizeCanvas($event.detail) & throttle:500">
             <canvas id="${id}-canvas" ref="chartcanvas" width="${width}" height="${height}"></canvas>
         </div>
     </div>

@@ -295,8 +295,8 @@ export class Fmi {
         } else //do simulation step after 100 ms
         if (window.thisfmi.isOneshot) {
           //console.log('oneshot scheduling startevent in promise() to do step()')
-          setTimeout(window.thisfmi.sendStartEvent.bind(window.thisfmi),1000);
-          console.log('oneshot scheduling promise() to do shot()')
+          setTimeout(window.thisfmi.sendStartEvent.bind(window.thisfmi),800);
+          console.log('oneshot scheduling promise() to do shot() after 4.5s')
           //setTimeout(window.thisfmi.shot.bind(window.thisfmi),1500);
           window.thisfmi.debounceShot();
         } else //do simulation step after 100 ms
@@ -693,16 +693,20 @@ export class Fmi {
   }
 
   shot(e){
+    console.log('fmi -> shot()')
     //check whether initialized and instantiated
     if (!this.inst) {
       //not instantiated
       if (window.fmiinst && window.fmiinst[this.fminame]) {
+        console.warn('fmi shot() not instantiated, do it first time')
         this.instantiate();
+        this.initialize();
       } else {
         //no initfmi() called = wait for script to be loaded, do nothing
         return
       }
     } else {
+      console.log('fmi shot() doing reset')
       this.reset();
       //this.setInputVariables();
     }

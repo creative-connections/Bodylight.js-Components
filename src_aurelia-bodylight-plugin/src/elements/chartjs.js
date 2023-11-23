@@ -651,4 +651,11 @@ export class Chartjs {
     if (this.sampledata)
     this.chart.update();
   }
+
+  /* resizeCanvas is triggered only when using aurelia-resize plugin*/
+  resizeCanvas(detail){
+    console.log("chartjs.resizeCanvas() width=" + detail.width);    
+    this.width = detail.width;
+    //this.height = detail.height;
+  }
 }

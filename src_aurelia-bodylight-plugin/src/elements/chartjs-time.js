@@ -17,10 +17,15 @@ export class ChartjsTime extends Chartjs {
     @bindable colorindex;
     @bindable timedenom; //coeficient which will be denominated from time (e.g. 60 => time/60 in minutes 3600 => time/3600 in hours)
     @bindable timedenomfixed = 1;
+    @bindable showrefpoint;
     refindices;
 
     constructor() {
         super();
+        this.handleXData  = e => {
+            window.refpoint = e.target.value;
+            this.updatechart();
+        }
         //this.type = 'line';
         this.handleValueChange = e => {
             //e.detail do not reallocate - using same buffer, thus slicing to append to data array
@@ -108,11 +113,72 @@ export class ChartjsTime extends Chartjs {
         };
         if (this.verticalline) this.type = 'LineWithLine';
         else this.type = 'line';
-        
+        if (typeof (this.showrefpoint) === 'string') {
+            this.showrefpoint = this.showrefpoint === 'true';            
+        }
     }
 
-    attached () {super.attached();}
-    detached() {super.detached();}
+    attached () {
+        if (this.showrefpoint) {
+            document.addEventListener('xdata',this.handleXData);
+            window.refpoint=0;
+            Chart.pluginService.register({
+                id: 'custom_lines to ref point',
+                afterDraw: (chart) => {
+                    
+                        const ctx = chart.canvas.getContext('2d');
+                        ctx.save();
+
+                        // draw line
+                        let meta1 = chart.getDatasetMeta(0);
+                        //let meta2 = chart.getDatasetMeta(1);
+                        if (meta1) {
+                            ctx.beginPath();
+                            try {
+                                //expect that data[0] contains point data[1] lines
+                                let x = meta1.data[window.refpoint]._model.x;
+                                let y = meta1.data[window.refpoint]._model.y;
+                                let value = chart.data.datasets[0].data[window.refpoint];
+                                if (isNaN(value)) {
+                                    //value is object x, y
+                                    ctx.moveTo(0, y);
+                                    ctx.lineTo(x, y);
+                                    ctx.lineTo(x, chart.height);
+                                    ctx.lineWidth = 1;
+                                    ctx.strokeStyle = '#ff9c9c';
+                                    ctx.stroke();
+                                    ctx.font = "10px Arial"
+                                    if (value.y) ctx.fillText(value.y.toPrecision(4),x,y);
+                                } else {
+                                    //only y value is there
+                                    ctx.moveTo(0, y);
+                                    ctx.lineTo(x, y);
+                                    ctx.lineTo(x, chart.height);
+//                                    ctx.lineTo(chart.width, y);
+                                    ctx.lineWidth = 1;
+                                    ctx.strokeStyle = '#ff9c9c';
+                                    ctx.stroke();
+                                    ctx.font = "10px Arial"
+                                    ctx.fillStyle = "black";
+                                    ctx.fillText(value.toPrecision(4),x,y);
+                                }
+                            } catch (e) {
+                                //console.warn('error, meta1:',meta1);
+                            }
+                            ctx.restore();
+                        //}
+
+                    
+                }
+            }
+        });
+        }
+        super.attached();
+    }
+    detached() {
+        if (this.showrefpoint) document.removeEventListener('xdata',this.handleXData);
+        super.detached();
+    }
 
     resetdata() {
         //super.resetdata();

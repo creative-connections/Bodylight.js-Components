@@ -10,6 +10,7 @@ export function configure(aurelia) {
         .standardConfiguration()
         //all components from src (resources/index) will be registered as web component
         .plugin(PLATFORM.moduleName('aurelia-bodylight-plugin'))
+        .plugin(PLATFORM.moduleName('aurelia-resize'))
         .plugin(PLATFORM.moduleName('aurelia-i18n'),(instance) =>{
             let aliases = ['t','i18n'];
             TCustomAttribute.configureAliases(aliases);
