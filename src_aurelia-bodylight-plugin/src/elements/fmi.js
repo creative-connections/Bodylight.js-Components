@@ -5,6 +5,7 @@ export const thirdpartytimeout = 5000;
 
 export class Fmi {
   @bindable fminame='';
+  @bindable fmifunctionprefixname='';
   @bindable tolerance=0.000001;//0.000030517578
   @bindable starttime=0;
   @bindable stoptime=0; //if >0 then fmi will stop at stoptime
@@ -26,6 +27,7 @@ export class Fmi {
   @bindable stepsperframe = 1;
   @bindable startafter = 0;
   @bindable fmuspeed = 1;
+  @bindable debug = 0;
 
   cosimulation=1;
   stepSize=0.01;//0.0078125;
@@ -358,6 +360,9 @@ export class Fmi {
       this.fmuspeed = parseInt(this.fmuspeed);
       this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
     }
+    if (typeof this.debug === 'string') {
+      this.debug = parseInt(this.debug);      
+    }
 
   }
 
@@ -401,9 +406,15 @@ export class Fmi {
   }
 
   initialize() {
-    console.log('fmi initialize()');
-    this.fmiEnterInit(this.fmiinst);
-    this.fmiExitInit(this.fmiinst);
+    console.log('fmi initialize() with inst',this.fmiinst);
+    let status = this.fmiEnterInit(this.fmiinst);
+    if (status != 0) {console.log('fmiEnterInit returned:',status)}
+    try {
+    status = this.fmiExitInit(this.fmiinst);
+    if (status != 0) {console.log('fmiExitInit returned:',status)}
+    } catch (err) {
+      console.log('initialize() fmiExitInit throws err',err);
+    }
   }
 
   instantiate() {
@@ -441,8 +452,12 @@ export class Fmi {
     //set the fminame and JS WASM function references
     let separator = '_';
     let prefix = this.fminame;
+    if (this.fmifunctionprefixname) {
+      //prefix is defined
+      prefix = this.fmifunctionprefixname;
+    }
     //console.log('attached fminame:', that.fminame);
-    // OpenModelica exports function names without prefix
+    // OpenModelica may export function names without prefix
     if (typeof this.inst._fmi2GetVersion === 'function') {
       prefix = '';
       separator = '';
@@ -481,7 +496,7 @@ export class Fmi {
     //console.log('callbackptr',this.callbackptr);
     //console.log('fmiinstantiate fnc:',this.fmiInstantiate);
     //create instance of model simulation
-    this.fmiinst = this.fmiInstantiate(this.fminame, this.cosimulation, this.guid, '', this.callbackptr, 0, 0); //last 1 debug, 0 nodebug
+    this.fmiinst = this.fmiInstantiate(this.fminame, this.cosimulation, this.guid, '', this.callbackptr, 0, this.debug); //last 1 debug, 0 nodebug
     this.setupExperiment();
   }
 

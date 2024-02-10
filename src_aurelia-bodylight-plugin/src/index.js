@@ -61,5 +61,8 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/panel2.html'),
     PLATFORM.moduleName('./elements/quiz-control'),
     PLATFORM.moduleName('./elements/carousel-arc'),
+    PLATFORM.moduleName('./elements/fb-config'),
+    PLATFORM.moduleName('./elements/fb-get-state'),
+    PLATFORM.moduleName('./elements/fb-set-state')
   ]);
 }

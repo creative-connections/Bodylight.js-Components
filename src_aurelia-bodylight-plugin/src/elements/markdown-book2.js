@@ -9,18 +9,20 @@ export class MarkdownBook2 extends MarkdownBook {
     @observable toc = '<p>some toc</p>'
     @bindable model;
     @bindable icon;
-    //shownav=true;
+    @bindable shownav; //=true;
 
 
     constructor() {
       super();
       this.params = 'shownav,1;showtoc,2;showmenu,3;base,4';
-      this.shownav = true;
+      //this.shownav = true;
       this.showtoc = false;
     }
 
     bind() {
       super.bind();
+      if (this.shownav && this.shownav == 'false') this.shownav = false;
+      else this.shownav = true;
       //console.log('markdownbook bind shownav', this.shownav);
     }
 

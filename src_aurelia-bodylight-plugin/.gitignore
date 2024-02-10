@@ -39,3 +39,4 @@ node_modules
 #/font-awesome
 /docs/scripts/
 build-nb.sh
+fb-dps-orig.js

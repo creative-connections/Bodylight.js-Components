@@ -44,4 +44,5 @@
     * [Remote Value](#example/remotevaluedemo.md)
     * [Manequin Demo](#example/manequindemo.md)
     * [Animation Range](#example/animationrange.md)
+    * [Firebase](#example/firebase.md)
   * [About](#about.md)
