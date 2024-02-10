@@ -11,7 +11,7 @@ export class FbGetState {
     }
 
     attached(){        
-        this.ea.subscribe('fb-get-message', payload => {
+        this.subscription = this.ea.subscribe('fb-get-message', payload => {
             //this.sendMessage(payload)            
             this.value = payload;
             console.log('message was taken:',this.value)
@@ -23,6 +23,10 @@ export class FbGetState {
                 }
               }
         });
+    }
+
+    detached(){
+        this.subscription.dispose()
     }
 
 
