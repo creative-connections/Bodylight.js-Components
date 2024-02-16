@@ -1,0 +1,42 @@
+<template bindable="id">  
+  <div show.bind="showquiz">
+  <fieldset>    
+    <div if.bind="type === 'choice'">
+    ${question}
+    <ul style="list-style-type: none">
+    <li repeat.for="answer of answer_exp_array">
+      <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult"/><label innerhtml.bind="answer.answer"></label>
+      <span show.bind="showresult" class="w3-theme-l5">
+        <span show.bind="answer.user===answer.correct" title="OK"><i class="fa fa-thumbs-o-up"></i></span>
+        <span show.bind="answer.user!==answer.correct" title="incorrect"><i class="fa fa-times"></i></span>
+        <input type="checkbox" checked.bind="answer.correct" disabled/> <label innerhtml.bind="answer.explanation"></label>
+      </span>
+    </li>
+    </ul>
+    <!--input type="submit" value.bind="buttontitle" click.delegate="submit()"/-->
+  </div>
+  <div if.bind="type === 'match'" class="w3-row">
+    ${question}
+    <div class="w3-half">
+      <div repeat.for="term of randomterms" click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled" innerhtml.bind="term.title">
+      </div>
+    </div>
+    <div class="w3-half">
+      <div repeat.for="answer of randomanswers" click.delegate="selectAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled" innerhtml.bind="answer.title">
+      </div>
+    </div>
+  </div>
+  <div if.bind="type === 'choice2'" class="w3-row">
+    ${question}    
+      <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">
+        <span innerhtml.bind="answer.title"></span>
+        <span show.bind="showresult" class="w3-theme-l5">
+          <label innerhtml.bind="answer.explanation"></label>
+        </span>
+      </div>       
+    <!--input type="submit" value.bind="buttontitle" click.delegate="submit()"/-->
+  </div>
+
+  </fieldset>  
+  </div>
+</template>

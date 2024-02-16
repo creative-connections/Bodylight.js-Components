@@ -39,18 +39,52 @@ export class QuizControl {
         for (let i=1;i<this.quizids.length;i++) {
             this.hidequiz(this.quizids[i])
         }
+        this.showback = false;
+        this.showforward = true;
     }
 
     gonext() {
         this.hidequiz(this.quizids[this.quizindex]);
         this.hidenext();
         //const index = this.quizids.indexOf(quizid);
-        if (this.quizindex<this.quizids.length) {
+        if (this.quizindex<(this.quizids.length-1)) {
           this.quizindex++;
-          this.showquiz(this.quizids[this.quizindex]);          
+          this.showquiz(this.quizids[this.quizindex]);
+          if (this.quizindex<(this.quizids.length-1)) {
+            this.showback = true;
+            this.showforward = true;          
+          } else {
+            this.showback = true;
+            this.showforward = false;            
+          }
         } else {
-            //all quiz done, can go next
-          this.allquizdone();  
+            //all quiz done, can't go next
+            console.warn('cannot go next');
+          this.showquiz(this.quizids[this.quizindex]);
+          this.showback = true;
+          this.showforward = false;          
+        }
+    }
+    goback() {
+        this.hidequiz(this.quizids[this.quizindex]);
+        this.hidenext();
+        //const index = this.quizids.indexOf(quizid);
+        if (this.quizindex>0) {
+          this.quizindex--;
+          this.showquiz(this.quizids[this.quizindex]);
+          if (this.quizindex>0) {
+          this.showback = true;
+          this.showforward = true;          
+          } else {
+            this.showback = false;
+            this.showforward = true;            
+          }
+        } else {          
+            //warning can't go back
+            console.warn('cannot go back');
+          this.showquiz(this.quizids[this.quizindex]);
+          this.showback = false;
+          this.showforward = true;          
         }
     }
 
@@ -74,6 +108,7 @@ export class QuizControl {
     }
 
     allquizdone(){
+
         //TODO enable navigation to NEXT page in markdown-book
     }
 

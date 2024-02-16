@@ -89,10 +89,10 @@ export class Quiz {
 //      console.log('quiz match, randomterms',this.randomterms);
       console.log('quiz match, randomanswers',this.randomanswers);
     }
-    this.ea.subscribe('quizshow', quizid => {
+    this.subscription1 = this.ea.subscribe('quizshow', quizid => {
       if (this.id === quizid)  this.show();//quizid);
     });
-    this.ea.subscribe('quizhide', quizid => {
+    this.subscription2 = this.ea.subscribe('quizhide', quizid => {
       if (this.id === quizid) this.hide();//quizid);
     });
     
@@ -100,7 +100,11 @@ export class Quiz {
 
   attached(){
   }
+  unbind() {
+    this.subscription1.dispose()
+    this.subscription2.dispose()
 
+}
   show(){
     this.showquiz = true;
   }

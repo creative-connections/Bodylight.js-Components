@@ -14,6 +14,7 @@ export class MarkdownTopNav {
     @bindable nav=false;
     @bindable index;
     @bindable toc=false;
+    @bindable showicon=true;
     notinitread=true;
     previoustitle='';//Introduction';
     nexttitle='';//Hemodynamics in Left Ventricle'
@@ -24,6 +25,10 @@ export class MarkdownTopNav {
     constructor(ea) {
       //super(i18n, httpclient);
       this.ea = ea;
+    }
+
+    bind(){
+      if (this.showicon && (typeof showicon === 'string')) this.showicon = this.showicon === 'true'
     }
 
     attached() {
