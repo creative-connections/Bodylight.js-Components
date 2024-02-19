@@ -168,6 +168,41 @@ Example:
 
 ```
 
+Another example
+
+<bdl-chartjs-time  
+  id="id10" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"
+  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" 
+  refindex="2"   
+  refvalues="6"
+  min="0"
+  max="3.14"
+  displayxticks="false"></bdl-chartjs-time>
+
+  </div>
+  <div class="w3-rest">
+Example:
+
+```xml
+<bdl-chartjs-time  
+  id="id10" 
+  width="300" 
+  height="500" 
+  fromid="id4" 
+  labels="Pressure in Aorta,Pressure in Left Ventricle, Intrathoracic Artery Volume, Extrathoracic Arteries Volume, Pulmonary Arteries Volume, Intrathoracic Veins Volume"
+  initialdata="0,1,2,3,4;2,2,2,2;3,2,4;1,5,3;2,2,3,2" 
+  refindex="2"   
+  refvalues="6"
+  min="0"
+  max="3.14"
+  displayxticks="false"></bdl-chartjs-time>
+
+```
+
   </div>
 </div>
 * min/max sets 

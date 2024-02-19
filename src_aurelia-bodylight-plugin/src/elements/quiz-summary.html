@@ -1,6 +1,12 @@
 <template>
+    <require from="./quiz-summary.css"></require>
     <div show.bind="showquiz">
-    <slot></slot>
-    Summary2
+        <fieldset>
+            <slot></slot>
+            <div class="w3-white w3-margin-up" repeat.for="q of backupqas">
+                <div class="truncate">${q.question}</div>
+                <div class="truncate small-margin w3-border w3-round-medium w3-small ${q.cl}" repeat.for="ans of q.answers">${ans}</div>
+            </div>
+        </fieldset>
     </div>
 </template>

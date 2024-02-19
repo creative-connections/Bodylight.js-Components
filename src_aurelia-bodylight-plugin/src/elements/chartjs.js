@@ -40,6 +40,7 @@ export class Chartjs {
   @bindable colorsegmentindex=-2; //index to shift the color
   @bindable colorindex=0; //index to shift the color
   @bindable minichart;
+  @bindable displayxticks = true;
   indexsection=0;
   datalabels=false; //may be configured by subclasses
   refindices;
@@ -113,6 +114,7 @@ export class Chartjs {
    */
   bind() {
     //console.log('chartjs bind');
+    if (typeof this.displayxticks === 'string') this.displayxticks = this.displayxticks === 'true'; 
     if ((typeof this.refindex == 'string') && (this.refindex.indexOf(',')>0)) { this.refindices = this.refindex.split(',')}
     else {
       this.refindex = myParseInt(this.refindex, 10);
@@ -249,6 +251,10 @@ export class Chartjs {
       else axisopts.xAxes = [{display:false }];
       if (axisopts.yAxes) axisopts.yAxes[0].display = false;
       else axisopts.yAxes = [{display:false }];
+    }
+    if (!this.displayxticks) {
+      if (axisopts.xAxes) axisopts.xAxes.ticks = {display:false}
+      else axisopts.xAxes = [{ ticks: { display: false } }]
     }
 
     //initialize options - used later by chartjs instance

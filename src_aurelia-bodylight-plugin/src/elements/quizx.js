@@ -13,6 +13,7 @@ export class Quizx {
   @bindable buttontitle='check answers';
   @bindable type='choice'; //could be choice|match for multiple choice|matching test
   @bindable id;
+  answer_exp_array = [];
   
   constructor(eventAggregator) {
     this.ea = eventAggregator;
@@ -187,7 +188,6 @@ export class Quizx {
     } else {
       this.selectedAnswer.class= this.selected;
     }
-
   }
 
   checkAnswer(answer) { //in choice2 - answer was selected
@@ -195,5 +195,24 @@ export class Quizx {
     if (this.selectedAnswer) {this.selectedAnswer.class= this.unselected;}
     this.selectedAnswer = answer;
     this.selectedAnswer.class= this.selected;
+    let setqa = {id:this.id,answer:this.selectedAnswer.title}
+    this.ea.publish('quizsetanswer', setqa)
+    /*this.subscription3 = this.ea.subscribe('quizsetanswer', quizid => {
+      //TODO set answer
+      this.setAnswer(quizid.id,quizid.answer);
+    }*/
+  }
+
+
+  checkCheckboxAnswer(answer) {
+    console.log('check CheckboxAnswer',answer)
+    //answer.user = !answer.user //change checkbox
+    if (answer.user) {
+      let setqa = {id:this.id,answer:answer.answer,addAnswer:true}
+      this.ea.publish('quizsetanswer', setqa)
+    } else {
+      let setqa = {id:this.id,answer:answer.answer,removeAnswer:true}
+      this.ea.publish('quizsetanswer', setqa)
+    }
   }
 }

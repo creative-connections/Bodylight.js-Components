@@ -1,0 +1,9 @@
+.truncate {
+    width: 400px; /* Adjust width as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.small-margin {
+    margin: 8px !important;
+}

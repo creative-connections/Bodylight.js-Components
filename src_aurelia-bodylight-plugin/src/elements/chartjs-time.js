@@ -18,6 +18,7 @@ export class ChartjsTime extends Chartjs {
     @bindable timedenom; //coeficient which will be denominated from time (e.g. 60 => time/60 in minutes 3600 => time/3600 in hours)
     @bindable timedenomfixed = 1;
     @bindable showrefpoint;
+    
     refindices;
 
     constructor() {
@@ -71,7 +72,7 @@ export class ChartjsTime extends Chartjs {
      */
     bind() {
         super.bind();
-        if (typeof this.timedenomfixed === 'string') this.timedenomfixed = parseInt(this.timedenomfixed,10);
+        if (typeof this.timedenomfixed === 'string') this.timedenomfixed = parseInt(this.timedenomfixed,10);                
         if (typeof this.timedenom === 'string') {
             
             this.timedenom = parseFloat(this.timedenom, 10);

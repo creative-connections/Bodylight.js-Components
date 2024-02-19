@@ -1,38 +1,159 @@
-import {bindable} from 'aurelia-templating';
-import {inject} from 'aurelia-framework';
+import { bindable } from 'aurelia-templating';
+import { inject } from 'aurelia-framework';
 import _ from 'lodash';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @inject(EventAggregator)
 export class QuizSummary {
     @bindable id;
-  
+    qas = []
+    quizids = []
+
     constructor(eventAggregator) {
-      this.ea = eventAggregator;
+        this.ea = eventAggregator;
     }
-  
+
     bind() {
-        this.subscription1 =this.ea.subscribe('quizshow', quizid => {
-            if (this.id === quizid)  this.show();//quizid);
-          });
+        this.subscription1 = this.ea.subscribe('quizshow', quizid => {
+            if (this.id === quizid) this.show();//quizid);
+        });
         this.subscription2 = this.ea.subscribe('quizhide', quizid => {
-            if (this.id === quizid) this.hide();//quizid);
-          });
-      
+            if (this.id === quizid) this.hide();
+            else {
+                //set default answer
+                this.setDefaultAnswer(quizid)
+            }
+        });
+        this.subscription3 = this.ea.subscribe('quizsetanswer', quizid => {
+            //TODO set answer
+            if (quizid.addanswer) this.addAnswer(quizid.id,quizid.answer);
+            else if (quizid.removeanswer) this.removeAnswer(quizid.id,quizid.answer);
+            else
+            this.setAnswer(quizid.id,quizid.answer);
+        })
+        this.subscription4 = this.ea.subscribe('quizids', quizids => {
+            if (quizids.includes(this.id)) this.quizids = quizids; //if im there then i belong to this group
+        })
+
+        /*this.qas = [
+            {id:'q1',question:'1. question',answers:['B. answer'],cl:'w3-pale-blue'},
+            {id:'q2',question:'2.question multi answers with some long and very long text to be truncated', answers:['A. first choice','B. second choice with again very long answer line'],cl:'w3-pale-blue'},
+            {id:'q3',question:'3. question',answers:['C. answer'],cl:'w3-light-grey'},
+        ]*/
+    }
+
+    attached() {
+        //TODO detect siblings <quiz> and their ids to listen only to them
     }
 
     unbind() {
         this.subscription1.dispose()
         this.subscription2.dispose()
-    
+        this.subscription3.dispose()
+        this.subscription4.dispose()
+
     }
 
-    show(){
+    show() {
         this.showquiz = true;
-      }
-    
-      hide(){
+        this.backupqas = this.qas;
+    }
+
+    hide() {
         this.showquiz = false;
-      }
-          
+        this.backupqas = [];
+    }
+
+    setDefaultAnswer(qid) {
+        if (this.quizids.includes(qid)) {
+            // Check if an item with id 'id2' exists
+            let item = this.qas.find(item => item.id === qid);
+
+            // If the item doesn't exist, add a new one with default values
+            if (!item) {
+                let question = '';
+                let qelement = document.getElementById(qid);
+                if (qelement) question = qelement.getAttribute('question');
+                console.log('adding default '+qid+' question '+question);
+                let newqa = { id: qid, question: question, answers: ['?'], cl: 'w3-light-grey' }
+                this.qas.push(newqa); // Change 'id3', 'defaultQuestion', and ['defaultAnswer'] as needed
+            }
+        }
+    }
+
+    addAnswer(qid,answer){
+        if (this.quizids.includes(qid)) {
+            let item = this.qas.find(item => item.id === qid);
+
+            // If the item doesn't exist, add a new one with default values
+            if (!item) {
+                let question = '';
+                let qelement = document.getElementById(qid);
+                if (qelement) question = qelement.getAttribute('question');
+                console.log('adding default '+qid+' question '+question);
+                let newqa = { id: qid, question: question, answers: [answer], cl: 'w3-pale-blue' }
+                this.qas.push(newqa); // Change 'id3', 'defaultQuestion', and ['defaultAnswer'] as needed
+            } else {
+                if (!item.answers.includes(answer)) {
+                    if (item.answers[0] == '?') { //replace default answer
+                        item.answers[0] = answer;
+                        item.cl = 'w3-pale-blue';
+                    } else {
+                        item.answers.push(answer)
+                    }
+                }
+                
+            }
+        }
+    }
+    removeAnswer(qid,answer){
+        if (this.quizids.includes(qid)) {
+            let index = this.qas.findIndex(item => item.id === qid);
+
+            // If the item doesn't exist, add a new one with default values
+            if (index == -1) {
+                let question = '';
+                let qelement = document.getElementById(qid);
+                if (qelement) question = qelement.getAttribute('question');
+                console.log('adding default '+qid+' question '+question);
+                let newqa = { id: qid, question: question, answers: ['?'], cl: 'w3-light-grey' }
+                this.qas.push(newqa); // Change 'id3', 'defaultQuestion', and ['defaultAnswer'] as needed
+            } else {
+                if (this.qas[index].answers.includes(answer)) {
+                    // Find the index of 'q2' in the array
+                    let index2 = item.answers.indexOf(answer);
+                    // If the item is found, remove it using splice
+                    if (index2 !== -1) {
+                        this.qas[index].answers.splice(index2, 1);
+                    }                   
+                    if (this.qas[index].answers.length == 0) {
+                        //set default answer
+                        this.qas[index].answers.push('?');
+                        this.qas[index].cl = 'w3-light-grey'
+                    }
+                }                
+            }
+
+        }
+    }
+    setAnswer(qid,answer){
+        if (this.quizids.includes(qid)) {
+            // Check if an item with id 'id2' exists
+            let index = this.qas.findIndex(item => item.id === qid);
+
+            // If the item doesn't exist, add a new one with default values
+            if (index == -1) {
+                let question = '';
+                let qelement = document.getElementById(qid);
+                if (qelement) question = qelement.getAttribute('question');
+                console.log('adding default '+qid+' question '+question);
+                let newqa = { id: qid, question: question, answers: [answer], cl: 'w3-pale-blue' }
+                this.qas.push(newqa); // Change 'id3', 'defaultQuestion', and ['defaultAnswer'] as needed
+            } else {
+                this.qas[index].answers[0] = answer;
+                this.qas[index].cl = 'w3-pale-blue';
+            }
+        }
+        return true;
+    }
 }

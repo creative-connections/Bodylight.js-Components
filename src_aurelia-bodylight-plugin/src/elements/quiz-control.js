@@ -31,6 +31,7 @@ export class QuizControl {
             this.ea.subscribe('quizdone', quizid => {
                 this.shownext();//quizid);
             });
+            this.ea.publish('quizids',this.quizids)
         }
     }
 

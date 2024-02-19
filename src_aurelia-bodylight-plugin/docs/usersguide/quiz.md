@@ -175,7 +175,7 @@ multiple quiz can be controlled by adding 'id' to bdl-quizx and adding list of '
           button="Custom check answer title">
 </bdl-quizx>
 <bdl-quiz-summary id="qs2">
-  Some summary text
+  Summary:
 </bdl-quiz-summary>
 
 <bdl-quiz-control ids="q5,q6,q7,q8,qs2"></bdl-quiz-control>
