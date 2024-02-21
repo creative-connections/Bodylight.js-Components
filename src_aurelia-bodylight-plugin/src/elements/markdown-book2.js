@@ -30,6 +30,8 @@ export class MarkdownBook2 extends MarkdownBook {
       console.log('markdown book2 attached() toc', this.toc);
       //super.attached();
       //console.log('markdownbook attached shownav', this.shownav);
+      let myhash = window.location.hash.split('&');
+      if (myhash.length>1) this.changesrc(...myhash.slice(1));
     }
 
     tocChanged(newValue, oldValue) {

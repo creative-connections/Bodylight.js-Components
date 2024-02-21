@@ -26,8 +26,8 @@ export class QuizSummary {
         });
         this.subscription3 = this.ea.subscribe('quizsetanswer', quizid => {
             //TODO set answer
-            if (quizid.addanswer) this.addAnswer(quizid.id,quizid.answer);
-            else if (quizid.removeanswer) this.removeAnswer(quizid.id,quizid.answer);
+            if (quizid.addAnswer) this.addAnswer(quizid.id,quizid.answer);
+            else if (quizid.removeAnswer) this.removeAnswer(quizid.id,quizid.answer);
             else
             this.setAnswer(quizid.id,quizid.answer);
         })

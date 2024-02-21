@@ -26,6 +26,7 @@
       * [Tabs](#usersguide/tabs.md)
       * [Carousel](#usersguide/carousel.md)
       * [ReadData](#usersguide/readdata.md)
+      * [Calculator](#usersguide/calculator.md)
     * [Developer's Guide](#developersguide.md)
   * [Examples](#examples.md)
     * [Hemodynamics Meurs with controls](#example/hemodynamicsmeurs.md)

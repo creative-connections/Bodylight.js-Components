@@ -25,6 +25,10 @@ export class Sachart extends Dygraphchart {
 
     bind(){
         super.bind();
+    }
+
+    attached(){
+        super.attached();
         if (!this.width) this.width=400;
         if (!this.height) this.height=400;
         if (typeof this.pH === 'string') this.pH = parseFloat(this.pH,10);

@@ -1,0 +1,46 @@
+<template>
+    <require from="./calculator.css"></require>
+    <div class="main">
+    <div class="calculator">
+        <div class="screen">
+          <div class="screen-last" ref="lastOperationScreen"></div>
+          <div class="screen-current" ref="currentOperationScreen">0</div>
+        </div>
+        <div class="buttons-grid">
+          <button
+            class="btn btn-red span-2"
+            id="clearBtn"
+            click.delegate="clear()"
+          >
+            CLEAR
+          </button>
+          <button
+            class="btn btn-blue span-2"
+            id="deleteBtn"
+            click.delegate="deleteNumber()"
+          >
+            DELETE
+          </button>
+          <button class="btn" click.delegate="appendNumber('7')">7</button>
+          <button class="btn" click.delegate="appendNumber('8')">8</button>
+          <button class="btn" click.delegate="appendNumber('9')">9</button>
+          <button class="btn" click.delegate="setOperation('÷')">÷</button>
+
+          <button class="btn" click.delegate="appendNumber('4')">4</button>
+          <button class="btn" click.delegate="appendNumber('5')">5</button>
+          <button class="btn" click.delegate="appendNumber('6')">6</button>
+          <button class="btn" click.delegate="setOperation('×')">×</button>
+
+          <button class="btn" click.delegate="appendNumber('1')">1</button>
+          <button class="btn" click.delegate="appendNumber('2')">2</button>
+          <button class="btn" click.delegate="appendNumber('3')">3</button>
+          <button class="btn" click.delegate="setOperation('−')">−</button>
+
+          <button class="btn" click.delegate="appendPoint()">.</button>
+          <button class="btn" click.delegate="appendNumber('0')">0</button>
+          <button class="btn" click.delegate="evaluate()">=</button>
+          <button class="btn" click.delegate="setOperation('+')">+</button>
+        </div>
+      </div>
+    </div>
+</template>
