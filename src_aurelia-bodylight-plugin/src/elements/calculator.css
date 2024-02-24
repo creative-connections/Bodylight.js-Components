@@ -26,7 +26,7 @@
   }
   
   .calculator {
-    width: 330px;
+    width: 230px;
     border: 2px var(--border) solid;
     border-radius: 15px;
     padding: 10px;
@@ -50,8 +50,8 @@
   }
   
   .screen-current {
-    min-height: 64px;
-    font-size: 40px;
+    min-height: 34px;
+    font-size: 30px;
   }
   
   .buttons-grid {
@@ -65,11 +65,11 @@
   }
   
   .btn {
-    padding: 15px;
+    padding: 10px;
     border: 2px var(--border) solid;
     border-radius: 3px;
     background-color: var(--btn);
-    font-size: 25px;
+    font-size: 20px;
   }
   
   .btn:hover {

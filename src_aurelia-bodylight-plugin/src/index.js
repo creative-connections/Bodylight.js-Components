@@ -66,6 +66,7 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/fb-set-state'),
     PLATFORM.moduleName('./elements/quizx'),
     PLATFORM.moduleName('./elements/quiz-summary'),
-    PLATFORM.moduleName('./elements/calculator')
+    PLATFORM.moduleName('./elements/calculator'),
+    PLATFORM.moduleName('./elements/chartjs-xy-sachart')
   ]);
 }

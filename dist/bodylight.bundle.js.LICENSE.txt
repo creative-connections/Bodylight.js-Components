@@ -169,20 +169,42 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 
-/*! @license Copyright 2011 Dan Vanderkam (danvdk@gmail.com) MIT-licensed (http://opensource.org/licenses/MIT) */
-
 /*! https://mths.be/punycode v1.4.1 by @mathias */
 
 /**
  * @license
+ * Copyright 2006 Dan Vanderkam (danvdk@gmail.com)
+ * MIT-licenced: https://opensource.org/licenses/MIT
+ */
+
+/**
+ * @license
  * Copyright 2011 Dan Vanderkam (danvdk@gmail.com)
- * MIT-licensed (http://opensource.org/licenses/MIT)
+ * MIT-licenced: https://opensource.org/licenses/MIT
+ */
+
+/**
+ * @license
+ * Copyright 2011 Paul Felix (paul.eric.felix@gmail.com)
+ * MIT-licenced: https://opensource.org/licenses/MIT
+ */
+
+/**
+ * @license
+ * Copyright 2011 Robert Konigsberg (konigsberg@google.com)
+ * MIT-licenced: https://opensource.org/licenses/MIT
  */
 
 /**
  * @license
  * Copyright 2012 Dan Vanderkam (danvdk@gmail.com)
- * MIT-licensed (http://opensource.org/licenses/MIT)
+ * MIT-licenced: https://opensource.org/licenses/MIT
+ */
+
+/**
+ * @license
+ * Copyright 2013 David Eberlein (david.eberlein@ch.sauter-bc.com)
+ * MIT-licenced: https://opensource.org/licenses/MIT
  */
 
 /**

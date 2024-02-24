@@ -12,6 +12,8 @@ export class QuizControl {
     showforward = false;
     showback = false;
     quizids = [];
+    page = 1;
+    pages = 1;
 
     constructor(eventAggregator) {
         this.ea = eventAggregator;
@@ -20,6 +22,7 @@ export class QuizControl {
     bind() {
         if (this.ids) {
             this.quizids = this.ids.split(',');
+            this.pages = this.quizids.length;
         }
     }
 
@@ -48,6 +51,7 @@ export class QuizControl {
         this.hidequiz(this.quizids[this.quizindex]);
         this.hidenext();
         //const index = this.quizids.indexOf(quizid);
+        this.page++;
         if (this.quizindex<(this.quizids.length-1)) {
           this.quizindex++;
           this.showquiz(this.quizids[this.quizindex]);
@@ -70,6 +74,7 @@ export class QuizControl {
         this.hidequiz(this.quizids[this.quizindex]);
         this.hidenext();
         //const index = this.quizids.indexOf(quizid);
+        this.page--;
         if (this.quizindex>0) {
           this.quizindex--;
           this.showquiz(this.quizids[this.quizindex]);

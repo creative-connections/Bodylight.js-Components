@@ -1,12 +1,10 @@
-//import Dygraph from 'dygraphs';
+import Dygraph from 'dygraphs';
 //import {Dygraph} from '../utils/dygraph';
-import {Dygraph} from '../utils/dygraph';
+//import {Dygraph} from '../utils/dygraph';
 import {bindable} from 'aurelia-framework';
 import {saveAs} from 'file-saver';
 
 export class Dygraphchart {
-  @bindable width;
-  @bindable height;
   @bindable inputs;
   @bindable fromid;
   @bindable maxdata=300;
