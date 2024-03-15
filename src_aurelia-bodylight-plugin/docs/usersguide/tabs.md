@@ -46,3 +46,33 @@ krivkaco2
 <div id="porovnani">
 porovnani
 </div>
+
+## vertical tabs
+
+```html
+<bdl-tabs idlist="CZ,EN,DE" 
+  titlelist="CZ,EN,DE" vertical="true"></bdl-tabs>
+<div id="CZ">
+czech
+</div>
+<div id="EN">
+english
+</div>
+<div id="DE">
+deutsch
+</div>
+```
+Creates tabs (buttons) - associated with divs with id, you should define divs later. 
+If the tab is clicked, the associated div is made visible, others are hidden 
+   
+<bdl-tabs idlist="CZ,EN,DE" 
+  titlelist="CZ,EN,DE" vertical="true"></bdl-tabs>
+<div id="CZ">
+czech
+</div>
+<div id="EN">
+english
+</div>
+<div id="DE">
+deutsch
+</div>

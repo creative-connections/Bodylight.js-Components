@@ -3,16 +3,24 @@ import {bindable} from 'aurelia-templating';
 /*
  listen changetabs event
  */
+import {inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
+  
+@inject(EventAggregator)
 export class Tabs {
     @bindable idlist;
     @bindable titlelist;
     ids=[];
     @bindable w3class='w3-bar-item';
+    @bindable vertical=false;
     @bindable listen;
     activeclasstemplate='w3-button w3-white w3-border-top w3-border-left w3-border-right';
     inactiveclasstemplate='w3-button w3-border-bottom w3-theme-l5';
+    activeclasstemplatevertical='w3-bar-item w3-button w3-white w3-border-top w3-border-left w3-border-bottom';
+    inactiveclasstemplatevertical='w3-bar-item w3-button w3-border-right w3-theme-l5';
 
-    constructor(){
+    constructor(ea){
+        this.ea =ea;
         //this is to register listener function - per aurelia docs -this needs to be done this way
         this.handleChange = e => {
             if (e.detail && e.detail.id) {
@@ -24,12 +32,13 @@ export class Tabs {
     }
 
     bind() {
+      if ((typeof this.vertical) === "string") this.vertical = this.vertical === 'true';
       if (this.w3class) {
-          this.activeclass= this.w3class+ ' '+this.activeclasstemplate;
-          this.inactiveclass= this.w3class+' '+this.inactiveclasstemplate;
+          this.activeclass= this.w3class+ ' '+(this.vertical?this.activeclasstemplatevertical:this.activeclasstemplate);
+          this.inactiveclass= this.w3class+' '+(this.vertical?this.inactiveclasstemplatevertical:this.inactiveclasstemplate);
       } else {
-          this.activeclass= this.activeclasstemplate;
-          this.inactiveclass= this.inactiveclasstemplate;
+          this.activeclass= (this.vertical?this.activeclasstemplatevertical:this.activeclasstemplate);
+          this.inactiveclass= (this.vertical?this.activeclasstemplatevertical:this.activeclasstemplate);
       }
       if (this.idlist) {
         //convert comma separated list of ids to array [{id:'id1',title:'id1'}]
@@ -42,7 +51,12 @@ export class Tabs {
           }
         }
       }
+      this.subscription1 = this.ea.subscribe('quizshow', quizid => {
+        const tabid = this.check(quizid);
+        if (tabid) this.open(tabid);//quizid);
+      });
     }
+
     attached() {
       console.log('tabs component', this);
       //open first, hide all no-active
@@ -54,6 +68,18 @@ export class Tabs {
       }
 
     }
+
+    check(qid){
+      if (qid.includes(';')){
+        const qids = qid.split(';')
+        return this.ids.find(element => element.name === qids[1]);
+      } else return null;
+    }
+  
+    unbind() {
+        this.subscription1.dispose()
+    }
+  
 
     open(newid) {
       if (this.active) {

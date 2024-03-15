@@ -66,7 +66,10 @@ export class Quizx {
       //let indices1 = [...Array(this.terms_array.length).keys()];
       let indices2 = [...Array(this.answer_exp_array.length).keys()];
       //let shuffled1indices = _.shuffle(indices1);
-      let shuffled2indices = _.shuffle(indices2);
+      
+      //do not shuffle choice2
+      //let shuffled2indices = _.shuffle(indices2);
+      let shuffled2indices = indices2;
       //this.randomterms = [];
       this.randomanswers = [];
       //for (let i=0;i<this.terms_array.length;i++) {
@@ -91,12 +94,18 @@ export class Quizx {
       console.log('quizx match, randomanswers',this.randomanswers);
     }
     this.subscription1 = this.ea.subscribe('quizshow', quizid => {
-      if (this.id === quizid)  this.show();//quizid);
+      if (this.check(quizid,this.id)) this.show();//quizid);
     });
     this.subscription2 = this.ea.subscribe('quizhide', quizid => {
-      if (this.id === quizid) this.hide();//quizid);
-    });
-    
+      if (this.check(quizid,this.id)) this.hide();//quizid);
+    });    
+  }
+
+  check(qid,qid2){
+    if (qid.includes(';')){
+      const qids = qid.split(';')
+      return qids.includes(qid2);
+    } else return qid === qid2;
   }
 
   attached(){

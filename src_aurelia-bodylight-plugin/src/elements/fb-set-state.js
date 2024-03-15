@@ -5,6 +5,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 export class FbSetState {
     @bindable title;
     @bindable value;
+    @bindable messagetype = 'fb-send-message';
     constructor(ea) {this.ea=ea;}
 
     bind() {
@@ -12,6 +13,6 @@ export class FbSetState {
     }
 
     setState(){        
-        this.ea.publish('fb-send-message',this.value);
+        this.ea.publish(this.messagetype,this.value);
     }
 }

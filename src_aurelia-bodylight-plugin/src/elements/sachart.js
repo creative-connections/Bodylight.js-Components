@@ -1,6 +1,7 @@
 import Dygraph from 'dygraphs/dist/dygraph';
 import { bindable, useView } from 'aurelia-templating';
 import { Dygraphchart } from "./dygraphchart";
+
 @useView('./dygraphchart.html')
 export class Sachart extends Dygraphchart {
     @bindable inputs;
@@ -20,9 +21,22 @@ export class Sachart extends Dygraphchart {
         console.log('sachart constructor');
         this.xy = true; //set xy chart - datapoint will not contain time point
         this.handleResize = () => {
-            console.log('sachart handle resize. This:',this);
-            if (this.dygraph) this.dygraph.resize()
+            if (isElementVisible(this.dygraphcanvas)) {
+                console.log('sachart handle resize. This:',this);
+                if (this.dygraph) this.dygraph.resize()
+            } else console.log('sachart invisible no resize');
         }
+        this.observerCallback = (mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+              if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const targetElement = mutation.target;
+                if (this.isElementVisible(targetElement)) {
+                    if (this.dygraph) this.dygraph.resize()
+                }
+              }
+            }
+        };
+        this.observer = new MutationObserver(this.observerCallback);
     }
 
     bind() {
@@ -38,9 +52,38 @@ export class Sachart extends Dygraphchart {
         window.addEventListener('resize', this.handleResize);
         super.attached();
     }
+
     detached() {
         window.removeEventListener('resize', this.handleResize);
     }
+
+    isElementVisible(element) {
+        // Check if the element itself is set to display: none
+        if (window.getComputedStyle(element).display === "none") {
+            return false;
+        }
+    
+        // Traverse up the DOM tree
+        while (element) {
+            if (element.tagName === "BODY") {
+                // Reached the body element without finding display: none; the element is visible
+                return true;
+            }
+            // Check the computed style of the current element
+            if (window.getComputedStyle(element).display === "none") {
+                // Found a parent with display: none; the element is not visible
+                this.visibilityElement = element;
+                this.observer.observe(this.visibilityElement, {attributes:true, attributeFilter:['style']})
+                return false;
+            }
+            // Move up to the next parent element
+            element = element.parentElement;
+        }
+    
+        // Default to visible if no parent with display: none was found
+        return true;
+    }    
+    
 
     initdygraph() {
         console.log('sachart - initdygraph');

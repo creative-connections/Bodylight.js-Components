@@ -5,7 +5,7 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 
 @inject(EventAggregator)
 export class QuizSummary {
-    @bindable id;
+    @bindable id;    
     qas = []
     quizids = []
 
@@ -14,6 +14,10 @@ export class QuizSummary {
     }
 
     bind() {
+        this.subscription3 = this.ea.subscribe('fb-process-answer-result', answers =>{
+            console.log('answers to show:',answers);
+        });
+        
         this.subscription1 = this.ea.subscribe('quizshow', quizid => {
             if (this.id === quizid) this.show();//quizid);
         });
@@ -57,6 +61,7 @@ export class QuizSummary {
     show() {
         this.showquiz = true;
         this.backupqas = this.qas;
+        this.sendAnswersToServer();
     }
 
     hide() {
@@ -64,7 +69,9 @@ export class QuizSummary {
         this.backupqas = [];
     }
 
-    setDefaultAnswer(qid) {
+    setDefaultAnswer(qid2) {
+        let qid = qid2;
+        if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
         if (this.quizids.includes(qid)) {
             // Check if an item with id 'id2' exists
             let item = this.qas.find(item => item.id === qid);
@@ -81,7 +88,9 @@ export class QuizSummary {
         }
     }
 
-    addAnswer(qid,answer){
+    addAnswer(qid2,answer){
+        let qid = qid2;
+        if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
         if (this.quizids.includes(qid)) {
             let item = this.qas.find(item => item.id === qid);
 
@@ -106,7 +115,9 @@ export class QuizSummary {
             }
         }
     }
-    removeAnswer(qid,answer){
+    removeAnswer(qid2,answer){
+        let qid = qid2;
+        if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
         if (this.quizids.includes(qid)) {
             let index = this.qas.findIndex(item => item.id === qid);
 
@@ -121,7 +132,7 @@ export class QuizSummary {
             } else {
                 if (this.qas[index].answers.includes(answer)) {
                     // Find the index of 'q2' in the array
-                    let index2 = item.answers.indexOf(answer);
+                    let index2 = this.qas[index].answers.indexOf(answer);
                     // If the item is found, remove it using splice
                     if (index2 !== -1) {
                         this.qas[index].answers.splice(index2, 1);
@@ -136,7 +147,9 @@ export class QuizSummary {
 
         }
     }
-    setAnswer(qid,answer){
+    setAnswer(qid2,answer){
+        let qid = qid2;
+        if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
         if (this.quizids.includes(qid)) {
             // Check if an item with id 'id2' exists
             let index = this.qas.findIndex(item => item.id === qid);
@@ -155,5 +168,9 @@ export class QuizSummary {
             }
         }
         return true;
+    }
+
+    sendAnswersToServer() {
+        this.ea.publish('fb-send-answer',this.qas);
     }
 }
