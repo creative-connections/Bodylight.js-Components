@@ -91,6 +91,16 @@ export class FbConfig {
                 this.messagesListener = null; // Reset the listener
             }
         }
+        if (this.listen2) {
+            const messagesRef = ref(this.database, this.listen2);
+
+            // Detach the listener if it exists
+            if (this.messagesListener) {
+                off(messagesRef, 'value', this.messagesListener);
+                this.messagesListener = null; // Reset the listener
+            }
+
+        }
     }
 
     // Function to listen for new messages

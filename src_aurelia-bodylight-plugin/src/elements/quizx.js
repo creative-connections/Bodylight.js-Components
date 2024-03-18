@@ -13,6 +13,7 @@ export class Quizx {
   @bindable buttontitle='check answers';
   @bindable type='choice'; //could be choice|match for multiple choice|matching test
   @bindable id;
+  showhint = false;
   answer_exp_array = [];
   
   constructor(eventAggregator) {
@@ -98,7 +99,30 @@ export class Quizx {
     });
     this.subscription2 = this.ea.subscribe('quizhide', quizid => {
       if (this.check(quizid,this.id)) this.hide();//quizid);
-    });    
+    }); 
+    this.subscription3 = this.ea.subscribe('fb-process-answer-result', qa =>{
+      //this.hints = answerresults;
+      //this.id
+      if (qa[this.id]) {
+        this.bindhint(qa)
+      }
+      //console.log('answers to show:',answerresults);
+  });   
+  }
+
+  bindhint(qa){
+    const answers = qa[this.id].a;
+    for (const key of Object.keys(answers)) {
+      const value = answers[key];      
+      if (this.randomanswers) {
+        const myanswer = this.randomanswers.find(el => el.title.startsWith(key))
+        if (myanswer) {myanswer.hint = value; this.showhint=true}
+      } else {
+        //choice - anwer_exp_array
+        const myanswer = this.answer_exp_array.find(el => el.answer.startsWith(key))
+        if (myanswer) {myanswer.hint = value; this.showhint=true}
+      }
+    }
   }
 
   check(qid,qid2){

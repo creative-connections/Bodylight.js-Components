@@ -21,7 +21,7 @@ export class QuizControl {
 
     bind() {
         if (this.ids) {
-            this.quizids = this.ids.split(',');
+            this.quizids = this.ids.split(',').map(item => item.split(';')[0]);
             this.pages = this.quizids.length;
         }
     }

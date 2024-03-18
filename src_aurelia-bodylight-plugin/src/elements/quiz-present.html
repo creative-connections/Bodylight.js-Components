@@ -1,3 +1,5 @@
 <template>
-    
+    <ul>
+        <li repeat.for="an of answers | keys">${an}: ${answers[an].q} <span repeat.for="option of answers[an].a | keys"><i>${option}</i>: <b>${answers[an].a[option]}</b> </span></li>
+    </ul>    
 </template>

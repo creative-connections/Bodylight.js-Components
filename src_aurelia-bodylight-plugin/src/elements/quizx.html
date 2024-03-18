@@ -5,6 +5,7 @@
     ${question}
     <ul style="list-style-type: none">
     <li repeat.for="answer of answer_exp_array">
+      <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
       <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult" change.delegate="checkCheckboxAnswer(answer)"/><label innerhtml.bind="answer.answer"></label>
       <span show.bind="showresult" class="w3-theme-l5">
         <span show.bind="answer.user===answer.correct" title="OK"><i class="fa fa-thumbs-o-up"></i></span>
@@ -29,7 +30,8 @@
   <div if.bind="type === 'choice2'" class="w3-row">
     ${question}    
       <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">
-        <span innerhtml.bind="answer.title"></span>
+        <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
+        <span innerhtml.bind="answer.title"></span>        
         <span show.bind="showresult" class="w3-theme-l5">
           <label innerhtml.bind="answer.explanation"></label>
         </span>

@@ -14,9 +14,9 @@ export class QuizSummary {
     }
 
     bind() {
-        this.subscription3 = this.ea.subscribe('fb-process-answer-result', answers =>{
+        /*this.subscription3 = this.ea.subscribe('fb-process-answer-result', answers =>{
             console.log('answers to show:',answers);
-        });
+        });*/
         
         this.subscription1 = this.ea.subscribe('quizshow', quizid => {
             if (this.id === quizid) this.show();//quizid);
@@ -53,7 +53,7 @@ export class QuizSummary {
     unbind() {
         this.subscription1.dispose()
         this.subscription2.dispose()
-        this.subscription3.dispose()
+        //this.subscription3.dispose()
         this.subscription4.dispose()
 
     }
@@ -72,7 +72,7 @@ export class QuizSummary {
     setDefaultAnswer(qid2) {
         let qid = qid2;
         if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
-        if (this.quizids.includes(qid)) {
+        if (this.quizids.includes(qid2)) {
             // Check if an item with id 'id2' exists
             let item = this.qas.find(item => item.id === qid);
 
@@ -91,7 +91,7 @@ export class QuizSummary {
     addAnswer(qid2,answer){
         let qid = qid2;
         if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
-        if (this.quizids.includes(qid)) {
+        if (this.quizids.includes(qid2)) {
             let item = this.qas.find(item => item.id === qid);
 
             // If the item doesn't exist, add a new one with default values
@@ -118,7 +118,7 @@ export class QuizSummary {
     removeAnswer(qid2,answer){
         let qid = qid2;
         if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
-        if (this.quizids.includes(qid)) {
+        if (this.quizids.includes(qid2)) {
             let index = this.qas.findIndex(item => item.id === qid);
 
             // If the item doesn't exist, add a new one with default values
@@ -150,7 +150,7 @@ export class QuizSummary {
     setAnswer(qid2,answer){
         let qid = qid2;
         if (qid2.includes(';')) qid = qid2.split(';')[0]; //first is id second is id of related tabs
-        if (this.quizids.includes(qid)) {
+        if (this.quizids.includes(qid2)) {
             // Check if an item with id 'id2' exists
             let index = this.qas.findIndex(item => item.id === qid);
 
