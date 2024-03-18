@@ -1,7 +1,7 @@
 {
   "name": "aurelia-bodylight-plugin",
   "description": "Bodylight plugin for Aurelia framework",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/creative-connections/Bodylight.js-Components.git"
