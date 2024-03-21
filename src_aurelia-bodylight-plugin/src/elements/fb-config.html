@@ -1,1 +1,11 @@
-<template></template>
+<template>
+    <div if.bind="showbutton2" class="w3-button">
+        <i class="fa fa-square-o" show.bind="!selected2" click.delegate="click2()"></i><i class="fa fa-check-square-o" show.bind="selected2"></i> listen ${listen2}
+    </div>
+    <div if.bind="showbutton3" class="w3-button">
+        <i class="fa fa-square-o" show.bind="!selected3" click.delegate="click3()"></i><i class="fa fa-check-square-o" show.bind="selected3"></i> listen ${listen3}
+    </div>
+    <div if.bind="showbutton4" class="w3-button">
+        <i class="fa fa-square-o" show.bind="!selected4" click.delegate="click4()"></i><i class="fa fa-check-square-o" show.bind="selected4"></i> publish ${publish}
+    </div>
+</template>

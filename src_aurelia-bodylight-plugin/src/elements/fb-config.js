@@ -11,6 +11,7 @@ import { getDatabase, ref, set, onValue, off } from 'firebase/database';
 import { inject, bindable } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
 import { dPS } from './fb-dps'
+import { uuidv7 } from '../utils/uuidv7'
 
 @inject(EventAggregator)
 export class FbConfig {
@@ -22,18 +23,35 @@ export class FbConfig {
     @bindable messagingSenderId;
     @bindable appId;
     @bindable measurementId;
-    @bindable apiStr;
+    @bindable apiStr; //encrypted above configuration
     @bindable listen = false;
-    @bindable listen2;
+    @bindable listen2; //realtime database channel to listen for answers, data are processed to aggregate counts etc.
+    @bindable listen3; //realtime database channel to listen for other events, e.g. tab id
+    @bindable event3; //if specified the listen3 message is sent via event aggregator channel named in this attribute to other subscribers, e.g. `showid` 
+    @bindable publish; //realtime database channel to listen for other events, e.g. tab id
+    @bindable event4; //if specified it is subscribed and all messages are published  through 'publish' realtime database, e.g. `showid` 
     userid;
     answersent = false;
+    showbutton2 = false;  //whether to show button2
+    selected2 = true; //whether the listen2 data are processed
+    showbutton3 = false; //whether to show button3
+    selected3 = false; //whether the listen3 data are processed
+    showbutton4 = false; //whether to show publish button
+    selected4 = false; //whether the publish button is selected
 
     constructor(ea) { this.ea = ea }
 
     async bind() {
         let firebaseConfig;
         console.log('FBconfig.bind()');
-        if (!window.userid) window.userid = crypto.randomUUID();
+        if (!window.userid) {
+            if (typeof crypto.randomUUID === 'function'){
+                window.userid = crypto.randomUUID();}
+            else {
+                window.userid = uuidv7();
+            }
+
+        }
         if (this.apiStr && this.apiStr.length > 0)
             firebaseConfig = JSON.parse(await dPS(this.apiStr))
         else
@@ -59,7 +77,9 @@ export class FbConfig {
             this.listen = this.listen === 'true';
         }
         if (this.listen) this.listenForMessages();
-        if (this.listen2) this.listenForOtherMessages();
+        if (this.listen2) this.listenFor2Messages();
+        if (this.listen3) this.listenFor3Messages();
+        if (this.publish) this.publishForMessages();
 
         this.subscription = this.ea.subscribe('fb-send-message', payload => {
             this.sendMessage(payload)
@@ -92,6 +112,7 @@ export class FbConfig {
             }
         }
         if (this.listen2) {
+            this.showbutton2 = true;
             const messagesRef = ref(this.database, this.listen2);
 
             // Detach the listener if it exists
@@ -104,7 +125,7 @@ export class FbConfig {
     }
 
     // Function to listen for new messages
-    listenForMessages() {
+    listenForMessages() {        
         const messagesRef = ref(this.database, 'messages');
         // Define the listener as an arrow function and store it
         this.messagesListener = snapshot => {
@@ -119,8 +140,10 @@ export class FbConfig {
         onValue(messagesRef, this.messagesListener);
 
     }
+
     // Function to listen for new messages
-    listenForOtherMessages() {
+    listenFor2Messages() {
+        this.showbutton2 = true;
         const messagesRef = ref(this.database, this.listen2); //answers
         // Define the listener as an arrow function and store it
         this.messagesListener = snapshot => {
@@ -129,13 +152,43 @@ export class FbConfig {
                 //TODO send to listening message
                 //displayMessage(data.content);         
                 //this.ea.publish('fb-get-message-'+this.listen2, data.content);
-                this.processAnswers(data);
+                if (this.selected2) this.processAnswers(data);
             }
         };
         // Attach the listener
         onValue(messagesRef, this.messagesListener);
-
     }
+
+    // Function to listen for new messages
+    listenFor3Messages() {
+        this.showbutton3 = true;
+        const messagesRef = ref(this.database, this.listen3); //answers
+        // Define the listener as an arrow function and store it
+        this.messagesListener = snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                //TODO send to listening message
+                //displayMessage(data.content);         
+                if (this.selected3 && this.event3)
+                  this.ea.publish(this.event3, data.content);
+                //this.processAnswers(data);
+
+            }
+        };
+        // Attach the listener
+        onValue(messagesRef, this.messagesListener);
+    }
+
+    // Function to listen for new messages
+    publishForMessages() {
+        this.showbutton4 = true;
+        if (this.event4) {
+            this.subscription4 = this.ea.subscribe(this.event4, payload => {
+                this.sendMessage4(this.publish,payload)
+            });
+        }
+    }
+    
 
     // Function to send a message
     async sendMessage(message) {
@@ -143,6 +196,17 @@ export class FbConfig {
         //const message = "Hello from Master 2";
         try {
             await set(ref(this.database, 'messages'), { content: message });
+            console.log('Message sent successfully');
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    }
+    // Function to send a message
+    async sendMessage4(channel,message) {
+        console.log('sending message');
+        //const message = "Hello from Master 2";
+        try {
+            await set(ref(this.database, channel), { content: message });
             console.log('Message sent successfully');
         } catch (error) {
             console.error('Error sending message:', error);
@@ -215,5 +279,7 @@ export class FbConfig {
     //        function displayMessage(message) {
     //            document.getElementById('messages').textContent = message;
     //        }
-
+    click2() {this.selected2 = ! this.selected2}
+    click3() {this.selected2 = ! this.selected3}
+    click4() {this.selected2 = ! this.selected4}
 }

@@ -22,6 +22,7 @@ export class QuizControl {
     bind() {
         if (this.ids) {
             this.quizids = this.ids.split(',').map(item => item.split(';')[0]);
+            this.quizids2 = this.ids.split(',');
             this.pages = this.quizids.length;
         }
     }
@@ -39,22 +40,22 @@ export class QuizControl {
     }
 
     showfirst(){
-        this.showquiz(this.quizids[0])
+        this.showquiz(this.quizids2[0])
         for (let i=1;i<this.quizids.length;i++) {
-            this.hidequiz(this.quizids[i])
+            this.hidequiz(this.quizids2[i])
         }
         this.showback = false;
         this.showforward = true;
     }
 
     gonext() {
-        this.hidequiz(this.quizids[this.quizindex]);
+        this.hidequiz(this.quizids2[this.quizindex]);
         this.hidenext();
         //const index = this.quizids.indexOf(quizid);
         this.page++;
         if (this.quizindex<(this.quizids.length-1)) {
           this.quizindex++;
-          this.showquiz(this.quizids[this.quizindex]);
+          this.showquiz(this.quizids2[this.quizindex]);
           if (this.quizindex<(this.quizids.length-1)) {
             this.showback = true;
             this.showforward = true;          
@@ -65,19 +66,19 @@ export class QuizControl {
         } else {
             //all quiz done, can't go next
             console.warn('cannot go next');
-          this.showquiz(this.quizids[this.quizindex]);
+          this.showquiz(this.quizids2[this.quizindex]);
           this.showback = true;
           this.showforward = false;          
         }
     }
     goback() {
-        this.hidequiz(this.quizids[this.quizindex]);
+        this.hidequiz(this.quizids2[this.quizindex]);
         this.hidenext();
         //const index = this.quizids.indexOf(quizid);
         this.page--;
         if (this.quizindex>0) {
           this.quizindex--;
-          this.showquiz(this.quizids[this.quizindex]);
+          this.showquiz(this.quizids2[this.quizindex]);
           if (this.quizindex>0) {
           this.showback = true;
           this.showforward = true;          
@@ -88,7 +89,7 @@ export class QuizControl {
         } else {          
             //warning can't go back
             console.warn('cannot go back');
-          this.showquiz(this.quizids[this.quizindex]);
+          this.showquiz(this.quizids2[this.quizindex]);
           this.showback = false;
           this.showforward = true;          
         }

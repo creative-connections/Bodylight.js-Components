@@ -318,6 +318,14 @@ and limitations under the License.
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
 
+/**
+ * uuidv7: An experimental implementation of the proposed UUID Version 7
+ *
+ * @license Apache-2.0
+ * @copyright 2021-2023 LiosK
+ * @packageDocumentation
+ */
+
 // @license http://opensource.org/licenses/MIT
 
 //! moment.js
