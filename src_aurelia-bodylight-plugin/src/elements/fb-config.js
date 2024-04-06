@@ -280,6 +280,6 @@ export class FbConfig {
     //            document.getElementById('messages').textContent = message;
     //        }
     click2() {this.selected2 = ! this.selected2}
-    click3() {this.selected2 = ! this.selected3}
-    click4() {this.selected2 = ! this.selected4}
+    click3() {this.selected3 = ! this.selected3}
+    click4() {this.selected4 = ! this.selected4}
 }

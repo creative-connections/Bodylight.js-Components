@@ -166,6 +166,12 @@ export class Markdownaurelia {
       .then(response => response.text())
       .then(data => {
         //console.log('markdownaurelia fetched md:', data)
+        //if (!keepanimation && window.ani) {
+        //FIX bug - changing page cause some animation not render correctly or binding is incorrect  
+        if (window.ani) window.ani.detached();
+        //window.ani.destroyAdobe();
+        window.animatebindings = [];
+        //}    
         this.text = data;
         //convert from md to html
         this.html = this.md.render(this.text);
