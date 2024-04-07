@@ -77,10 +77,13 @@ export class Bind2a {
       if (!window.animatebindings) window.animatebindings = [];
       //keep index within the array, will be used when detaching
       this.index = window.animatebindings.push(binding) - 1;
+      console.log('bind animatebindings index',this.index);
     }
 
     unbind() {
+      //FIX moved animatebindings = [] to markdownaurelia when update/ changesrc is done
       //remove binding structure from global array - using index position
-      window.animatebindings.splice(this.index, 1);
+      //console.log('unbind animatebindings index',this.index);
+      //window.animatebindings.splice(this.index, 1);
     }
 }
