@@ -366,10 +366,11 @@ export class AnimateAdobe {
           //window.ani.handleResize();
         }
         //send registering only once
+        /*
         if (!window.ani.stopinitialanimation) {
           let event = new CustomEvent('fmiregister');
           document.dispatchEvent(event);
-        }
+        }*/
         window.ani.stopinitialanimation = true;
       }
       setTimeout(fnStopInitialAnimation, 1000);

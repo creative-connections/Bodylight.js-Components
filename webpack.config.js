@@ -7,6 +7,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 //const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const TerserPlugin = require('terser-webpack-plugin');
+//const ClosurePlugin = require('closure-webpack-plugin');
 
 // config helpers:
 const ensureArray = (config) => config && (Array.isArray(config) ? config : [config]) || [];
@@ -60,6 +61,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     sourceMapFilename: 'bodylight.bundle.map'
   },
   optimization: {
+    concatenateModules: false,
     runtimeChunk: false,  // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
@@ -67,15 +69,32 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     // Use splitChunks to breakdown the App/Aurelia bundle down into smaller chunks
     // https://webpack.js.org/plugins/split-chunks-plugin/
     minimize: production ? true : false,
+    //REPLACE TERSER with CLOSURE 
     minimizer: [new TerserPlugin({
-      terserOptions: {
-        compress: {
-          pure_funcs: [ 'console.log' ],
-        },
-        mangle: { toplevel: true }
+      terserOptions: {        
+        mangle: { toplevel: true },
+        ecma:2016,
+        compress: {ecma:2016,defaults:true,drop_console:['log', 'info']},
+        keep_classnames: false,
+        keep_fnames: false,
+        ie8: false,
+        module: false,
+        nameCache: null, // or specify a name cache object
+        safari10: false,
+        toplevel: false
       }
     })],
-
+    /*minimizer: [
+      new ClosurePlugin({mode: 'AGGRESSIVE_BUNDLE'}, {
+        // compiler flags here
+        //
+        // for debugging help, try these:
+        //
+        // formatting: 'PRETTY_PRINT'
+        // debug: true,
+        // renaming: false
+      })]
+    */
   },
   performance: { hints: false },
   devServer: {
@@ -88,6 +107,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     host: host
   },
   devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
+  //devtool: production ? 'eval-source-map' : 'cheap-module-eval-source-map',
   module: {
     rules: [
       // CSS required in JS/TS files should use the style-loader that auto-injects it into the website

@@ -15,13 +15,14 @@ export class Sachart extends Dygraphchart {
     @bindable convertors;
     @bindable pointSize = 10;
     @bindable minichart;
+    @bindable observeid;
 
     constructor() {
         super();
         console.log('sachart constructor');
         this.xy = true; //set xy chart - datapoint will not contain time point
         this.handleResize = () => {
-            if (isElementVisible(this.dygraphcanvas)) {
+            if (this.isElementVisible(this.dygraphcanvas)) {
                 console.log('sachart handle resize. This:',this);
                 if (this.dygraph) this.dygraph.resize()
             } else console.log('sachart invisible no resize');
@@ -36,7 +37,7 @@ export class Sachart extends Dygraphchart {
               }
             }
         };
-        this.observer = new MutationObserver(this.observerCallback);
+        
     }
 
     bind() {
@@ -50,11 +51,18 @@ export class Sachart extends Dygraphchart {
 
     attached() {
         window.addEventListener('resize', this.handleResize);
+        if (this.observeid){
+          this.observer = new MutationObserver(this.observerCallback);
+          let observingelement = document.getElementById(this.observeid);//this.dygraphcanvas.parentElement.parentElement.parentElement.parentElement.parentElement
+          if (observingelement)
+            this.observer.observe(observingelement, {attributes:true,attributeFilter:['style']});
+        }
         super.attached();
     }
 
     detached() {
         window.removeEventListener('resize', this.handleResize);
+        if (this.observeid) this.observer.disconnect()
     }
 
     isElementVisible(element) {

@@ -14,7 +14,7 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/markdownaurelia'),
     PLATFORM.moduleName('./elements/markdown-input'),
     PLATFORM.moduleName('./elements/markdownnav'),
-    PLATFORM.moduleName('./elements/simplegif'),
+    //PLATFORM.moduleName('./elements/simplegif'),
     PLATFORM.moduleName('./elements/ecg'),
     PLATFORM.moduleName('./elements/chartjs'),
     PLATFORM.moduleName('./elements/chartjs-time'),

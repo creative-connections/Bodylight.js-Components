@@ -126,7 +126,7 @@ export class Fmi {
         //now register 'change' event or eventlisten
         if (dependentEl) {
           dependentEl.addEventListener(this.eventlisten, this.handleValueChange);
-          console.log('registering input, ref, num,den,add,fixed', myinputs[0], myinputs[1], numerator, denominator, addconst, fixedsignature);
+          console.warn('registering input, ref, num,den,add,fixed', myinputs[0], myinputs[1], numerator, denominator, addconst, fixedsignature);
         }
         else {
           //const dependentAnimEl = window.ani.getAnimateObj(myinputs[0]);
@@ -136,7 +136,7 @@ export class Fmi {
             name:myinputs[0],
             handleValueChange: this.handleValueChange
           });
-          console.log('non-existing element id, will try to register to animation:', myinputs[0]);
+          console.warn('non-existing element id, will try to register to animation:', myinputs[0]);
         }
         
         
@@ -160,7 +160,7 @@ export class Fmi {
   }
 
   deregisterInputs() {
-    //do removeListeners()
+    console.warn('deregistering inputs');//do removeListeners()
     window.animateranges = [];
     if (this.inputs) {
       let inputparts = this.inputs.split(';');
