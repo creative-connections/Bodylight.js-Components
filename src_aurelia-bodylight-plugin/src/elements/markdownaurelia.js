@@ -75,6 +75,7 @@ export class Markdownaurelia {
   @bindable fromid;
   //@bindable toc;
   @bindable content;
+  @bindable keepanim;
   previoussrc='';
   showmodal = false;
   constructor(i18n, httpclient, ea) {
@@ -92,6 +93,7 @@ export class Markdownaurelia {
   }
 
   bind() {
+    if (typeof this.keepanim === 'string') this.keepanim = this.keepanim === 'true';
     //console.log('markdownaurelia bind() src', this.src);
     if (this.base && this.base.length > 0) window.bdlBaseHref = this.base; // define bdlbasehref only if not empty string
     if (this.src && this.src.length > 0 && this.md) this.readmd();
@@ -158,19 +160,22 @@ export class Markdownaurelia {
   readmd() {
     //fetch md source from src attribute
     //relative url - set with base
-    console.log('bdlmarkdownaurelia readmemd(), src:', this.src);
+    console.warn('bdlmarkdownaurelia readmemd(), src:', this.src);
     if (! this.src || (this.previoussrc === this.src)) return;
     this.previoussrc = this.src;
     let url = (this.src.startsWith('http')) ? this.src : this.base + this.src;
     this.client.fetch(url)
       .then(response => response.text())
       .then(data => {
-        //console.log('markdownaurelia fetched md:', data)
+        console.log('markdownaurelia fetched md')
         //if (!keepanimation && window.ani) {
         //FIX bug - changing page cause some animation not render correctly or binding is incorrect  
-        if (window.ani) window.ani.detached();
-        //window.ani.destroyAdobe();
-        window.animatebindings = [];
+        if (!this.keepanim) {
+          if (window.ani) window.ani.detached();
+          //window.ani.destroyAdobe();
+          console.warn('markdownaurelia animatebindings emptied from readmemd() src:',this.src);
+          window.animatebindings = [];
+        }
         //}    
         this.text = data;
         //convert from md to html
@@ -208,11 +213,12 @@ export class Markdownaurelia {
   }
 
   updateContent(content, keepanimation = false) {
-    //console.log('markdownaurelia updatecontent:', content);
+    console.log('markdownaurelia updateContent');
     //fix remove older animation objects
-    if (!keepanimation && window.ani) {
+    if (!this.keepanim && !keepanimation && window.ani)  {
       window.ani.detached();
       //window.ani.destroyAdobe();
+      console.warn('markdownaurelia animatebindings emptied from updateContent()');
       window.animatebindings = [];
     }
     //fix remove global binding

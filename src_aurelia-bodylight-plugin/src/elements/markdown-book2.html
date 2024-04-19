@@ -22,7 +22,7 @@
                     <div ref="mytoc"></div>
                 </div>
                 <span if.bind="model">
-                <markdown base="${base}" src.bind="model"></markdown>
+                <markdown base="${base}" src.bind="model" keepanim="true"></markdown>
                 </span>
                 <markdown class.bind="shownav?'w3-padding  w3-palatino':'w3-palatino'" base="${base}" src="${index}" watchhash="index,0;base,3" toc.two-way="toc"></markdown>
                 <markdown-bottom-nav class="w3-padding  w3-palatino" base="${base}" index="${index}" src="${summary}" show.bind="shownav"></markdown-bottom-nav>

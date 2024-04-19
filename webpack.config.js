@@ -74,7 +74,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       terserOptions: {        
         mangle: { toplevel: true },
         ecma:2016,
-        compress: {ecma:2016,defaults:true,drop_console:['log', 'info']},
+        compress: {ecma:2016,defaults:true},//,drop_console:['log', 'info']},
         keep_classnames: false,
         keep_fnames: false,
         ie8: false,

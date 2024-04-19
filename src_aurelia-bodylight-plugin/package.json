@@ -138,7 +138,6 @@
     "firebase": "^10.8.0",
     "font-awesome": "^4.7.0",
     "highlight.js": "^10.7.2",
-    "katex": "^0.12.0",
     "latest-createjs": "^1.0.24",
     "libgif": "0.0.3",
     "localforage": "^1.10.0",
@@ -148,6 +147,9 @@
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-katexx": "^3.2.0",
     "pdbe-molstar": "^3.1.0"
+  },
+  "deprecated": {
+    "katex": "^0.12.0"
   },
   "bugs": {
     "url": "https://github.com/creative-connections/Bodylight.js-Components/issues"
