@@ -6,7 +6,7 @@
 // Import the required functions from the Firebase SDK
 import { initializeApp } from 'firebase/app';
 //import * as firebase from "firebase/app";
-import { getDatabase, ref, set, onValue, off } from 'firebase/database';
+import { getDatabase, ref, set, onValue, off, get, remove } from 'firebase/database';
 //import * as firebasedb from 'firebase/database';
 import { inject, bindable } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -45,10 +45,15 @@ export class FbConfig {
         let firebaseConfig;
         console.log('FBconfig.bind()');
         if (!window.userid) {
+            let storeduuid = localStorage.getItem('deviceUUID');
+            if (storeduuid) window.userid = storeduuid;
+            else {
             if (typeof crypto.randomUUID === 'function'){
                 window.userid = crypto.randomUUID();}
             else {
                 window.userid = uuidv7();
+            }
+            localStorage.setItem('deviceUUID', window.userid);
             }
 
         }
@@ -196,6 +201,10 @@ export class FbConfig {
         //const message = "Hello from Master 2";
         try {
             await set(ref(this.database, 'messages'), { content: message });
+            if (message.startsWith('index')) {
+                //do reset answers
+                this.resetAnswers();
+            }
             console.log('Message sent successfully');
         } catch (error) {
             console.error('Error sending message:', error);
@@ -282,4 +291,39 @@ export class FbConfig {
     click2() {this.selected2 = ! this.selected2}
     click3() {this.selected3 = ! this.selected3}
     click4() {this.selected4 = ! this.selected4}
+
+    renameAnswersObject(oldPath, newPath) {
+        const oldRef = ref(this.database,oldPath);
+        const newRef = ref(this.database,newPath);
+      
+        get(oldRef).then((snapshot) => {
+            console.log('Data retrieved for renaming.');
+            const data = snapshot.val();
+            if (data !== null) {
+              // Write data to the new location
+              set(newRef, data).then(() => {
+                console.log('Data successfully copied to new location.');
+                // Remove data from the old location after successful copy
+                remove(oldRef)
+                .then(() => {
+                  console.log('Old data successfully removed.');
+                })
+                .catch((error) => {
+                  console.error('Failed to remove old data:', error);
+                });
+              }).catch((error) => {
+                console.log('Data could not be copied to new location:', error);
+              });
+            } else {
+              console.log('No data found at the old location.');
+            }
+          }).catch((error) => {
+            console.log('Failed to get data from old location:', error);
+          });
+      }
+
+    resetAnswers() {
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-'); // Creating a timestamp
+        this.renameAnswersObject('answers', `answers-archive/${timestamp}`);
+    }  
 }
