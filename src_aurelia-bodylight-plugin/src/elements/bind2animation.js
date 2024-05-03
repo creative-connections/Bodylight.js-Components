@@ -16,17 +16,19 @@ export class Bind2animation {
     afmax = Number.MIN_SAFE_INTEGER;
     afminset = false;
     afmaxset = false;
+    autocoef = 2;
 
-    constructor(_findex, _aname, _amin, _amax, _fmin, _fmax, _operation,_autofmin,_autofmax) {
+    constructor(_findex, _aname, _amin, _amax, _fmin, _fmax, _operation,_autofmin,_autofmax,_autocoef) {
       this.findex = _findex;
       this.aname = _aname; //can be obtained by Object.keys(window.ani.lib).filter(name => name.endsWith('Celek'))
       this.amin = _amin;
       this.amax = _amax;
-      this.fmin = _fmin;
-      this.fmax = _fmax;
+      if (typeof _fmin == "number") {this.fmin = _fmin; this.afminset = true;}
+      if (typeof _fmax == "number") {this.fmax = _fmax; this.afmaxset = true;}
       this.autofmin = _autofmin;
       this.autofmax = _autofmax;
       this.operation = _operation;
+      if (_autocoef != 0) this.autocoef = _autocoef;
       this.updateK();
       this.k3 = (this.amax - this.amin);
     }
@@ -38,38 +40,36 @@ export class Bind2animation {
     convertf2a(x) {
       //do conversion if operation is defined
       if (this.operation) x = this.operation(x);
-
-      if (this.autofmin) {
-        //initially sets minimum as 1/2 of current value, otherwise update it
-        if (!this.afminset) {
-          this.fmin = x*0.9;
-          this.afminset = true;
-          this.updateK();
-        } else {
+      //initially sets minimum as 1/2 of current value, otherwise update it
+      if (!this.afminset) {
+        this.fmin = x/this.autocoef;
+        this.afminset = true;
+        this.updateK();
+      }
+      //initially sets maximum as 2x of current value, otherwise update it
+      if (!this.afmaxset) {
+        this.fmax = x*this.autocoef;
+        this.afmaxset = true;
+        this.updateK();
+      }      
+      if (this.autofmin) {        
           if (x<this.fmin) {
             this.fmin=x;
             this.updateK();
-          }
-        }
+          }        
       }
 
       if (x <= this.fmin) return this.amin;
 
       if (this.autofmax) {
-        //initially sets maximum as 2x of current value, otherwise update it
-        if (!this.afmaxset) {
-          this.fmax = x*1.1;
-          this.afmaxset = true;
-          this.updateK();
-        } else {
           if (x>this.fmax) {
             this.fmax= x;
             this.updateK();
           }
-        }
       }
 
       if (x < this.fmax) return this.amin + (x * this.k1 - this.k2) * this.k3;
+
       return this.amax;
     }
 

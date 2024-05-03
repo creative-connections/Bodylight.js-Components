@@ -15,6 +15,8 @@ export class Bind2a {
     @bindable fmin; //optional minimal value of variable from fmu model
     @bindable fmax; //optional maximal value of variable from fmu model
     @bindable convertor;
+    @bindable coeff = 2;
+    @bindable autoupdate = 'false';
     index=0;
     autofmin = false;
     autofmax = false;
@@ -30,9 +32,11 @@ export class Bind2a {
       //optional fmin,fmax - if not set then autofmin fmax is triggered
       if (this.fmin) this.fmin = parseFloat(this.fmin); else this.autofmin = true;
       if (this.fmax) this.fmax = parseFloat(this.fmax); else this.autofmax = true;
+      if (typeof this.coeff == 'string') this.coeff = parseFloat(this.coeff);
+      if (typeof this.autoupdate == 'string') {this.autofmin = this.autoupdate=='true'; this.autofmax = this.autoupdate=='true';}
       //create bind2animation structure
       let operation = this.parseConvertors();
-      let binding = new Bind2animation(this.findex, this.aname, this.amin, this.amax, this.fmin, this.fmax, operation,this.autofmin, this.autofmax);
+      let binding = new Bind2animation(this.findex, this.aname, this.amin, this.amax, this.fmin, this.fmax, operation,this.autofmin, this.autofmax,this.coeff);
       this.addbinding(binding);
     }
 
