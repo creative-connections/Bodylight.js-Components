@@ -122,4 +122,8 @@ export class MarkdownTopNav {
           : '';
       }
   }
+
+  expandnav(){
+    this.ea.publish('expandnav',this);
+  }
 }

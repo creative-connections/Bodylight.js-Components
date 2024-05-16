@@ -29,6 +29,7 @@ export class Markdownnav {
   @bindable base='';
   notinitread=true;
 
+
   constructor(i18n, httpclient, ea) {
     this.i18n = i18n;
     this.client = httpclient;

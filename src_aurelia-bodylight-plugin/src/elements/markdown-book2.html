@@ -10,13 +10,14 @@
     <require from="./w3fonts.css"></require>
     <require from="./markdown-book2.css"></require>
     <markdown-top-nav base="${base}" src="${summary}" index="${index}" nav.two-way="shownav" toc.two-way="showtoc" icon="${icon}" showicon="${showicon}"></markdown-top-nav>
-    <div class="w3-row">
-        <div class="bdl-sidebar m2 l2 w3-hide-small w3-border-right" show.bind="shownav">
+    <div class="w3-row">        
+        <div class="bdl-sidebar" show.bind="shownav && expand">
                 <watch-url-hash></watch-url-hash>
                 <markdown-nav2 navstyle="vertical" base="${base}" src="${summary}"></markdown-nav2>
             &nbsp;
         </div>
-        <div class.bind="shownav?'bdl-contentbar m4 l2':''">
+        <!--div class.bind="shownav?'bdl-contentbar m4 l2':''"-->
+        <div>            
             <div class="w3-rest" css.bind="shownav?'margin:0 20px':''">
                 <div class="w3-hide-small w3-hide-medium w3-small w3-sans-serif w3-border-left w3-right" show.bind="showtoc">
                     <div ref="mytoc"></div>

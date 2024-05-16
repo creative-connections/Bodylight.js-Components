@@ -1,12 +1,12 @@
 <template bindable="icon">
   <require from="./language"></require>
 <div class="w3-bar" style="position: sticky;top: 0;background:#4a4a4a;color:white;z-index:9" show.bind="nav">  
-    <a class="w3-left w3-large" style="padding-left:16px;padding-right:16px" href="/" target="_self">
-      <i class="fa fa-home"></i>
-    </a>
-    <!--right2 href="/purchase.html" t="[title]purchase" type="red"></right2-->             
+  <span class="w3-left w3-large" click.delegate="expandnav()" title="switch navigation">&nbsp;<i class="fa fa-list"></i>&nbsp;</span>  
+  
   <span class="w3-large"><b>${navtitle}&nbsp;</b></span>  
-  <span class="w3-right w3-large" click.delegate="showhidenav()" title="switch navigation">&nbsp;<i class="fa fa-list"></i>&nbsp;</span>  
+  <a class="w3-right w3-large" style="padding-left:16px;padding-right:16px" href="/" target="_self">
+    <i class="fa fa-home"></i>
+  </a>
   <span class="w3-right w3-large"><language></language> </span>
 </div>
   <span style="position:absolute; top:0;right:0;background:#4a4a4a;color:white;z-index:9" class="w3-large" click.delegate="showhidenav()" title="switch navigation" show.bind="!nav && showicon">&nbsp;<i class="fa fa-list"></i>&nbsp;</span>  

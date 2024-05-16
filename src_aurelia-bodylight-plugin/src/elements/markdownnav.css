@@ -77,8 +77,8 @@ nav.horizontal li:hover > ul {
 }
 
 nav.vertical {
-  overflow: auto;
-  margin-top: 15px;
+  /*overflow: auto;*/
+  margin-top: 1px;
   /*position:fixed;
   top:0;*/
 }

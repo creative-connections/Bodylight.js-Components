@@ -1,6 +1,8 @@
 import {MarkdownBook} from './markdown-book';
-import {bindable, observable} from 'aurelia-framework';
+import {bindable, observable,inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
+@inject(EventAggregator)
 export class MarkdownBook2 extends MarkdownBook {
     @bindable summary;
     @bindable index;
@@ -10,19 +12,21 @@ export class MarkdownBook2 extends MarkdownBook {
     @bindable model;
     @bindable icon;
     @bindable shownav; //=true;
+    expand=false;
 
-
-    constructor() {
+    constructor(ea) {
       super();
       this.params = 'shownav,1;showtoc,2;showmenu,3;base,4';
       //this.shownav = true;
       this.showtoc = false;
+      this.ea = ea;
     }
 
     bind() {
       super.bind();
       if (this.shownav && this.shownav == 'false') this.shownav = false;
       else this.shownav = true;
+      this.ea.subscribe('expandnav', x => this.expandcollapse() )
       //console.log('markdownbook bind shownav', this.shownav);
     }
 
@@ -55,4 +59,9 @@ export class MarkdownBook2 extends MarkdownBook {
       if (args['showmenu'])this.showmenu = (args['showmenu'] !== 'false');
       //console.log('bdlmarkdownbook changesrc shownav', this.shownav);
     }
+
+  expandcollapse() {
+    this.expand = ! this.expand;
+  }
+
 }

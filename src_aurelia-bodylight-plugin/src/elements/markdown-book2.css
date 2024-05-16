@@ -1,5 +1,14 @@
 .bdl-sidebar {
-    height:100%;position:fixed!important;z-index:1;overflow:auto
+    /*height:100%;position:fixed!important;z-index:1;overflow:auto*/
+    float:left;
+    width:160px;
+    background-color: #f9f9f9; /* Light grey background */
+    padding: 10px; /* Padding around the links */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add shadow for better visibility */
+    margin-right: 20px; /* Space between the navbar and the content */
+    line-height:1.0;
+    position:fixed;
+    opacity: 0.92;
 }
 
 .bdl-sidebar.s1{width:8.33333%}.bdl-sidebar.s2{width:16.66666%}.bdl-sidebar.s3{width:24.99999%}.bdl-sidebar.s4{width:33.33333%}

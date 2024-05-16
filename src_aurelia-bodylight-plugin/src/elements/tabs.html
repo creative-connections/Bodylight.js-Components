@@ -1,5 +1,6 @@
 <template>
     <div class="w3-bar" if.bind="!vertical">
+        <button class.bind="inactiveclass" style="width:145px">&nbsp;</button>
         <button repeat.for="id of ids" class.bind="id.cls" click.delegate="open(id)">${id.title}</button>
     </div>
     <nav class="w3-bar-block" style="width:50px;float:left" if.bind="vertical">
