@@ -7,7 +7,7 @@
     <li repeat.for="answer of answer_exp_array">
       <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
       <input type="checkbox" checked.bind="answer.user" class="w3-check" disabled.bind="showresult" change.delegate="checkCheckboxAnswer(answer)"/><label innerhtml.bind="answer.answer"></label>
-      <span show.bind="showresult" class="w3-theme-l5">
+      <span show.bind="answer.showresult" class="w3-theme-l5">
         <span show.bind="answer.user===answer.correct" title="OK"><i class="fa fa-thumbs-o-up"></i></span>
         <span show.bind="answer.user!==answer.correct" title="incorrect"><i class="fa fa-times"></i></span>
         <input type="checkbox" checked.bind="answer.correct" disabled/> <label innerhtml.bind="answer.explanation"></label>
@@ -32,7 +32,7 @@
       <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">
         <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
         <span innerhtml.bind="answer.title"></span>        
-        <span show.bind="showresult" class="w3-theme-l5">
+        <span show.bind="answer.showresult" class="w3-theme-l5" style="font-size:12px">
           <label innerhtml.bind="answer.explanation"></label>
         </span>
       </div>       

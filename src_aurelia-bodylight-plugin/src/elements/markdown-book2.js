@@ -12,7 +12,14 @@ export class MarkdownBook2 extends MarkdownBook {
     @bindable model;
     @bindable icon;
     @bindable shownav; //=true;
+    @bindable type;    
     expand=false;
+    sidebarclass='bdl-sidebar bdl-narrowbar'
+    defaultclass='bdl-sidebar bdl-narrow'
+    narrowclass='bdl-sidebar bdl-narrow'
+    wideclass='bdl-sidebar bdl-wide'
+    fixednclass='bdl-sidebar bdl-narrowbar'
+    fixedwclass='bdl-sidebar bdl-widebar'
 
     constructor(ea) {
       super();
@@ -24,6 +31,32 @@ export class MarkdownBook2 extends MarkdownBook {
 
     bind() {
       super.bind();
+      if (this.type && this.type.startsWith('on.')) {
+        this.expand = true;
+        this.type = this.type.substring(3)
+      }
+      if (this.type && this.type.startsWith('results.')) {
+        window.bdlshowresults = true;
+        this.type = this.type.substring(8)
+      }
+      switch (this.type) {
+        case 'narrow':
+          this.sidebarclass = this.narrowclass;
+          break;
+        case 'wide':
+          this.sidebarclass = this.wideclass;
+          break;
+        case 'narrowbar':
+          this.sidebarclass = this.fixednclass;
+          break;
+        case 'widebar':
+          this.sidebarclass = this.fixedwclass;
+          break;
+        default:
+          // Optionally handle unknown types
+          break;
+      }
+
       if (this.shownav && this.shownav == 'false') this.shownav = false;
       else this.shownav = true;
       this.ea.subscribe('expandnav', x => this.expandcollapse() )

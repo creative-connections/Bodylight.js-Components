@@ -13,6 +13,7 @@ export class Quizx {
   @bindable buttontitle='check answers';
   @bindable type='choice'; //could be choice|match for multiple choice|matching test
   @bindable id;
+  showresults = false;
   showhint = false;
   answer_exp_array = [];
   
@@ -29,6 +30,7 @@ export class Quizx {
     this.explanation_array = (this.explanations)? this.explanations.split('|').map(s => s.trim()): [];
     this.correct_array = (this.correctoptions)?this.correctoptions.split('|').map(s => s.trim()):[];
     this.answer_exp_array = [];
+    this.showresults = window.bdlshowresults;
 
     for (let i = 0; i < this.answers_array.length; i++) {
       this.answer_exp_array.push(
@@ -177,10 +179,10 @@ export class Quizx {
     this.ea.publish('quizdone',this.id);
   }
 
-  unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-hover-green w3-padding';//class="w3-border w3-margin w3-round-small"
-  selected = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-blue';
-  selectedcorrect = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-green';
-  selectedincorrect = 'w3-border w3-margin w3-round-medium w3-hover-light-green w3-padding w3-red';
+  unselected = 'w3-border w3-margin w3-round-medium w3-light-grey w3-padding';//class="w3-border w3-margin w3-round-small"
+  selected = 'w3-border w3-margin w3-round-medium w3-padding w3-blue';
+  selectedcorrect = 'w3-border w3-margin w3-round-medium w3-padding w3-green';
+  selectedincorrect = 'w3-border w3-margin w3-round-medium w3-padding w3-red';
   correct = 'w3-border w3-margin w3-round-medium w3-padding';
   incorrect = 'w3-border w3-margin w3-round-medium w3-red w3-hover-green w3-padding';
   correctcolors = ['w3-pale-green', 'w3-pale-blue','w3-pale-yellow','w3-amber','w3-indigo','w3-green','w3-blue']
@@ -230,6 +232,12 @@ export class Quizx {
     this.selectedAnswer.class= this.selected;
     let setqa = {id:this.id,answer:this.selectedAnswer.title}
     this.ea.publish('quizsetanswer', setqa)
+    if (this.showresults){
+      //show whether this answer is correct or not
+      answer.showresult = true;
+      if (answer.correct) answer.class = this.selectedcorrect;
+      else answer.class = this.selectedincorrect;
+    }
     /*this.subscription3 = this.ea.subscribe('quizsetanswer', quizid => {
       //TODO set answer
       this.setAnswer(quizid.id,quizid.answer);
@@ -246,6 +254,10 @@ export class Quizx {
     } else {
       let setqa = {id:this.id,answer:answer.answer,removeAnswer:true}
       this.ea.publish('quizsetanswer', setqa)
+    }
+    if (this.showresults){
+      //show whether this answer is correct or not
+      answer.showresult = true;
     }
   }
 }

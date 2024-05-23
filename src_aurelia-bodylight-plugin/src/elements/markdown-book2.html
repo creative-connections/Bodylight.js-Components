@@ -1,4 +1,4 @@
-<template bindable="base,summary,index,model,icon,showicon">
+<template bindable="base,summary,index,model,icon,showicon,type">
     <require from="./w3.css"></require>
     <require from="./w3-theme-amber.css"></require>
     <require from="./markdown-top-nav"></require>
@@ -11,7 +11,7 @@
     <require from="./markdown-book2.css"></require>
     <markdown-top-nav base="${base}" src="${summary}" index="${index}" nav.two-way="shownav" toc.two-way="showtoc" icon="${icon}" showicon="${showicon}"></markdown-top-nav>
     <div class="w3-row">        
-        <div class="bdl-sidebar" show.bind="shownav && expand">
+        <div class.bind="sidebarclass" show.bind="shownav && expand">
                 <watch-url-hash></watch-url-hash>
                 <markdown-nav2 navstyle="vertical" base="${base}" src="${summary}"></markdown-nav2>
             &nbsp;
