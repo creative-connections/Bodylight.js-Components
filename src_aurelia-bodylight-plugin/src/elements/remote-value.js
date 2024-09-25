@@ -1,5 +1,6 @@
 import {HttpClient} from 'aurelia-fetch-client';
 import {inject, bindable} from "aurelia-framework";
+import _ from 'lodash'; // Ensure lodash is imported
 
 @inject(HttpClient)
 export class RemoteValue {
@@ -21,14 +22,11 @@ export class RemoteValue {
 
     constructor(httpclient) {
         this.client = httpclient;
-        this.handleTick = () => {
-            if (this.started) {
-                //do periodic stuff
-                this.get();
-                //schedule next tick
-                if (this.fetchinterval > 0) setTimeout(this.handleTick.bind(this), this.fetchinterval);
-            } //else do nothing - stopped between ticks
-        }
+        // Method to handle each tick
+        this.handleTick = () => {            
+            this.get();
+  };
+
         this.handleValueChange = (e) => {
             //handle value changed from e.g. range component - post it
             this.postvalue = (e.detail && e.detail.value) ? e.detail.value : e.target.value;
@@ -37,8 +35,11 @@ export class RemoteValue {
             else if (e.target.id.length > 0) targetid = e.target.id;
             else targetid = e.target.parentElement.parentElement.id;
             //post it - add targetid to URL
-            this.post(targetid);
+            this.debouncedPost(targetid);
         }
+    // Create a debounced version of the post method
+    this.debouncedPost = _.debounce(this.post, 1000, { leading: true, trailing: false });
+
     }
 
     bind() {
@@ -91,22 +92,26 @@ export class RemoteValue {
     }
 
     stop() {
+        clearInterval(this.intervalId);
         this.started = false;
-        this.fetchinterval = 0;
     }
 
     start() {
         //this.get();
         this.started = !this.started;
         if (this.started) {
-            this.fetchinterval = this.interval;
-            setTimeout(this.handleTick.bind(this), this.fetchinterval);
+        this.intervalId = setInterval(() => {
+            if (this.started && !this.inProgress) {
+              this.handleTick();
+            }
+          }, 2000); // 2 seconds interval
         } else {
-            this.fetchinterval = 0;
+            this.stop();
         }
     }
 
     get() {
+        this.inProgress = true; // Mark request as in progress
         //sends GET request to
         let myheaders = new Headers();
         //localStorage.setItem('bdl-fhir-url',this.remoteurl);
@@ -114,7 +119,7 @@ export class RemoteValue {
             myheaders.append(this.remoteheader, this.remoteheadervalue);
             //localStorage.setItem('bdl-fhir-api-key',this.remoteheadervalue);
         }
-        this.client.fetch(this.remoteurl, {headers: myheaders})
+        this.client.fetch(this.remoteurl, {headers: myheaders})            
             .then(response => response.json())// do response.json() for json result
             .then(data => {
                 //console.log('markdownaurelia fetched md:', data)
@@ -140,7 +145,11 @@ export class RemoteValue {
                 this.remotevalueformatted = err;
                 this.counterr++;
                 if (this.counterr>5) this.stop();
-            }); //stops on error
+            })            
+            .finally(() => {
+                this.inProgress = false; // Allow the next request
+              });
+             //stops on error
         /*this.client.get(this.remoteurl)
             .then(response => response.json())// do response.json() for json result
             .then(data => {
@@ -193,18 +202,11 @@ export class RemoteValue {
             console.warn('probably no data returned',err);
             this.posterror = true;
         });
-        /*this.client.get(this.remoteurl)
-            .then(response => response.json())// do response.json() for json result
-            .then(data => {
-                //console.log('markdownaurelia fetched md:', data)
-                this.remotevalue = data;
-                this.remotevalueformatted = JSON.stringify(this.remotevalue,null,4)
-            });*/
     }
 
     forcepost() {
         this.posterror = false;
-        this.post();
+        this.debouncedPost();
     }
 
     showhidesettings() {

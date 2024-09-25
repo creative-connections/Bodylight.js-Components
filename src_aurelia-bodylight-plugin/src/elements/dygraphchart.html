@@ -1,6 +1,6 @@
 <template bindable="minichart">   <!--other attributes @bindable inputs;  @bindable fromid;  @bindable maxdata=300;-->
   <require from="dygraphs/dist/dygraph.css"></require>  
-  <div class="w3-container">
+  <div class="w3-container" style="width:100%;height:100%">
     <span show.bind="minichart" class="w3-small">
       <i class="fa fa-download w3-border" title="download csv data" click.delegate="download()"></i>      
     </span>

@@ -1,8 +1,8 @@
 <template bindable="id">  
   <div show.bind="showquiz">
   <fieldset>    
-    <div if.bind="type === 'choice'">
-    ${question}
+    ${question} <slot></slot>
+    <div if.bind="type === 'choice'">    
     <ul style="list-style-type: none">
     <li repeat.for="answer of answer_exp_array">
       <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
@@ -16,8 +16,7 @@
     </ul>
     <!--input type="submit" value.bind="buttontitle" click.delegate="submit()"/-->
   </div>
-  <div if.bind="type === 'match'" class="w3-row">
-    ${question}
+  <div if.bind="type === 'match'" class="w3-row">    
     <div class="w3-half">
       <div repeat.for="term of randomterms" click.delegate="selectTerm(term)" class.bind="term.class" disabled.bind="term.disabled" innerhtml.bind="term.title">
       </div>
@@ -27,8 +26,7 @@
       </div>
     </div>
   </div>
-  <div if.bind="type === 'choice2'" class="w3-row">
-    ${question}    
+  <div if.bind="type === 'choice2'" class="w3-row">    
       <div repeat.for="answer of randomanswers" click.delegate="checkAnswer(answer)" class.bind="answer.class" disabled.bind="answer.disabled">
         <span style="position:relative;width:0;height:0;display:block;left:-25px;"  show.bind="showhint"><b class="w3-theme-l4 w3-round-large w3-large">${answer.hint}</b></span>
         <span innerhtml.bind="answer.title"></span>        

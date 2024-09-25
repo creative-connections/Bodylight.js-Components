@@ -20,9 +20,7 @@ export class Dygraphchart {
 
   constructor() {
     //this.data = [[0, 0, 0]];
-
     //this.data=[[1, 5], [2, 5], [3, 4.9], [4, 4.8], [5, 5.2]];
-
     //create lambda function which is added as listener later
     console.log('dygraph chart constructor');
     this.handleValueChange = e => {

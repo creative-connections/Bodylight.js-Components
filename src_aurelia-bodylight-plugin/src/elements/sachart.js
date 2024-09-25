@@ -6,14 +6,14 @@ import { Dygraphchart } from "./dygraphchart";
 export class Sachart extends Dygraphchart {
     @bindable inputs;
     @bindable fromid;
-    @bindable maxdata = 120;
+    @bindable maxdata = 10;
     @bindable refindex;
     @bindable refvalues = 1;
     @bindable pH = 0;
     @bindable pCO2 = 0;
     @bindable throttle = 2000; //time to throttle chart update, if it is too much at once
     @bindable convertors;
-    @bindable pointSize = 10;
+    @bindable pointSize = 5;
     @bindable minichart;
     @bindable observeid;
 
@@ -42,6 +42,7 @@ export class Sachart extends Dygraphchart {
 
     bind() {
         super.bind();
+        if (typeof this.pointSize == 'string') this.pointSize = parseInt(this.pointSize)
         //if (!this.width) this.width = '100%';
         //if (!this.height) this.height = '400px';
         if (typeof this.pH === 'string') this.pH = parseFloat(this.pH, 10);
@@ -130,8 +131,10 @@ export class Sachart extends Dygraphchart {
             interactionModel: {},              
             highlightCallback: function(e) { },
             unhighlightCallback: function(e) { },
-            //drawPoints: true,
-            //highlightCircleSize: this.pointSize,
+            //...(this.pointSize !== 0 && { drawPoints: true, highlightCircleSize: this.pointSize, }),                        
+            drawPoints:true,
+            pointSize: this.pointSize,
+            strokeWidth: 0.0,
             xlabel: this.xaxis,
             ylabel: this.yaxis,
             logscale: this.logscale,
