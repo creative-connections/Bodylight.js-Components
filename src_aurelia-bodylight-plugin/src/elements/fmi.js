@@ -17,6 +17,7 @@ export class Fmi {
   @bindable ticksToUpdate = 30;
   @bindable src;
   @bindable fstepsize=0.01;
+  //@bindable fstepsize2=0;
   @bindable controlid;
   @bindable showcontrols=true;
   @bindable fpslimit = 60;
@@ -27,6 +28,7 @@ export class Fmi {
   @bindable stepsperframe = 1;
   @bindable startafter = 0;
   @bindable fmuspeed = 1;
+  @bindable fmuspeed2;
   @bindable debug = 0;
 
   cosimulation=1;
@@ -357,9 +359,10 @@ export class Fmi {
       this.fpslimit = parseFloat(this.fpslimit);
     }
     if (typeof this.fmuspeed === 'string') {
-      this.fmuspeed = parseInt(this.fmuspeed);
+      this.fmuspeed = parseFloat(this.fmuspeed);
       this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
     }
+    if (typeof this.fmuspeed2 === 'string') { this.fmuspeed2 = parseFloat(this.fmuspeed2); }
     if (typeof this.debug === 'string') {
       this.debug = parseInt(this.debug);      
     }
@@ -439,6 +442,7 @@ export class Fmi {
     const sSerializeFMUState = 'fmi2SerializeFMUState';
     const sDeSerializeFMUStateSize = 'fmi2DeSerializeFMUState';
     this.stepTime = 0;
+    this.fmuspeedalreadychanged = false;
     this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
     this.mystep = this.stepSize;
     //console callback ptr, per emsripten create int ptr with signature viiiiii
@@ -502,6 +506,7 @@ export class Fmi {
 
   setupExperiment() {
     //setup experiment
+    this.resetFmuspeed();
     this.fmiSetup(this.fmiinst, 1, this.tolerance, this.starttime, 0);
     console.log('setupExperiment() fmiinst', this.fmiinst);
     this.instantiated = true;
@@ -568,9 +573,10 @@ export class Fmi {
     //read input values
     
     //define performAnimation
-    const performAnimation = (newtime) => {
+    const performAnimation = (newtime) => {      
       if (!this.animationstarted) return;
       this.request = requestAnimationFrame(performAnimation);
+      if (this.doingstep) return; //return if some other step not yet finished
       if (this.fpslimit && (this.fpslimit < 60)) {
         if (isNaN(this.fpslimit)) this.fpslimit = parseInt(this.fpslimit, 10);
         this.now = newtime;
@@ -694,6 +700,8 @@ export class Fmi {
           this.fpstick = 0;
         }
       }
+      //change fmuspeed after first step if defined fmuspeed2
+      if (this.fmuspeed2 && !this.fmuspeedalreadychanged) this.fmuspeedChanged(this.fmuspeed2);
       //stop simulation when stoptime is defined and reached
       if (this.stoptime>0 && this.animationstarted && this.stoptime<this.stepTime) {
           this.startstop();
@@ -978,8 +986,18 @@ export class Fmi {
     console.warn("Simulation took "+ timeDiff + " seconds");
   }
   fmuspeedChanged(newValue) {
+    console.log('Changing simulation speed from '+this.fmuspeed+' to '+newValue);
+    this.fmuspeedalreadychanged = true;
+    //this.fmuspeed = newValue;    
+    this.stepSize = newValue * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
+  }
+  resetFmuspeed() {
+    console.log('Reseting simulation speed to '+this.fmuspeed);
+    this.fmuspeedalreadychanged = false;
+    //this.fmuspeed = newValue;    
     this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
   }
+
 
   getState(){
     let size = this.fmiSerializedFMUStateSize()

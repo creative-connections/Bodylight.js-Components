@@ -98,21 +98,36 @@ export class AnimateControl {
       this.playafterstart = this.playafterstart === 'true';
     }
 
-    if (this.playafterstart) { //if animation is loaded 
-      if (window.ani) {window.ani.animationstarted = true;window.ani.playafterstart=true;this.animationstarted=true;} else {
-        setTimeout(() =>{
-          if (window.ani) {window.ani.animationstarted = true;window.ani.playafterstart=true;this.animationstarted=true;} else {
-            console.warn('animate-control: cannot start animation automatically');
-          }
-        }, 300)
-      }
-    }
+
   }
 
   attached() {
     //console.log('bdlanimatecontrol attached fromid', this.fromid);
     if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmidata', this.handleValueChange);}
     if (this.fromid) {document.getElementById(this.fromid).addEventListener('fmireset', this.handleReset);}
+    if (this.playafterstart) { //if animation is loaded 
+      setTimeout(() =>{
+        console.log('animate-control: automatic start',this)
+        if (!this.animationstarted)
+        this.startstop();
+      },5000)
+      /*if (window.ani) {
+        window.ani.animationstarted = true;
+        window.ani.playafterstart=true;
+        this.animationstarted=true;
+      } else {
+        console.log('animate-control: start animation automatically');
+        setTimeout(() =>{
+          if (window.ani) {
+            window.ani.animationstarted = true;
+            window.ani.playafterstart=true;
+            this.animationstarted=true;
+          } else {
+            console.warn('animate-control: cannot start animation automatically');
+          }
+        }, 10000)
+      }*/
+    }
   }
 
   detached() {

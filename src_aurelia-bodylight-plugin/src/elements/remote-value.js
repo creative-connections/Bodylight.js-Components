@@ -19,6 +19,7 @@ export class RemoteValue {
     inputids = [];
     posterror = false;
     counterr = 0;
+    debouncedPosts = new Map();
 
     constructor(httpclient) {
         this.client = httpclient;
@@ -35,12 +36,20 @@ export class RemoteValue {
             else if (e.target.id.length > 0) targetid = e.target.id;
             else targetid = e.target.parentElement.parentElement.id;
             //post it - add targetid to URL
-            this.debouncedPost(targetid);
+            //this.debouncedPost(targetid,this.postvalue);
+            console.log('postWithDebounce()',targetid,this.postvalue);
+            this.postWithDebounce(targetid,this.postvalue);
         }
     // Create a debounced version of the post method
-    this.debouncedPost = _.debounce(this.post, 1000, { leading: true, trailing: false });
-
+    //this.debouncedPost = _.debounce(this.post, 1000, { leading: true, trailing: false });
     }
+
+    postWithDebounce(id, value) {
+        if (!this.debouncedPosts.has(id)) {
+          this.debouncedPosts.set(id, _.debounce((id, value) => this.post(id, value), 2000,{ leading: true, trailing: false }));
+        }
+        this.debouncedPosts.get(id)(id, value);
+      }
 
     bind() {
         if (this.id) {
@@ -68,7 +77,7 @@ export class RemoteValue {
         if (this.inputids.length > 0) {
             for (let myid of this.inputids) {
                 const myidel = document.getElementById(myid);
-                if (myidel) myidel.addEventListener('input', this.handleValueChange);
+                if (myidel) {console.log('remote-value adding listener to id',myid);myidel.addEventListener('input', this.handleValueChange);}
                 else console.warn('cannot add listener to input for value change',myid);
             }
         }
@@ -131,7 +140,8 @@ export class RemoteValue {
                     let mydata = [];
                     let mytime = (Math.round((new Date()).getTime() / 100) - (this.starttime * 10)) / 10;
                     if (typeof this.remotevalue === 'object') {
-                        for (let key of Object.keys(this.remotevalue)) mydata.push(this.remotevalue[key]);
+                        //for (let key of Object.keys(this.remotevalue)) mydata.push(this.remotevalue[key]);
+                        mydata = this.remotevalue;
                     } else if (typeof this.remotevalue === 'number') {
                         mydata.push(this.remotevalue)
                     }
@@ -168,7 +178,7 @@ export class RemoteValue {
     }
 
 
-    post(id) {
+    post(id,postvalue) {
         //sends POST request tod
         let myheaders = new Headers();
         myheaders.append('Accept', 'application/json');
@@ -181,7 +191,7 @@ export class RemoteValue {
         }
         let url = this.remoteurl + (id ? '/' + id : '');
         if (!this.posterror)
-        this.client.fetch(url, {method: 'post', headers: myheaders, body: this.postvalue})
+        this.client.fetch(url, {method: 'post', headers: myheaders, body: postvalue})
             //.then(response => response.json())// do response.json() for json result
             .then(data => {
                 //console.log('returned data:', data)

@@ -19,7 +19,7 @@ export class Chartjs {
   @bindable maxdata=256;
   @bindable sampledata=false; //TODO, whether to sample data in each throttle, otherwise all data are stored
   @bindable initialdata='';
-  @bindable width=300;
+  @bindable width;
   @bindable height=200;
   @bindable animate=false;
   @bindable id;
@@ -44,6 +44,8 @@ export class Chartjs {
   indexsection=0;
   datalabels=false; //may be configured by subclasses
   refindices;
+  canvasContainer;
+  canvasContainer1;
 
   /**
    * initializes handlers for event processing - this is recommended way
@@ -77,7 +79,9 @@ export class Chartjs {
         this.chart.config.options.section = [];
         this.indexsection=0;
       }
-      this.updatechart();
+      //do not update chart as it blinks - next valuechange will show it
+      
+      //this.updatechart();
       //this.chart.config.options.section = [];
 
     };
@@ -337,6 +341,12 @@ export class Chartjs {
    * this is called when the DOM is attached to view - instantiate the chartjs and sets all necesary binding
    */
   attached() {
+    //set width as offsset width
+    if (!this.width) {
+      console.log('chartjs setting width:', this.canvasContainer)
+      console.log('chartjs setting width canvascontainer1:', this.canvasContainer1)
+      this.width = this.canvasContainer.offsetWidth;
+    }
     //console.log('chartjs attached');
     //listening to custom event fmidata and fmireset
     const fromel = document.getElementById(this.fromid);
