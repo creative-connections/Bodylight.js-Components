@@ -1,9 +1,13 @@
-import {ChartjsTime} from './chartjs-time';
+import { ChartjsTime } from './chartjs-time';
 //import {BdlChartjs} from './chartjs';
-import {bindable, useView} from 'aurelia-templating';
+import { inject } from 'aurelia-framework';
+import { bindable, useView } from 'aurelia-templating';
 //import {PLATFORM} from 'aurelia-pal';
 //@useView(PLATFORM.moduleName('./bdl-chartjs.html'))
+import { EventAggregator } from 'aurelia-event-aggregator';
+
 @useView('./chartjs.html')
+@inject(EventAggregator)
 export class ChartjsXy extends ChartjsTime {
   @bindable fromid;
   @bindable labels;
@@ -12,20 +16,23 @@ export class ChartjsXy extends ChartjsTime {
   @bindable type;
   @bindable labelx;
   @bindable labely;
+  @bindable refpoint = false;
   showlines = true;
 
-  constructor() {
+  constructor(ea) {
     super();
+    this.ea = ea;
     this.handleValueChange = e => {
       //e.detail do not reallocate - using same buffer, thus slicing to append to data array
       //let datapoints =e.detail.data.slice(this.refindex, this.refendindex);
+      console.log('debug handlevaluechange refindex' + this.refindex + ' refvaules:' + this.refvalues + ' e:', e)
       let j = 0;
       //put first value on x axis, others on y axis other values
       for (let i = 1; i < this.refvalues; i++) {
-        if (this.operation && this.operation[i]) 
-          this.chart.data.datasets[j].data.push({x: this.operation[0](e.detail.data[this.refindex]), y:this.operation[i](e.detail.data[this.refindex+i])});
-        else 
-          this.chart.data.datasets[j].data.push({x: e.detail.data[this.refindex], y: e.detail.data[this.refindex+i]});
+        if (this.operation && this.operation[i])
+          this.chart.data.datasets[j].data.push({ x: this.operation[0](e.detail.data[this.refindex]), y: this.operation[i](e.detail.data[this.refindex + i]) });
+        else
+          this.chart.data.datasets[j].data.push({ x: e.detail.data[this.refindex], y: e.detail.data[this.refindex + i] });
         //console.log('adding from data[], i, data[i]', e.detail.data, i, e.detail.data[i]);
         if (this.chart.data.datasets[j].data.length > this.maxdata) {
           //console.log('shifting dataset chartjs-xy', this.chart.data.datasets[j].data);
@@ -37,9 +44,113 @@ export class ChartjsXy extends ChartjsTime {
       this.updatechart();
     };
   }
+  chartcontrol(payload) {
+    console.log('chartjsxy chartcontrol:', payload);
+    if (payload.type === 'stop') {
+      //unsubscribe to listen fmidata
+      this.removeListeners();
+    }
+    if (payload.type === 'data') {
+      this.handleValueChange({ detail: { data: payload.data } });
+    }
+    if (payload.type === 'refpoint1') {
+      let point = this.highlightLeftPoint(payload.data);
+      this.ea.publish('chartdata1', point)
+    }
+    if (payload.type === 'refpoint2') {
+      let point = this.highlightRightPoint(payload.data);
+      this.ea.publish('chartdata2', point)
+    }
+    if (payload.type === 'start') {
+      //subscribe back to listen fmidata
+      this.addListeners();
+    }
+  }
+
+  attached() {
+    //
+    if (this.refpoint) {
+      // Create a plugin object
+      let highlightPointLinesPlugin = {
+        id: 'highlightPointLines',  // plugin ID
+
+        beforeDraw: function (chart) {
+          // 1) Get the plugin config object, if any
+          var pluginOpts = chart.config.options.plugins && chart.config.options.plugins.highlightPointLines;
+          if (!pluginOpts) return;
+
+          // 2) We'll check for up to two highlight definitions:
+          //    pluginOpts.leftPoint = { datasetIndex, dataIndex }
+          //    pluginOpts.rightPoint = { datasetIndex, dataIndex }
+          //    We'll draw each if present.
+          var ctx = chart.chart.ctx;
+          ctx.save();
+
+          // Helper to draw highlight lines & circle
+          function drawHighlight(datasetIndex, dataIndex) {
+            var meta = chart.getDatasetMeta(datasetIndex || 0);
+            var point = meta && meta.data && meta.data[dataIndex];
+            if (!point) return;  // invalid indexes
+
+            // In Chart.js 2.9.4, the position is stored in point._model
+            var x = point._model.x;
+            var y = point._model.y;
+
+            // Vertical line (bottom to point)
+            ctx.beginPath();
+            ctx.moveTo(x, chart.chartArea.bottom);
+            ctx.lineTo(x, y);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+
+            // Horizontal line (left to point)
+            ctx.beginPath();
+            ctx.moveTo(chart.chartArea.left, y);
+            ctx.lineTo(x, y);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+
+            // Small red circle at the point
+            ctx.beginPath();
+            ctx.arc(x, y, 4, 0, 2 * Math.PI);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+          }
+
+          // Draw left point if specified
+          if (pluginOpts.leftPoint && pluginOpts.leftPoint.dataIndex != null) {
+            drawHighlight(pluginOpts.leftPoint.datasetIndex, pluginOpts.leftPoint.dataIndex);
+          }
+
+          // Draw right point if specified
+          if (pluginOpts.rightPoint && pluginOpts.rightPoint.dataIndex != null) {
+            drawHighlight(pluginOpts.rightPoint.datasetIndex, pluginOpts.rightPoint.dataIndex);
+          }
+
+          ctx.restore();
+        }
+      };
+      Chart.pluginService.register(highlightPointLinesPlugin)
+    }
+
+    super.attached();
+    this.chartcontrolsub = this.ea.subscribe('chartcontrol', payload => {
+      this.chartcontrol(payload)
+    });
+  }
+
+  detached() {
+    this.chartcontrolsub.dispose();
+    super.detached();
+  }
 
   bind() {
     super.bind();
+    if (typeof this.refpoint === 'string') {
+      this.refpoint = this.refpoint === 'true';
+    }
     let datasets = [];
     let mydata1 = this.initialdata.split(';');
     //initialize x and y, x is first dataset, y is al the rest
@@ -54,7 +165,7 @@ export class ChartjsXy extends ChartjsTime {
       } else {
         //parse all y
         this.mydata[i] = mydata2.map((yy, index) => {
-          return {x: this.mydata[0][index], y: parseFloat(yy)};
+          return { x: this.mydata[0][index], y: parseFloat(yy) };
         });
       }
     }
@@ -82,7 +193,7 @@ export class ChartjsXy extends ChartjsTime {
         let mydata2 = mydata1[i].split(',');
         let mydata3 = mydata1[i + 1].split(',');
         this.mydata[j] = mydata3.map((yy, index) => {
-          return {x: parseFloat(mydata2[index]), y: parseFloat(yy)};
+          return { x: parseFloat(mydata2[index]), y: parseFloat(yy) };
         });
         datasets.push({
           data: this.mydata[j],
@@ -122,5 +233,78 @@ export class ChartjsXy extends ChartjsTime {
       this.chart.data.datasets[j].data = [];
       j++;
     }
+  }
+
+  /**
+     * Highlight the "left" point on the chart, returning { x, y } in canvas coords
+     */
+  highlightLeftPoint(dataIndex) {
+    return this.setPointHighlight('leftPoint', dataIndex);
+  }
+
+  /**
+   * Highlight the "right" point on the chart, returning { x, y } in canvas coords
+   */
+  highlightRightPoint(dataIndex) {
+    return this.setPointHighlight('rightPoint', dataIndex);
+  }
+
+  /**
+   * Internal helper used by highlightLeftPoint & highlightRightPoint
+   *    - positionName: 'leftPoint' or 'rightPoint'
+   *    - dataIndex: index in data array
+   *    - datasetIndex: which dataset (defaults to 0)
+   */
+  setPointHighlight(positionName, dataIndex) {
+    const chart = this.chart;
+    const datasetIndex = 0;
+    var dsIndex = (typeof datasetIndex === 'number') ? datasetIndex : 0;
+    var meta = chart.getDatasetMeta(dsIndex);
+    var point = meta && meta.data && meta.data[dataIndex];
+
+    // Ensure plugins config exists
+    if (!chart.config.options.plugins) {
+      chart.config.options.plugins = {};
+    }
+    if (!chart.config.options.plugins.highlightPointLines) {
+      chart.config.options.plugins.highlightPointLines = {};
+    }
+
+    // If the dataIndex is invalid, clear that highlight and return null
+    if (!point) {
+      chart.config.options.plugins.highlightPointLines[positionName] = {};
+      chart.update();
+      return null;
+    }
+
+    // In Chart.js 2.9.4, the point's canvas coordinates are in point._model
+    //var x = point._model.x;
+    //var y = point._model.y;
+
+
+    // Store highlight in plugin config
+    chart.config.options.plugins.highlightPointLines[positionName] = {
+      datasetIndex: dsIndex,
+      dataIndex: dataIndex
+    };
+
+    // Redraw the chart to show the updated highlight
+    chart.update();
+
+    // Return the {x, y} pixel coordinates
+    var dsIndex = (typeof datasetIndex === 'number') ? datasetIndex : 0;
+
+    // Just fetch the original data object
+    var originalValue = chart.data.datasets[dsIndex].data[dataIndex];
+
+    // If it's an object with x and y, you have it right away:
+    if (originalValue && typeof originalValue === 'object') {
+      return { x: originalValue.x, y: originalValue.y };
+    } else {
+      // If your data is just [y1, y2, ...] then "x" is usually the index or label
+      // and "y" is originalValue. You might then return { x: dataIndex, y: originalValue };
+      return { x: dataIndex, y: originalValue };
+    }
+    //  return { x: x, y: y };
   }
 }

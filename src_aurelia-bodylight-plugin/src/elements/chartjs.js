@@ -41,6 +41,7 @@ export class Chartjs {
   @bindable colorindex=0; //index to shift the color
   @bindable minichart;
   @bindable displayxticks = true;
+  @bindable showdownloadicons = false;
   indexsection=0;
   datalabels=false; //may be configured by subclasses
   refindices;
@@ -119,6 +120,7 @@ export class Chartjs {
   bind() {
     //console.log('chartjs bind');
     if (typeof this.displayxticks === 'string') this.displayxticks = this.displayxticks === 'true'; 
+    if (typeof this.showdownloadicons === 'string') this.showdownloadicons = this.showdownloadicons === 'true'; 
     if ((typeof this.refindex == 'string') && (this.refindex.indexOf(',')>0)) { this.refindices = this.refindex.split(',')}
     else {
       this.refindex = myParseInt(this.refindex, 10);
@@ -337,17 +339,7 @@ export class Chartjs {
     }*/
   }
 
-  /**
-   * this is called when the DOM is attached to view - instantiate the chartjs and sets all necesary binding
-   */
-  attached() {
-    //set width as offsset width
-    if (!this.width) {
-      console.log('chartjs setting width:', this.canvasContainer)
-      console.log('chartjs setting width canvascontainer1:', this.canvasContainer1)
-      this.width = this.canvasContainer.offsetWidth;
-    }
-    //console.log('chartjs attached');
+  addListeners(){
     //listening to custom event fmidata and fmireset
     const fromel = document.getElementById(this.fromid);
     if (fromel) {
@@ -363,7 +355,19 @@ export class Chartjs {
       if (sectionel) sectionel.addEventListener('addsection', this.handleAddSection);
       else console.log('chartjs WARNING, null sectionid element');
     }
-
+  }
+  /**
+   * this is called when the DOM is attached to view - instantiate the chartjs and sets all necesary binding
+   */
+  attached() {
+    //set width as offsset width
+    if (!this.width) {
+      console.log('chartjs setting width:', this.canvasContainer)
+      console.log('chartjs setting width canvascontainer1:', this.canvasContainer1)
+      this.width = this.canvasContainer.offsetWidth;
+    }
+    //console.log('chartjs attached');
+    this.addListeners();
     //unregister
     Chart.plugins.unregister(ChartDataLabels);
 
@@ -580,11 +584,7 @@ export class Chartjs {
 
  */
   }
-
-  /**
-   * called when component is detached from view - remove event listeners - no need to update chart
-   */
-  detached() {
+  removeListeners(){
     if (document.getElementById(this.fromid)) {
       document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
       document.getElementById(this.fromid).removeEventListener('fmireset', this.handleReset);
@@ -595,6 +595,13 @@ export class Chartjs {
     }
     if (this.sectionid) {document.getElementById(this.sectionid).removeEventListener('addsection', this.handleAddSection);}
     document.removeEventListener('fmiattached',this.handleFMIAttached)
+
+  }
+  /**
+   * called when component is detached from view - remove event listeners - no need to update chart
+   */
+  detached() {
+    this.removeListeners();
   }
 
   /**

@@ -28,6 +28,8 @@ export class Range {
     @bindable smooth = false;
     @bindable smoothstep = 1;
     @bindable initdefault = false;
+    @bindable refconditionvar; //condition variable from fromid
+    @bindable refconditionvalue; //condition value the variable is tested to be equal //if defined then handlevalueChanged is processed ="patient_state" refconditionvalue ="3"
     counterToInit = 5;
 
     constructor() {
@@ -36,15 +38,23 @@ export class Range {
             //apply value convert among all data
             if (this.fromid) {
                 if (this.refindex) {
-                    let rawdata = e.detail.data[this.refindex];
+                    if (this.refconditionvar) {
+                        console.log('range handleValueChange() conditionvar '+this.refconditionvar+' conditionvalue '+this.refconditionvalue+' actual value:'+e.detail.data[this.refconditionvar]);
+                        if (e.detail.data[this.refconditionvar]  != this.refconditionvalue) {
+                            console.log('range condition not met');
+                            return;
+                        }
+                    }
+                    let rawdata = e.detail.data[this.refindex];                    
                     this.value = this.operation[0](rawdata);
                     //  else this.value = rawdata;
                     //console.log('Range received rawdata '+rawdata+' converted value '+this.value);
                     //console.log('this operation',this.operation)
+                    //if (this.refconditionvar && (e.detail.data[this.refconditionvar]  !== this.refconditionvalue)) return; //refconditionvar is defined and its value is not equal to predefined then no update
                     this.updatevalue(); //call function - it may be throttled 
                 } else {
                     if (this.smooth) {
-                        //do smooth step 
+                        //TODO do smooth step 
                     }
                 }
             }

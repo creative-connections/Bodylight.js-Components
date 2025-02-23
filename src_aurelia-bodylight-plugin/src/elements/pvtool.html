@@ -1,0 +1,50 @@
+<template>
+    <style>
+        .w3-striped-blue tbody tr:nth-child(even){background-color:#4040f0}
+    </style>
+    <div class="w3-row " style="background-color:#1186e3">
+        <div class="w3-half">
+            &nbsp;
+
+            <chartjs-xy fromid.bind="fromid" labelx="pressure" labely="volume" labels="pV1,pV2,pV3" refindex.bind="refindex"
+                refvalues.bind="refvalues" width="400" height="300" convertors="1,98.0665,-1033.2276;1000000,1,-2310"
+                maxdata="256" ref="pvchart" colorindex="12" responsive="true" refpoint="true"></chartjs-xy><!--1,98.0665,-1033.2276   min="2.2" max="3.5" -->
+
+            
+        </div>
+        <div class="w3-half w3-large">
+            <table class="w3-table w3-striped-blue">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Cursor 1<br/><span class="w3-small">ml/cmH<sub>2</sub>O</span></th>
+                    <th>Cursor 2<br/><span class="w3-small">ml/cmH<sub>2</sub>O</span></th>
+                    <th>Cursors<br/><span class="w3-small">ml/cmH<sub>2</sub>O</span></th>
+                </tr>                
+                <tr>
+                    <td>Infl limb</td>
+                    <td>${cursor1Vstr} / ${cursor1Pstr}</td>
+                    <td>${cursor2Vstr} / ${cursor2Pstr}</td>
+                    <td>${inflcompliancestr}</td>
+                </tr>
+                <tr>
+                    <td>Defl limb</td>
+                    <td>65 / 5.2</td>
+                    <td>392 / 26.8</td>
+                    <td>15.1</td>
+                </tr>
+            </table>
+            <div style="width:100%;height:200px">&nbsp;</div>
+
+            <button class.bind="isCursor1?'w3-red':'w3-blue'" class="w3-button w3-round w3-border-white w3-border" click.delegate="cursor1()">Cursor 1</button>
+            &nbsp;&nbsp;
+            <button class.bind="isCursor1?'w3-blue':'w3-red'" class="w3-button w3-round w3-border-white w3-border" click.delegate="cursor2()">Cursor 2</button>
+            &nbsp;&nbsp;
+            <button class.bind="startedpvtool?'w3-red':'w3-blue'"class="w3-button w3-round w3-border-white w3-border" click.delegate="startstop()">Start/Stop</button>
+            <br/>
+            &nbsp;&nbsp;<button class="w3-button w3-blue w3-round w3-border-white w3-border w3-xxxlarge" click.delegate="decreaseCursor()">&#x21E6;</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="w3-button w3-blue w3-round w3-border-white w3-border w3-xxxlarge" click.delegate="increaseCursor()">&#x21E8; </button>
+
+        </div-->
+    </div>
+</template>

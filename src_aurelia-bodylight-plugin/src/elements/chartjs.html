@@ -1,6 +1,6 @@
 <template bindable="width,height">
     <div ref="canvasContainer1" style.bind="responsive ? '':'display:inline-block'">
-        <div class="w3-small" show.bind="! minichart">
+        <div class="w3-small" show.bind="showdownloadicons">
             <i class="fa fa-download fa-flip-horizontal" title="download csv data, row=data in time point"
                click.delegate="download()"> </i>
             <i class="fa fa-download fa-rotate-270" title="download flat csv data, row=all data for variable"

@@ -76,6 +76,8 @@ export class Markdownaurelia {
   //@bindable toc;
   @bindable content;
   @bindable keepanim;
+  @bindable allowscript;
+  allowScriptFlag = true;
   previoussrc='';
   showmodal = false;
   constructor(i18n, httpclient, ea) {
@@ -94,6 +96,7 @@ export class Markdownaurelia {
 
   bind() {
     if (typeof this.keepanim === 'string') this.keepanim = this.keepanim === 'true';
+    if (typeof this.allowscript === 'string') this.allowScriptFlag = this.allowscript === 'true';
     //console.log('markdownaurelia bind() src', this.src);
     if (this.base && this.base.length > 0) window.bdlBaseHref = this.base; // define bdlbasehref only if not empty string
     if (this.src && this.src.length > 0 && this.md) this.readmd();
@@ -184,7 +187,8 @@ export class Markdownaurelia {
         let tocregex = /<div[^<>]*id="toc"[^<>]*>(.*?)<\/div>/g;
         this.toc = this.md.render('@[toc] \n' + this.text).match(tocregex)[0];
         */
-        //console.log('readmd toc:', this.toc);
+        //console.log('readmd toc:', this.toc)        ;
+
         this.update();
       });
   }
@@ -193,11 +197,60 @@ export class Markdownaurelia {
     window.removeEventListener('hashchange', this.handleContentChange);
   }
 
-  update() {
+  // Function to load scripts sequentially
+  async loadScriptsSequentially(scripts) {
+    console.warn('loading scripts sequentially')
+    for (const oldScript of scripts) {
+        await new Promise((resolve, reject) => {
+            const newScript = document.createElement('script');
+
+            // Copy all attributes
+            Array.from(oldScript.attributes).forEach(attr => {
+                newScript.setAttribute(attr.name, attr.value);
+            });
+
+            // Handle inline scripts
+            if (oldScript.src) {
+                newScript.src = oldScript.src;
+                newScript.onload = () => resolve();
+                newScript.onerror = () => reject(new Error(`Failed to load script: ${oldScript.src}`));
+            } else {
+                newScript.text = oldScript.text;
+                resolve();
+            }
+
+            document.body.appendChild(newScript);
+        }).catch(error => {
+            console.error(error);
+        });
+
+        // Remove the old script tag
+        oldScript.parentNode.removeChild(oldScript);
+    }
+}
+  async update() {
     //console.log('markdownaurelia update');
     //if (this.mj)this.mj.typesetPromise();
     //if (window.MathJax) window.MathJax.typeset();
     //register some custom implementation for elements    
+    if (this.allowScriptFlag) { //interpret scripts
+      // Assume this.html contains your HTML string
+      const htmlString = this.html;
+
+      // Create a template element
+      const template = document.createElement('template');
+
+      // Set the innerHTML to the HTML string
+      template.innerHTML = htmlString.trim();
+
+      // Access the content property to get a DocumentFragment
+      const content = template.content;
+      // Select all script tags within the content
+      const scripts = content.querySelectorAll('script');
+
+      // Load and execute scripts sequentially
+      await this.loadScriptsSequentially(scripts);
+    }    
     //scroll to top of the page
     window.scrollTo(0, 0);
     console.log('i18n',this.i18n);

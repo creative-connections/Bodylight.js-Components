@@ -51,6 +51,7 @@
     "requirejs": "^2.3.6",
     "serve-static": "^1.14.1",
     "server-destroy": "^1.0.1",
+    "socket.io": "^4.8.1",
     "text": "github:requirejs/text"
   },
   "backupdependencies": {
@@ -117,7 +118,8 @@
   },
   "dependenciesbackup": {
     "aurelia-web-components": "^1.0.0-beta.3",
-    "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git"
+    "pdbe-molstar": "git+https://github.com/TomasKulhanek/pdbe-molstar.git",
+    "canvas": "2.11.2"
   },
   "dependencies": {
     "aurelia-bootstrapper": "^2.3.2",
@@ -128,7 +130,6 @@
     "aurelia-i18n": "^3.1.1",
     "aurelia-loader": "^1.0.2",
     "aurelia-templating": "^1.10.4",
-    "canvas": "2.6.1",
     "chart.js": "^2.9.4",
     "chartjs-plugin-datalabels": "^0.7.0",
     "createjs": "^1.0.1",
@@ -147,6 +148,7 @@
     "markdown-it-for-inline": "^0.1.1",
     "markdown-it-katexx": "^3.2.0",
     "pdbe-molstar": "^3.1.0"
+    
   },
   "deprecated": {
     "katex": "^0.12.0"

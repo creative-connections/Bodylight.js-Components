@@ -68,6 +68,7 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/quiz-summary'),
     PLATFORM.moduleName('./elements/calculator'),
     PLATFORM.moduleName('./elements/chartjs-xy-sachart'),
-    PLATFORM.moduleName('./elements/quiz-present')
+    PLATFORM.moduleName('./elements/quiz-present'),
+    PLATFORM.moduleName('./elements/pvtool')
   ]);
 }
