@@ -5,9 +5,10 @@ import _ from 'lodash';
 
 //returns array of numbers if contains comma, or number - int
 export function myParseInt(str,raddix) {
-  if (typeof str !== "string") return str;
-  if (str.lastIndexOf(',') > 0) return str.split(',').map(x => parseInt(x, raddix));
-  else return parseInt(str, raddix);
+  if (typeof str == "string") {
+    if (str.lastIndexOf(',') > 0) return str.split(',').map(x => parseInt(x, raddix));
+    else return parseInt(str, raddix);
+  } else return str;
 }
 
 export class Chartjs {
@@ -142,9 +143,12 @@ export class Chartjs {
           let convertitems = convertvalues[i].split(',');
           if (convertitems[0] === '1' && convertitems[1] === '1') this.operation.push(identity);
           else {
-            let numerator = parseFloat(convertitems[0]);
-            let denominator = parseFloat(convertitems[1]);
-            let addend = (convertitems.length > 2) ? parseFloat(convertitems[2]) : 0;
+            const numerator = parseFloat(convertitems[0]);
+            const denominator = parseFloat(convertitems[1]);
+            const addend = (convertitems.length > 2) ? parseFloat(convertitems[2]) : 0;
+            /*console.log('adding operation numerator',numerator);
+            console.log('adding operation denominator',denominator);
+            console.log('adding operation addend',addend);*/
             this.operation.push(x => ((x * numerator / denominator) + addend));
           }
         } else {

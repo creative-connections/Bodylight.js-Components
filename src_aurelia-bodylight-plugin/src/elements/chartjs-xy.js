@@ -25,12 +25,28 @@ export class ChartjsXy extends ChartjsTime {
     this.handleValueChange = e => {
       //e.detail do not reallocate - using same buffer, thus slicing to append to data array
       //let datapoints =e.detail.data.slice(this.refindex, this.refendindex);
-      console.log('debug handlevaluechange refindex' + this.refindex + ' refvaules:' + this.refvalues + ' e:', e)
+      //console.log('debug handlevaluechange refindex' + this.refindex + ' refvaules:' + this.refvalues + ' e:', e)
       let j = 0;
       //put first value on x axis, others on y axis other values
       for (let i = 1; i < this.refvalues; i++) {
-        if (this.operation && this.operation[i])
-          this.chart.data.datasets[j].data.push({ x: this.operation[0](e.detail.data[this.refindex]), y: this.operation[i](e.detail.data[this.refindex + i]) });
+        if (this.operation && this.operation[i]){
+          //if (this.refpoint)
+            const newindex = this.refindex + i;
+            const x = this.operation[0](e.detail.data[this.refindex]);
+            const y = this.operation[i](e.detail.data[newindex]);
+          const datapoint = { 
+            x: x, 
+            y: y
+          }  
+          /*console.log('debug chartjsxy, data to push to chartjs',datapoint)
+          console.log('debug chartjsxy, this',this);
+          console.log('debug chartjsxy refindex '+this.refindex+' i '+i+' e',e);
+          console.log('debug chartjsxy newindex '+newindex+' once more newindex',e);
+          console.log('debug e.detail data y',e.detail.data[this.refindex + i])
+          console.log('debug operation[i]',this.operation[i])
+          console.log('debug converted y',this.operation[i](e.detail.data[this.refindex + i]))*/
+          this.chart.data.datasets[j].data.push(datapoint);
+        }
         else
           this.chart.data.datasets[j].data.push({ x: e.detail.data[this.refindex], y: e.detail.data[this.refindex + i] });
         //console.log('adding from data[], i, data[i]', e.detail.data, i, e.detail.data[i]);
@@ -48,7 +64,7 @@ export class ChartjsXy extends ChartjsTime {
     console.log('chartjsxy chartcontrol:', payload);
     if (payload.type === 'stop') {
       //unsubscribe to listen fmidata
-      this.removeListeners();
+      this.addListeners();      
     }
     if (payload.type === 'data') {
       this.handleValueChange({ detail: { data: payload.data } });
@@ -63,7 +79,9 @@ export class ChartjsXy extends ChartjsTime {
     }
     if (payload.type === 'start') {
       //subscribe back to listen fmidata
-      this.addListeners();
+      this.removeListeners();
+      //clean data
+      this.handleReset();
     }
   }
 
@@ -136,13 +154,15 @@ export class ChartjsXy extends ChartjsTime {
     }
 
     super.attached();
+    if (this.refpoint) { //if refpoint is set to true -then chartcontrol will handle incoming custom data
     this.chartcontrolsub = this.ea.subscribe('chartcontrol', payload => {
       this.chartcontrol(payload)
     });
   }
+  }
 
   detached() {
-    this.chartcontrolsub.dispose();
+    if (this.chartcontrolsub) this.chartcontrolsub.dispose();
     super.detached();
   }
 

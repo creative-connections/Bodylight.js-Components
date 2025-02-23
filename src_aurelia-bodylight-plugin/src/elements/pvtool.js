@@ -19,6 +19,10 @@ export class Pvtool {
     constructor(ea) {
         this.ea = ea;
     }
+    bind(){
+        if (typeof this.refindex == "string") this.refindex = parseInt(this.refindex,10)
+        if (typeof this.refvalues == "string") this.refvalues = parseInt(this.refvalues,10)
+    }
 
     attached() {
         this.subscription1 = this.ea.subscribe('chartdata1', data => { this.cursor1data(data) })
