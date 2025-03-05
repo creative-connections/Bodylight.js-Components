@@ -230,14 +230,16 @@ export class Quizx {
     if (this.selectedAnswer) {this.selectedAnswer.class= this.unselected;}
     this.selectedAnswer = answer;
     this.selectedAnswer.class= this.selected;
-    let setqa = {id:this.id,answer:this.selectedAnswer.title}
+    
+    let setqa = {id:this.id,answer:this.selectedAnswer.title,answerclass:answer.correct?'w3-pale-green':'w3-pale-red'}
+    console.log('quizx checkanswer setqa',setqa)
     this.ea.publish('quizsetanswer', setqa)
     if (this.showresults){
       //show whether this answer is correct or not
       answer.showresult = true;
       if (answer.correct) answer.class = this.selectedcorrect;
       else answer.class = this.selectedincorrect;
-    }
+    }    
     /*this.subscription3 = this.ea.subscribe('quizsetanswer', quizid => {
       //TODO set answer
       this.setAnswer(quizid.id,quizid.answer);
@@ -249,7 +251,9 @@ export class Quizx {
     console.log('check CheckboxAnswer',answer)
     //answer.user = !answer.user //change checkbox
     if (answer.user) {
-      let setqa = {id:this.id,answer:answer.answer,addAnswer:true}
+      console.log('publishing answer',answer)
+      let setqa = {id:this.id,answer:answer.answer,addAnswer:true,answerclass:(answer.correct)?'w3-pale-green':'w3-pale-red'}
+      console.log('publishing setqa',setqa)
       this.ea.publish('quizsetanswer', setqa)
     } else {
       let setqa = {id:this.id,answer:answer.answer,removeAnswer:true}

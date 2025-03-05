@@ -4,8 +4,10 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 @inject(EventAggregator)
 export class Pvtool {
     @bindable fromid;
+    @bindable rrid = 'idrate';
     @bindable refindex;
     @bindable refvalues;
+    //@bindable rrid = 'breath_rate';
     isCursor1 = true;
     cursor1value = 0;
     cursor2value = 90;
@@ -89,6 +91,7 @@ export class Pvtool {
         if (!this.startedpvtool) {
             //start
             this.ea.publish('chartcontrol', { type: 'start', data: [0.01, 2.31] })
+            this.setRR(3)
             //demo data
             this.senddata();
             /*this.ea.publish('chartcontrol',{type:'data',data:[760.01*133.322,0.00231]})
@@ -97,9 +100,22 @@ export class Pvtool {
             this.ea.publish('chartcontrol',{type:'data',data:[765.09*133.322,0.00306]})*/
         } else {
             //stop
+            this.setRR(17); //TODO set original RR
+            //this.startedpvtool = false;
+            // Stop after 20s
+            clearInterval(this.timer);
+
             this.ea.publish('chartcontrol', { type: 'stop', data: [11.09, 3.065] })
         }
         this.startedpvtool = !this.startedpvtool
+    }
+
+    fireevent='input';    
+    setRR(value){
+        let inputel = document.getElementById(this.rrid);
+        inputel.value = value;
+        let event = new Event(this.fireevent);
+        inputel.dispatchEvent(event);
     }
 
     senddata() {
@@ -154,13 +170,16 @@ export class Pvtool {
         /////////////////////////////////////////////////////////////
         // Main loop
         /////////////////////////////////////////////////////////////
-        const timer = setInterval(() => {
+        this.timer = setInterval(() => {
             const now = Date.now();
             const elapsed = now - startTime;
 
             if (elapsed >= totalDuration) {
+                this.setRR(17); //TODO set original RR
+                this.startedpvtool = false;
                 // Stop after 20s
-                clearInterval(timer);
+                clearInterval(this.timer);
+                this.timer=null;
                 return;
             }
 
@@ -206,6 +225,8 @@ export class Pvtool {
         }, intervalMs);
 
     }
+
+
     senddataLogistic4() {
         /////////////////////////////////////////////////////////////
         // Configuration

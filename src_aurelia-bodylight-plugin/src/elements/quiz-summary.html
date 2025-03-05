@@ -4,7 +4,7 @@
         <slot></slot>
             <div class="w3-white w3-margin-up" repeat.for="q of backupqas">
                 <div class="truncate">${q.question}</div>
-                <div class="truncate small-margin w3-border w3-round-medium w3-small ${q.cl}" repeat.for="ans of q.answers" innerhtml.bind="ans"></div>
+                <div class="truncate small-margin w3-border w3-round-medium w3-small ${q.cl[$index]}" repeat.for="ans of q.answers" innerhtml.bind="ans"></div>
             </div>        
     </div>
 </template>
