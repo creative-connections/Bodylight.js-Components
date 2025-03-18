@@ -46,7 +46,7 @@ export class RemoteValue {
             else targetid = e.target.parentElement.parentElement.id;
             //post it - add targetid to URL
             //this.debouncedPost(targetid,this.postvalue);
-            console.log('postWithDebounce()',targetid,this.postvalue);
+            //console.log('postWithDebounce()',targetid,this.postvalue);
             this.postWithDebounce(targetid,this.postvalue);
         }
     // Create a debounced version of the post method
@@ -78,7 +78,7 @@ export class RemoteValue {
         this.starttime = Math.round(this.time.getTime() / 1000);
         this.usevuplex = this.remoteurl.startsWith('vuplex');
         if (this.usevuplex) {
-            console.log('registering vuplex listener')
+            //console.log('registering vuplex listener')
             window.addEventListener('vuplexmessage', this.handleMessage);
             if (window.vuplex) window.vuplex.addEventListener('message', this.handleMessage);
                 
@@ -94,7 +94,10 @@ export class RemoteValue {
         if (this.inputids.length > 0) {
             for (let myid of this.inputids) {
                 const myidel = document.getElementById(myid);
-                if (myidel) {console.log('remote-value adding listener to id',myid);myidel.addEventListener('input', this.handleValueChange);}
+                if (myidel) {
+                    //console.log('remote-value adding listener to id',myid);
+                    myidel.addEventListener('input', this.handleValueChange);
+                }
                 else console.warn('cannot add listener to input for value change',myid);
             }
         }

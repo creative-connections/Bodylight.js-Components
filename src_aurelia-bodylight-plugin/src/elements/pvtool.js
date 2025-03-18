@@ -6,8 +6,7 @@ export class Pvtool {
     @bindable fromid;
     @bindable rrid = 'idrate';
     @bindable refindex;
-    @bindable refvalues;
-    //@bindable rrid = 'breath_rate';
+    @bindable refvalues;    
     isCursor1 = true;
     cursor1value = 0;
     cursor2value = 90;
@@ -37,10 +36,12 @@ export class Pvtool {
     //@bindable 
     cursor1() {
         this.isCursor1 = true;
+        this.ea.publish('chartcontrol', { type: 'leftPoint'})
     }
 
     cursor2() {
         this.isCursor1 = false;
+        this.ea.publish('chartcontrol', { type: 'rightPoint'})
     }
 
     cursor1data(data) {
@@ -113,9 +114,11 @@ export class Pvtool {
     fireevent='input';    
     setRR(value){
         let inputel = document.getElementById(this.rrid);
-        inputel.value = value;
-        let event = new Event(this.fireevent);
-        inputel.dispatchEvent(event);
+        if (inputel) {
+            inputel.value = value;
+            let event = new Event(this.fireevent);
+            inputel.dispatchEvent(event);
+        }
     }
 
     senddata() {

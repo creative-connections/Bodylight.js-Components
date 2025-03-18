@@ -173,19 +173,7 @@ and limitations under the License.
 
 /**
  * @license
- * Copyright 2006 Dan Vanderkam (danvdk@gmail.com)
- * MIT-licenced: https://opensource.org/licenses/MIT
- */
-
-/**
- * @license
  * Copyright 2011 Dan Vanderkam (danvdk@gmail.com)
- * MIT-licenced: https://opensource.org/licenses/MIT
- */
-
-/**
- * @license
- * Copyright 2011 Paul Felix (paul.eric.felix@gmail.com)
  * MIT-licenced: https://opensource.org/licenses/MIT
  */
 

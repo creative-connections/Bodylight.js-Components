@@ -1,10 +1,10 @@
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {bindable} from 'aurelia-framework';
+import { bindable } from 'aurelia-framework';
 import _ from 'lodash';
 
 //returns array of numbers if contains comma, or number - int
-export function myParseInt(str,raddix) {
+export function myParseInt(str, raddix) {
   if (typeof str == "string") {
     if (str.lastIndexOf(',') > 0) return str.split(',').map(x => parseInt(x, raddix));
     else return parseInt(str, raddix);
@@ -16,35 +16,35 @@ export class Chartjs {
   @bindable labels;
   @bindable refindex;
   @bindable refvalues;
-  @bindable type='doughnut';
-  @bindable maxdata=256;
-  @bindable sampledata=false; //TODO, whether to sample data in each throttle, otherwise all data are stored
-  @bindable initialdata='';
+  @bindable type = 'doughnut';
+  @bindable maxdata = 256;
+  @bindable sampledata = false; //TODO, whether to sample data in each throttle, otherwise all data are stored
+  @bindable initialdata = '';
   @bindable width;
-  @bindable height=200;
-  @bindable animate=false;
+  @bindable height = 200;
+  @bindable animate = false;
   @bindable id;
   @bindable ylabel;
   @bindable xlabel;
   @bindable convertors;
-  @bindable verticalline=false;
-  @bindable generatelabels=false;
+  @bindable verticalline = false;
+  @bindable generatelabels = false;
   @bindable sectionid;  //id to listen addsection event
   @bindable responsive = false; //false - to keep width and height, true - to rescale
 
-  @bindable throttle=200; //time to throttle chart update, if it is too much at once
-  @bindable precision=4;
+  @bindable throttle = 200; //time to throttle chart update, if it is too much at once
+  @bindable precision = 4;
   @bindable min; //min for y axis - if chart has this axis
   @bindable max; //max for y axis - if chart has this axis
   @bindable babylonjs; //whether to integrate with 3d babylonjs
   @bindable canvasobj; //canvas obj name -
-  @bindable colorsegmentindex=-2; //index to shift the color
-  @bindable colorindex=0; //index to shift the color
+  @bindable colorsegmentindex = -2; //index to shift the color
+  @bindable colorindex = 0; //index to shift the color
   @bindable minichart;
   @bindable displayxticks = true;
   @bindable showdownloadicons = false;
-  indexsection=0;
-  datalabels=false; //may be configured by subclasses
+  indexsection = 0;
+  datalabels = false; //may be configured by subclasses
   refindices;
   canvasContainer;
   canvasContainer1;
@@ -64,7 +64,7 @@ export class Chartjs {
       //if convert operation is defined as array
       if (this.operation) {
         for (let i = 0; i < rawdata.length; i++) {
-        //if particular operation is defined
+          //if particular operation is defined
           if (this.operation[i]) rawdata[i] = this.operation[i](rawdata[i]);
         }
       }
@@ -76,13 +76,13 @@ export class Chartjs {
       if (this.chart.data.datasets)
         for (let dataset of this.chart.data.datasets)
           if (dataset && dataset.data) dataset.data = [];
-      if (this.chart.data.labels.length>0) this.chart.data.labels = [];
+      if (this.chart.data.labels.length > 0) this.chart.data.labels = [];
       if (this.sectionid) {
         this.chart.config.options.section = [];
-        this.indexsection=0;
+        this.indexsection = 0;
       }
       //do not update chart as it blinks - next valuechange will show it
-      
+
       //this.updatechart();
       //this.chart.config.options.section = [];
 
@@ -97,7 +97,7 @@ export class Chartjs {
         fromel.addEventListener('fmidata', this.handleValueChange);
         fromel.addEventListener('fmireset', this.handleReset);
       } else {
-        console.warn('fmi attached, but no element with id found:',this.fromid);
+        console.warn('fmi attached, but no element with id found:', this.fromid);
       }
     }
   }
@@ -120,9 +120,9 @@ export class Chartjs {
    */
   bind() {
     //console.log('chartjs bind');
-    if (typeof this.displayxticks === 'string') this.displayxticks = this.displayxticks === 'true'; 
-    if (typeof this.showdownloadicons === 'string') this.showdownloadicons = this.showdownloadicons === 'true'; 
-    if ((typeof this.refindex == 'string') && (this.refindex.indexOf(',')>0)) { this.refindices = this.refindex.split(',')}
+    if (typeof this.displayxticks === 'string') this.displayxticks = this.displayxticks === 'true';
+    if (typeof this.showdownloadicons === 'string') this.showdownloadicons = this.showdownloadicons === 'true';
+    if ((typeof this.refindex == 'string') && (this.refindex.indexOf(',') > 0)) { this.refindices = this.refindex.split(',') }
     else {
       this.refindex = myParseInt(this.refindex, 10);
       this.refvalues = parseInt(this.refvalues, 10);
@@ -153,7 +153,7 @@ export class Chartjs {
           }
         } else {
           //convert values are in form of expression, do not contain comma
-          if (convertvalues === '1/x') this.operation.push(x=> 1 / x);
+          if (convertvalues === '1/x') this.operation.push(x => 1 / x);
 
           else {
             // for eval() security filter only allowed characters:
@@ -193,21 +193,21 @@ export class Chartjs {
       //this seems not to be correctly transpilled to ES5, therefore following generator ->
       this.chlabels = [];
       for (let i = 0; i < this.refvalues; i++) {
-        let ilabel = this.generatelabels ? ('variable ' + i ) : '';
+        let ilabel = this.generatelabels ? ('variable ' + i) : '';
         this.chlabels.push(ilabel);
       }
     }
 
     this.colors = [];
     let mydatastr = this.initialdata.split(',');
-    this.mydata = mydatastr.map(x => {return parseFloat(x);});
+    this.mydata = mydatastr.map(x => { return parseFloat(x); });
     if (this.refindices) this.refvalues = this.refindices.length;
     for (let i = 0; i < this.refvalues; i++) {
       if (!this.mydata[i]) {
         //this.mydata.push(0);
         //console.log('chartjs no data');
       }
-      this.colors.push(this.selectColor(i+this.colorindex));
+      this.colors.push(this.selectColor(i + this.colorindex));
     }
 
     let datasets = [{
@@ -233,7 +233,7 @@ export class Chartjs {
       animateRotate: true,
       duration: 500
     };
-    let animopts2 = {duration: 0};
+    let animopts2 = { duration: 0 };
 
     //select options based on attribute value - whether to animate or not
     let animopts = this.animate ? animopts1 : animopts2;
@@ -258,12 +258,12 @@ export class Chartjs {
     }
     if (this.minichart) {
       if (axisopts.xAxes) axisopts.xAxes[0].display = false;
-      else axisopts.xAxes = [{display:false }];
+      else axisopts.xAxes = [{ display: false }];
       if (axisopts.yAxes) axisopts.yAxes[0].display = false;
-      else axisopts.yAxes = [{display:false }];
+      else axisopts.yAxes = [{ display: false }];
     }
     if (!this.displayxticks) {
-      if (axisopts.xAxes) axisopts.xAxes.ticks = {display:false}
+      if (axisopts.xAxes) axisopts.xAxes.ticks = { display: false }
       else axisopts.xAxes = [{ ticks: { display: false } }]
     }
 
@@ -276,7 +276,13 @@ export class Chartjs {
         position: 'top'
       },
       animation: animopts,
-      tooltips: {
+
+      scales: axisopts,
+      babylondynamictexture: ""// name of global dynamictextureobj to call update()
+    };
+    if (!this.minichart) {
+      //add other options
+      this.options.tooltips = {
         position: 'nearest',
         mode: 'index',
         intersect: false,
@@ -288,23 +294,25 @@ export class Chartjs {
         xPadding: 3,
         yPadding: 3,
         callbacks: {
-          label: function(tooltipItem, data) {
+          label: function (tooltipItem, data) {
             //let label = data.labels[tooltipItem.index];
             let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
             //console.log('chartjs tooltip, value',tooltipItem,value);
-            if (typeof value === 'object') return value.x.toPrecision(4)+':'+value.y.toPrecision(4)
+            if (typeof value === 'object') return value.x.toPrecision(4) + ':' + value.y.toPrecision(4)
             if (typeof value === 'number') return value.toPrecision(4); //TODO this.precision is not accessible from here
             return value;
           }
         }
-      },
-      hover: {
+      };
+      this.options.hover = {
         animationDuration: 0, //disable animation on hover - e.g. for tooltips
-        intersect:false
-      },
-      scales: axisopts,
-      babylondynamictexture : ""// name of global dynamictextureobj to call update()
-    };
+        intersect: false
+      }
+      this.options.events = ['mousemove', 'touchstart', 'touchmove', 'click'];
+    } else {
+      this.options.tooltips = { enabled: false}
+      this.options.events = []
+    }
     //sets boolean value - if verticalline attribute is set
     if (typeof this.verticalline === 'string') {
       this.verticalline = this.verticalline === 'true';
@@ -337,13 +345,13 @@ export class Chartjs {
       //if (this.min) this.options.scales.yAxes[0].ticks.stepSize = (this.options.scales.yAxes[0].ticks.max - this.options.scales.yAxes[0].ticks.min) / 10;
     }
 
-    this.tooltips = ['mousemove', 'touchstart', 'touchmove', 'click'];
+    
     /*if (this.minichart) {
       this.options.plugins.legend.display = false
     }*/
   }
 
-  addListeners(){
+  addListeners() {
     //listening to custom event fmidata and fmireset
     const fromel = document.getElementById(this.fromid);
     if (fromel) {
@@ -351,7 +359,7 @@ export class Chartjs {
       fromel.addEventListener('fmireset', this.handleReset);
     } else {
       console.warn('chartjs, null fromid element, waiting to be attached');
-      document.addEventListener('fmiattached',this.handleFMIAttached);
+      document.addEventListener('fmiattached', this.handleFMIAttached);
     }
 
     if (this.sectionid) {
@@ -379,7 +387,7 @@ export class Chartjs {
     if (this.verticalline) {
       Chart.defaults.LineWithLine = Chart.defaults.line;
       Chart.controllers.LineWithLine = Chart.controllers.line.extend({
-        draw: function(ease) {
+        draw: function (ease) {
           Chart.controllers.line.prototype.draw.call(this, ease);
           if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
             let activePoint = this.chart.tooltip._active[0];
@@ -405,7 +413,7 @@ export class Chartjs {
     //for sections register chartjs plugin
     if (this.sectionid) {
       Chart.pluginService.register({
-        beforeDraw: function(chart, easing) {
+        beforeDraw: function (chart, easing) {
           if (chart.config.options.section && chart.config.options.section.length > 0) {
             let ctx = chart.chart.ctx;
             let chartArea = chart.chartArea;
@@ -420,10 +428,10 @@ export class Chartjs {
               //console.log('chartjs sectionplugin:i, section[i-1], section[1],start,stop)', i, chart.config.options.section[i - 1],chart.config.options.section[i]);
               const startindex = chart.config.options.section[i - 1].index;
               const stopindex = chart.config.options.section[i].index;
-              if (startindex>=meta.data.length) continue;
-              if (stopindex>=meta.data.length) continue;
+              if (startindex >= meta.data.length) continue;
+              if (stopindex >= meta.data.length) continue;
               let start = meta.data[startindex]._model.x;
-              let stop  = meta.data[stopindex]._model.x;
+              let stop = meta.data[stopindex]._model.x;
               /*const hue = (i - 1) * 137.508; // use golden angle approximation
               ctx.fillStyle = `hsl(${hue},85%,91%)`;
                */
@@ -449,7 +457,7 @@ export class Chartjs {
             if ((i > 1) && (chart.config.options.section[i - 1].index < (meta.data.length - 1)) && (chart.config.options.section[i - 1].index < meta.data.length)) {
               //draw last section
               let start = meta.data[chart.config.options.section[i - 1].index]._model.x;
-              let stop  = meta.data[meta.data.length - 1]._model.x;
+              let stop = meta.data[meta.data.length - 1]._model.x;
 
               //console.log (start,stop);
               /*
@@ -476,16 +484,16 @@ export class Chartjs {
       console.log('datalabels true ,setting plugin', this.datalabels);
       console.log('datalabels true ,setting plugin', this.datalabels);
       Chart.pluginService.register({
-        afterDatasetsDraw: function(chartInstance, easing) {
+        afterDatasetsDraw: function (chartInstance, easing) {
           // To only draw at the end of animation, check for easing === 1
           //if (dataset && dataset.datalabels) {
           let ctx = chartInstance.chart.ctx;
 
-          chartInstance.data.datasets.forEach(function(dataset, i) {
+          chartInstance.data.datasets.forEach(function (dataset, i) {
             if (dataset && dataset.datalabels) {
               let meta = chartInstance.getDatasetMeta(i);
               if (!meta.hidden) {
-                meta.data.forEach(function(element, index) {
+                meta.data.forEach(function (element, index) {
                   if (dataset.datalabels[index].length > 0) {
                     // Draw the text in black, with the specified font
                     ctx.fillStyle = '#aaa';
@@ -517,13 +525,13 @@ export class Chartjs {
     if (this.babylonjs) {
       this.options.babylondynamictexture = this.babylonjs
       Chart.plugins.register({
-        beforeDraw: function(chartInstance) {
+        beforeDraw: function (chartInstance) {
           var ctx = chartInstance.chart.ctx;
           //console.log('ctx before draw:')
           ctx.fillStyle = "white";
           ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
         },
-        afterDraw: function(chartInstance) {
+        afterDraw: function (chartInstance) {
           var ctx = chartInstance.chart.ctx;
           //console.log('ctx after draw:')
           if (window[chartInstance.options.babylondynamictexture]) window[chartInstance.options.babylondynamictexture].update();
@@ -533,7 +541,7 @@ export class Chartjs {
 
     //canvasobj - if defined then use this object name to get canvas object -  otherwise the one from template
 
-    let ctx = (this.canvasobj)? window[this.canvasobj] : this.chartcanvas.getContext('2d');
+    let ctx = (this.canvasobj) ? window[this.canvasobj] : this.chartcanvas.getContext('2d');
     //ctx may be null if canvasobj is not yet initialized.
     if (ctx) this.initChart(ctx); //init chart only if ctx is ready
     else {
@@ -550,12 +558,12 @@ export class Chartjs {
 
   }
 
-  initChart(){
-    let ctx = (this.canvasobj)? window[this.canvasobj] : this.chartcanvas.getContext('2d');
+  initChart() {
+    let ctx = (this.canvasobj) ? window[this.canvasobj] : this.chartcanvas.getContext('2d');
     initChart(ctx);
   }
 
-  initChart(ctx){
+  initChart(ctx) {
     /*let that = this;
     if (window.lazyInitChart) {let that = window.lazyInitChart;}*/
     this.chart = new Chart(ctx, {
@@ -568,27 +576,27 @@ export class Chartjs {
     //register throttled update function
     if (typeof this.throttle === 'string') this.throttle = parseInt(this.throttle, 10);
 
-    if (this.throttle>0) {//throttle
+    if (this.throttle > 0) {//throttle
       this.updatechart = _.throttle(this.chart.update.bind(this.chart), this.throttle);
     } else {//directly call chart update
       this.updatechart = this.chart.update.bind(this.chart);
     }
     // console.log('chartjs data', this.data);
-/*    //now delay tooltip
-    let originalShowTooltip = that.chart.showTooltip;
-    //let that.timeout;
-    that.timeout=0;
-    that.chart.showTooltip = function (activeElements) {
-      let delay = (activeElements.length === 0) ? 2000 : 0;
-      clearTimeout(that.timeout);
-      that.timeout = setTimeout(function () {
-        originalShowTooltip.call(that.chart, activeElements);
-      }, delay);
-    }
-
- */
+    /*    //now delay tooltip
+        let originalShowTooltip = that.chart.showTooltip;
+        //let that.timeout;
+        that.timeout=0;
+        that.chart.showTooltip = function (activeElements) {
+          let delay = (activeElements.length === 0) ? 2000 : 0;
+          clearTimeout(that.timeout);
+          that.timeout = setTimeout(function () {
+            originalShowTooltip.call(that.chart, activeElements);
+          }, delay);
+        }
+    
+     */
   }
-  removeListeners(){
+  removeListeners() {
     if (document.getElementById(this.fromid)) {
       document.getElementById(this.fromid).removeEventListener('fmidata', this.handleValueChange);
       document.getElementById(this.fromid).removeEventListener('fmireset', this.handleReset);
@@ -597,8 +605,8 @@ export class Chartjs {
       document.removeEventListener('fmidata', this.handleValueChange);
       document.removeEventListener('fmireset', this.handleReset);
     }
-    if (this.sectionid) {document.getElementById(this.sectionid).removeEventListener('addsection', this.handleAddSection);}
-    document.removeEventListener('fmiattached',this.handleFMIAttached)
+    if (this.sectionid) { document.getElementById(this.sectionid).removeEventListener('addsection', this.handleAddSection); }
+    document.removeEventListener('fmiattached', this.handleFMIAttached)
 
   }
   /**
@@ -628,7 +636,7 @@ export class Chartjs {
         }
         content += row + '\n';
       }
-      let blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
+      let blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
       saveAs(blob, filename);
     }
   }
@@ -650,8 +658,8 @@ export class Chartjs {
       //chart labels - usually time
       content = content + 'Time,' + this.chart.data.labels.join(',') + '\n';
       //dataset data on other rows
-      for (let i = 0; i < this.chart.data.datasets.length; i++) {content = content + labels[i] + ',' + this.chart.data.datasets[i].data.join(',') + '\n';}
-      let blob = new Blob([content], {type: 'text/csv;charset=utf-8;'});
+      for (let i = 0; i < this.chart.data.datasets.length; i++) { content = content + labels[i] + ',' + this.chart.data.datasets[i].data.join(',') + '\n'; }
+      let blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
       saveAs(blob, filename);
     }
   }
@@ -666,22 +674,22 @@ export class Chartjs {
     let ind;
     //if (this.chart.data.labels.length>0) ind = 0
     //else
-    ind = Math.max(0,this.chart.data.labels.length-1);
+    ind = Math.max(0, this.chart.data.labels.length - 1);
     this.chart.config.options.section.push({
       index: ind,
-      color: this.selectColor((this.indexsection+this.colorsegmentindex), 85, 93),
+      color: this.selectColor((this.indexsection + this.colorsegmentindex), 85, 93),
       label: label
     });
   }
 
-  update(){
+  update() {
     if (this.sampledata)
-    this.chart.update();
+      this.chart.update();
   }
 
   /* resizeCanvas is triggered only when using aurelia-resize plugin*/
-  resizeCanvas(detail){
-    console.log("chartjs.resizeCanvas() width=" + detail.width);    
+  resizeCanvas(detail) {
+    console.log("chartjs.resizeCanvas() width=" + detail.width);
     this.width = detail.width;
     //this.height = detail.height;
   }

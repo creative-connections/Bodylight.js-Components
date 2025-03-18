@@ -74,14 +74,28 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       terserOptions: {        
         mangle: { toplevel: true },
         ecma:2016,
-        compress: {ecma:2016,defaults:true},//,drop_console:['log', 'info']},
+        compress: {
+          ecma:2016,
+          defaults:true,
+          drop_console: true, // Removes all console.* statements
+          drop_debugger: true, // Removes debugger statements
+          passes: 3, // Run optimizations multiple times
+          pure_funcs: ["console.debug", "console.info", "console.warn"], // Removes these function calls
+          reduce_funcs: true, // Inline functions aggressively
+          reduce_vars: true, // Collapse variables where possible
+          unsafe: true, // Enable optimizations that might break edge cases
+          unsafe_math: true, // Optimize math calculations
+          unsafe_comps: true, // Optimize comparisons
+          unsafe_proto: true, // Optimize prototype methods
+        },//,drop_console:['log', 'info']},
         keep_classnames: false,
         keep_fnames: false,
         ie8: false,
-        module: false,
+        module: true,
         nameCache: null, // or specify a name cache object
         safari10: false,
-        toplevel: false
+        toplevel: true,
+        format: { comments: false }
       }
     })],
     /*minimizer: [

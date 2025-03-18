@@ -67,15 +67,15 @@ export class ChartjsXy extends ChartjsTime {
       this.addListeners();      
     }
     if (payload.type === 'data') {
-      this.handleValueChange({ detail: { data: payload.data } });
+      this.handleValueChange({ detail: { data: payload.data } });    
     }
     if (payload.type === 'refpoint1') {
       let point = this.highlightLeftPoint(payload.data);
-      this.ea.publish('chartdata1', point)
+      //this.ea.publish('chartdata1', point)
     }
     if (payload.type === 'refpoint2') {
       let point = this.highlightRightPoint(payload.data);
-      this.ea.publish('chartdata2', point)
+      //this.ea.publish('chartdata2', point)
     }
     if (payload.type === 'start') {
       //subscribe back to listen fmidata
@@ -83,6 +83,7 @@ export class ChartjsXy extends ChartjsTime {
       //clean data
       this.handleReset();
     }
+    if ((payload.type === 'leftPoint') || (payload.type === 'rightPoint')) {this.lastPositionName=payload.type}
   }
 
   attached() {
@@ -151,6 +152,41 @@ export class ChartjsXy extends ChartjsTime {
         }
       };
       Chart.pluginService.register(highlightPointLinesPlugin)
+      const highlightNearestPlugin = {
+        // This runs after Chart.js processes the user event 
+        // (mouse move, click, etc.) and determines active elements.
+        afterEvent: function(chart, e) {
+          const active = chart.tooltip._active || [];
+          if (!active.length) {
+            // No nearest point
+            return;
+          }
+      
+          // The nearest point is active[0].
+          const nearest = active[0];
+          const datasetIndex = nearest._datasetIndex;
+          const dataIndex = nearest._index;
+      
+          // Access the raw data from the dataset
+          const pointData = chart.data.datasets[datasetIndex].data[dataIndex];
+      
+          // Do something with the nearest point...
+          //console.log('Nearest point data:', pointData,e);
+          // e.g., highlight it or store it
+          // chart.$myWrapper is the instance of MyChartWrapper
+          if (e.type==='click') {
+            //first click
+            if (chart.$myWrapper.lastPositionName === 'leftPoint')
+              chart.$myWrapper.lastPositionName='rightPoint';
+            else 
+              chart.$myWrapper.lastPositionName='left2Point';
+            //lastPositionName?
+          }
+          chart.$myWrapper.setPointHighlight(null, dataIndex);
+
+        }
+      };
+      Chart.pluginService.register(highlightNearestPlugin)
     }
 
     super.attached();
@@ -158,6 +194,9 @@ export class ChartjsXy extends ChartjsTime {
     this.chartcontrolsub = this.ea.subscribe('chartcontrol', payload => {
       this.chartcontrol(payload)
     });
+
+    // Store a reference to this wrapper on the chart
+    this.chart.$myWrapper = this;
   }
   }
 
@@ -276,6 +315,12 @@ export class ChartjsXy extends ChartjsTime {
    *    - datasetIndex: which dataset (defaults to 0)
    */
   setPointHighlight(positionName, dataIndex) {
+    //null positionName use last or leftPoint
+    if (!positionName) { 
+      if (!this.lastPositionName) this.lastPositionName='leftPoint';
+      positionName = this.lastPositionName;
+    }
+    else {this.lastPositionName = positionName}
     const chart = this.chart;
     const datasetIndex = 0;
     var dsIndex = (typeof datasetIndex === 'number') ? datasetIndex : 0;
@@ -291,6 +336,7 @@ export class ChartjsXy extends ChartjsTime {
     }
 
     // If the dataIndex is invalid, clear that highlight and return null
+    
     if (!point) {
       chart.config.options.plugins.highlightPointLines[positionName] = {};
       chart.update();
@@ -318,13 +364,17 @@ export class ChartjsXy extends ChartjsTime {
     var originalValue = chart.data.datasets[dsIndex].data[dataIndex];
 
     // If it's an object with x and y, you have it right away:
+    let mypoint ={}
     if (originalValue && typeof originalValue === 'object') {
-      return { x: originalValue.x, y: originalValue.y };
+      mypoint = { x: originalValue.x, y: originalValue.y };
     } else {
       // If your data is just [y1, y2, ...] then "x" is usually the index or label
       // and "y" is originalValue. You might then return { x: dataIndex, y: originalValue };
-      return { x: dataIndex, y: originalValue };
+      mypoint = { x: dataIndex, y: originalValue };
     }
-    //  return { x: x, y: y };
+    if (positionName === 'leftPoint') this.ea.publish('chartdata1', mypoint)
+      else if (positionName === 'rightPoint') this.ea.publish('chartdata2', mypoint)
+    return mypoint;
+      //  return { x: x, y: y };
   }
 }
