@@ -29,6 +29,7 @@ export class Fmi {
   @bindable startafter = 0;
   @bindable fmuspeed = 1;
   @bindable fmuspeed2;
+  @bindable fmuspeed2after=10;
   @bindable debug = 0;
 
   cosimulation=1;
@@ -363,6 +364,7 @@ export class Fmi {
       this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
     }
     if (typeof this.fmuspeed2 === 'string') { this.fmuspeed2 = parseFloat(this.fmuspeed2); }
+    if (typeof this.fmuspeed2after === 'string') { this.fmuspeed2after = parseInt(this.fmuspeed2after,10); }
     if (typeof this.debug === 'string') {
       this.debug = parseInt(this.debug);      
     }
@@ -701,7 +703,7 @@ export class Fmi {
         }
       }
       //change fmuspeed after first step if defined fmuspeed2
-      if (this.fmuspeed2 && !this.fmuspeedalreadychanged) this.fmuspeedChanged(this.fmuspeed2);
+      if (this.fmuspeed2 && !this.fmuspeedalreadychanged && (this.stepi>this.fmuspeed2after)) this.fmuspeedChanged(this.fmuspeed2);
       //stop simulation when stoptime is defined and reached
       if (this.stoptime>0 && this.animationstarted && this.stoptime<this.stepTime) {
           this.startstop();
@@ -986,7 +988,7 @@ export class Fmi {
     console.warn("Simulation took "+ timeDiff + " seconds");
   }
   fmuspeedChanged(newValue) {
-    console.log('Changing simulation speed from '+this.fmuspeed+' to '+newValue);
+    console.log('Changing simulation speed of '+this.id+ ' from '+this.fmuspeed+' to '+newValue);
     this.fmuspeedalreadychanged = true;
     //this.fmuspeed = newValue;    
     this.stepSize = newValue * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);

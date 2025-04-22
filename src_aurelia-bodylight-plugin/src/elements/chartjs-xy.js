@@ -174,7 +174,9 @@ export class ChartjsXy extends ChartjsTime {
           //console.log('Nearest point data:', pointData,e);
           // e.g., highlight it or store it
           // chart.$myWrapper is the instance of MyChartWrapper
-          if (e.type==='click') {
+          if (e.type==='click'||
+          e.type === 'touchstart' ||
+          e.type === 'pointerdown') {
             //first click
             if (chart.$myWrapper.lastPositionName === 'leftPoint')
               chart.$myWrapper.lastPositionName='rightPoint';
