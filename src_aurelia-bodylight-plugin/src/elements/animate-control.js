@@ -15,6 +15,7 @@ export class AnimateControl {
   @bindable allowcontinuous=false;
   @bindable playafterstart=false;
   @bindable showstep=true;
+  @bindable playafterstartmillis=5000;
   continuousanimation = false;
   animationstarted = false;
   firstframe=true;
@@ -97,7 +98,7 @@ export class AnimateControl {
     if (typeof this.playafterstart === 'string') {
       this.playafterstart = this.playafterstart === 'true';
     }
-
+    if (typeof this.playafterstartmillis === 'string') {this.playafterstartmillis = parseInt(this.playafterstartmillis,10)}
 
   }
 
@@ -110,7 +111,7 @@ export class AnimateControl {
         console.log('animate-control: automatic start',this)
         if (!this.animationstarted)
         this.startstop();
-      },5000)
+      },this.playafterstartmillis)
       /*if (window.ani) {
         window.ani.animationstarted = true;
         window.ani.playafterstart=true;

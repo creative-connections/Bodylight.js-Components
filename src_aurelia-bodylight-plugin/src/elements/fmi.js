@@ -570,7 +570,7 @@ export class Fmi {
   //defines action to be done during browser animationframe and starts
   startSimulation() {
     this.animationstarted = true;
-    this.fpsInterval = 1000 / (isNaN(this.fpslimit) ? parseInt(this.fpslimit, 10) : this.fpslimit);
+    this.fpsInterval = 1000 / (isNaN(this.fpslimit) ? parseFloat(this.fpslimit, 10) : this.fpslimit);
     this.then = window.performance.now();
     //read input values
     
@@ -580,7 +580,7 @@ export class Fmi {
       this.request = requestAnimationFrame(performAnimation);
       if (this.doingstep) return; //return if some other step not yet finished
       if (this.fpslimit && (this.fpslimit < 60)) {
-        if (isNaN(this.fpslimit)) this.fpslimit = parseInt(this.fpslimit, 10);
+        if (isNaN(this.fpslimit)) this.fpslimit = parseFloat(this.fpslimit, 10);
         this.now = newtime;
         //console.log('limiting fps to fpslimit, newtime, now, then, fpsinterval', this.fpslimit, newtime, this.now, this.then, this.fpsInterval);
         this.elapsed = this.now - this.then;
@@ -687,7 +687,7 @@ export class Fmi {
         }
         this.fpstick++;
         if (this.fpstick >= this.ticksToUpdate) {
-          this.fpsInterval = 1000 / (isNaN(this.fpslimit) ? parseInt(this.fpslimit, 10) : this.fpslimit);
+          this.fpsInterval = 1000 / (isNaN(this.fpslimit) ? parseFloat(this.fpslimit, 10) : this.fpslimit);
           //update ticks - so it will be every 3 seconds
           this.ticksToUpdate = Math.round(3000 / this.fpsInterval);
           //do correction step calculation
