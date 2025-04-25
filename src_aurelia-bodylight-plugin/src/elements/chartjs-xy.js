@@ -181,7 +181,7 @@ export class ChartjsXy extends ChartjsTime {
             if (chart.$myWrapper.lastPositionName === 'leftPoint')
               chart.$myWrapper.lastPositionName='rightPoint';
             else 
-              chart.$myWrapper.lastPositionName='left2Point';
+              chart.$myWrapper.lastPositionName='leftPoint';
             //lastPositionName?
           }
           chart.$myWrapper.setPointHighlight(null, dataIndex);
