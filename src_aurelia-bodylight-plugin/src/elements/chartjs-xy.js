@@ -178,10 +178,10 @@ export class ChartjsXy extends ChartjsTime {
           e.type === 'touchstart' ||
           e.type === 'pointerdown') {
             //first click
-            if (chart.$myWrapper.lastPositionName === 'leftPoint')
-              chart.$myWrapper.lastPositionName='rightPoint';
-            else 
-              chart.$myWrapper.lastPositionName='leftPoint';
+            //if (chart.$myWrapper.lastPositionName === 'leftPoint')
+              chart.$myWrapper.lastPositionName='noPoint';
+            //else 
+              //chart.$myWrapper.lastPositionName='leftPoint';
             //lastPositionName?
           }
           chart.$myWrapper.setPointHighlight(null, dataIndex);

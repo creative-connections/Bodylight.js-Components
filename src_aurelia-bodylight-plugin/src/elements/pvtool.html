@@ -1,14 +1,14 @@
 <template>
     <style>
-        .w3-striped-blue tbody tr:nth-child(even){background-color:#4040f0}
+        .w3-striped-blue tbody tr:nth-child(even){background-color:#a5a5ff}
     </style>
-    <div class="w3-row " style="background-color:#d9eeff;margin:30px">
+    <div class="w3-row " style="background-color:#edf5fa;margin:30px">
         <div class="w3-half">
             &nbsp;
             
             <chartjs-xy fromid.bind="fromid" labelx="pressure" labely="volume" labels="pV1,pV2,pV3" refindex.bind="refindex"
                 refvalues.bind="refvalues" width="400" height="250" convertors="1,98.0665,-1033.2276;1000000,1,-2310"
-                maxdata="256" ref="pvchart" colorindex="12" responsive="true" refpoint="true"></chartjs-xy><!--1,98.0665,-1033.2276   min="2.2" max="3.5" -->
+                maxdata="256" ref="pvchart" colorindex="0" responsive="true" refpoint="true"></chartjs-xy><!--1,98.0665,-1033.2276   min="2.2" max="3.5" -->
             
         </div>
         <div class="w3-half w3-large">
