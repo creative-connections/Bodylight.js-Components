@@ -21,7 +21,10 @@ export class RemoteValue {
     posterror = false;
     counterr = 0;
     debouncedPosts = new Map();
+    throttledPosts = new Map();
+    latestValues = new Map()
     usevuplex=false;
+    THROTTLETIMEOUT = 6000;
 
     constructor(httpclient) {
         this.client = httpclient;
@@ -47,18 +50,39 @@ export class RemoteValue {
             //post it - add targetid to URL
             //this.debouncedPost(targetid,this.postvalue);
             //console.log('postWithDebounce()',targetid,this.postvalue);
-            this.postWithDebounce(targetid,this.postvalue);
+            this.postParameterValue(targetid,this.postvalue);
         }
     // Create a debounced version of the post method
     //this.debouncedPost = _.debounce(this.post, 1000, { leading: true, trailing: false });
     }
-
+    /* Seems to be incorect
     postWithDebounce(id, value) {
+        // Always update latest value
+        this.latestValues.set(id, value);
         if (!this.debouncedPosts.has(id)) {
+          //this.latestValues = this.latestValues || new Map();
           this.debouncedPosts.set(id, _.debounce((id, value) => this.post(id, value), 2000,{ leading: true, trailing: false }));
         }
         this.debouncedPosts.get(id)(id, value);
       }
+*/
+postParameterValue(id, value) {
+    // Save latest value
+    this.latestValues.set(id, value);
+
+    if (!this.throttledPosts.has(id)) {
+      // Create throttled function per id
+      const throttledFn = _.throttle(() => {
+        const latestValue = this.latestValues.get(id);
+        this.post(id, latestValue);
+      }, this.THROTTLETIMEOUT, { leading: true, trailing: false });
+
+      this.throttledPosts.set(id, throttledFn);
+    }
+
+    // Call the throttled function
+    this.throttledPosts.get(id)();
+  }
 
     bind() {
         if (this.id) {
@@ -176,6 +200,20 @@ export class RemoteValue {
     }
 
     get() {
+        //TODO post everything
+        if (this.inputids.length > 0) {
+            for (let myid of this.inputids) {
+                const myidel = document.getElementById(myid);
+                if (myidel) {
+                    //console.log('remote-value adding listener to id',myid);
+                    const input = myidel.querySelector('input');
+                    if (input)
+                        this.postParameterValue(myid, input.value);
+                }
+                //else console.warn('cannot add listener to input for value change',myid);
+            }
+        }
+        //get pool
         if (this.usevuplex) {
             if (window.vuplex) {
                 //window.vuplex
@@ -222,7 +260,7 @@ export class RemoteValue {
 
 
     post(id,postvalue) {
-        if (this.usevuplex) {
+        if (this.usevuplex) {            
             if (window.vuplex) {
                 let message = {}//
                 message[id] =  postvalue

@@ -1,0 +1,11 @@
+<template bindable="min,max,default,step,value,title">    
+    <require from="./range2.css"></require>
+    <div class="responsive-container">
+        <label class="title">${title}</label>
+        <input show.bind="showicons"  ref="refnumber" class="w3-small" type="number" min="${min}" max="${max}" value.bind="value" value="${default}" step="${step}"/>        
+        <button show.bind="showicons" class="w3-theme w3-small" style="border:none" click.delegate="setDefault()"><i class="fa fa-refresh"></i></button>
+        <button show.bind="showicons" class="w3-theme w3-small" style="border:none" click.delegate="stepDec()"><i class="fa fa-minus"></i></button>        
+        <input ref="refinput" class="w3-theme w3-small" type="range" min="${min}" max="${max}" value.bind="value" value="${default}" step="${step}"/>
+        <button show.bind="showicons" class="w3-theme w3-small" style="border:none" click.delegate="stepInc()"><i class="fa fa-plus"></i></button>        
+    </div>        
+</template>

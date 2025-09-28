@@ -1,0 +1,29 @@
+.responsive-container {
+    display: flex;
+    flex-wrap: nowrap; /* keep items on one line */
+    gap: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+  }
+  
+  /* Title, button, and number: minimal width with no wrapping */
+  .responsive-container > label,
+  .responsive-container > button,
+  .responsive-container > input[type="number"],
+  .responsive-container > input[type="range"] {
+    white-space: nowrap; /* prevent internal text wrapping */
+  }
+  
+  .responsive-container > label,
+  .responsive-container > button,
+  .responsive-container > input[type="number"] {
+    flex: 0 0 auto; /* natural size, no grow or shrink */
+  }
+  
+  /* Range input stretches to fill remaining width */
+  .responsive-container > input[type="range"] {
+    flex: 1 1 auto; /* flexible width */
+    min-width: 0; /* allow shrinking */
+  }
+  
