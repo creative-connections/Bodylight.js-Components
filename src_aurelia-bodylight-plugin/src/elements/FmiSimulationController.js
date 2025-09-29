@@ -96,15 +96,20 @@ export class FmiSimulationController {
 
   shot(e) {
     console.log('fmi -> shot()');
+    let needsReset = false;
     if (!this.fmi.inst) {
       if (window.fmiinst && window.fmiinst[this.fmi.fminame]) {
         console.warn('fmi shot() not instantiated, do it first time');
         this.fmi.instance.instantiate();
         this.fmi.instance.initialize();
+        needsReset = true;
       } else {
         return;
       }
     } else {
+      needsReset = true;
+    }
+    if (needsReset) {
       console.log('fmi shot() doing reset');
       this.reset();
     }
@@ -114,16 +119,17 @@ export class FmiSimulationController {
   }
 
   reset() {
-    console.log('doing reset()');
-    this.fmi.stepTime = this.fmi.starttime;
-    this.fmi.stepSize = this.fmi.fmuspeed * ((typeof(this.fmi.fstepsize) === 'string' ) ? parseFloat(this.fmi.fstepsize) : this.fmi.fstepsize);
-    this.fmi.mystep = this.fmi.stepSize;
-    this.fmi.instance.setupExperiment();
-    this.fmi.fmiReset(this.fmi.fmiinst);
-    this.fmi.setInputVariables();
-    this.fmi.instance.initialize();
-    let event = new CustomEvent('fmireset');
-    document.getElementById(this.fmi.id).dispatchEvent(event);
+  console.log('doing reset()');
+  this.fmi.stepTime = this.fmi.starttime;
+  this.fmi.stepSize = this.fmi.fmuspeed * ((typeof(this.fmi.fstepsize) === 'string' ) ? parseFloat(this.fmi.fstepsize) : this.fmi.fstepsize);
+  this.fmi.mystep = this.fmi.stepSize;
+  //this.fmi.instance.setupExperiment(); swapped with fmiReset to avoid problems with some FMUs
+  this.fmi.fmiReset(this.fmi.fmiinst);
+  this.fmi.instance.setupExperiment();
+  this.fmi.setInputVariables();
+  this.fmi.instance.initialize();
+  let event = new CustomEvent('fmireset');
+  document.getElementById(this.fmi.id).dispatchEvent(event);
   }
 
   softreset() {

@@ -120,9 +120,36 @@ export class Fmi {
   }
 
   reset(...args) {
-    if (this.simulationController && typeof this.simulationController.reset === 'function') {
-      return this.simulationController.reset(...args);
+    // Full reset logic, matching fmi-old.js
+    this.stepTime = this.starttime;
+    this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
+    this.mystep = this.stepSize;
+    this.stepi = 0;
+    this.fpstick = 0;
+    this.fmuspeedalreadychanged = false;
+    this.animationstarted = false;
+    this.measurefps = false;
+    this.fps = 0;
+    this.simulationtime = '';
+    this.simplecontrols = false;
+    // Always use the latest FMU instance
+    if (window.fmiinst && window.fmiinst[this.fminame]) this.inst = window.fmiinst[this.fminame].inst;
+    // Setup experiment, reset, set input variables, initialize
+    if (this.instance && typeof this.instance.setupExperiment === 'function') {
+      this.instance.setupExperiment();
     }
+    if (typeof this.fmiReset === 'function' && this.fmiinst) {
+      this.fmiReset(this.fmiinst);
+    }
+    if (typeof this.setInputVariables === 'function') {
+      this.setInputVariables();
+    }
+    if (this.instance && typeof this.instance.initialize === 'function') {
+      this.instance.initialize();
+    }
+    // Dispatch reset event
+    let event = new CustomEvent('fmireset');
+    document.getElementById(this.id).dispatchEvent(event);
   }
 // Aurelia lifecycle: bind
   bind() {
@@ -305,6 +332,7 @@ export class Fmi {
     // get seconds
     console.warn("Simulation took "+ timeDiff + " seconds");
   }
+
   fmuspeedChanged(newValue) {
     console.log('Changing simulation speed of '+this.id+ ' from '+this.fmuspeed+' to '+newValue);
     this.fmuspeedalreadychanged = true;
@@ -443,6 +471,80 @@ export class Fmi {
   stopSimulation() {
     if (this.simulationController && typeof this.simulationController.stopSimulation === 'function') {
       return this.simulationController.stopSimulation();
+    }
+  }
+
+  /**
+   * Adds a real value to setRealQueue, ported from fmi-old.js
+   */
+  setSingleReal(reference, value) {
+    console.log('setSingleReal reference,value', reference, value);
+    if (!this.setRealQueue) {
+      this.setRealQueue = {
+        references: [],
+        values: []
+      };
+    }
+    this.setRealQueue.references.push(reference);
+    this.setRealQueue.values.push(value);
+  }
+
+  /**
+   * Flushes the setRealQueue and writes values to FMU, ported from fmi-old.js
+   */
+  flushRealQueue() {
+    if (this.setRealQueue) {
+      const referenceBuffer = this.createAndFillBuffer(new Int32Array(this.setRealQueue.references));
+      const references = this.viewBuffer(referenceBuffer);
+      const valueBuffer = this.createAndFillBuffer(new Float64Array(this.setRealQueue.values));
+      const values = this.viewBuffer(valueBuffer);
+      this.setReal(references, values, this.setRealQueue.references.length);
+      this.freeBuffer(referenceBuffer);
+      this.freeBuffer(valueBuffer);
+      this.setRealQueue = false;
+    }
+  }
+
+  /**
+   * Allocates a buffer in the FMU's memory and fills it with the given typed array.
+   * Ported from fmi-old.js
+   */
+  createAndFillBuffer(typedArray) {
+  // Allocate buffer in FMU memory (use buffer object for compatibility)
+  const nBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
+  const ptr = this.inst._malloc(nBytes);
+  // Copy data to FMU memory
+  const heap = this.inst.HEAPU8;
+  const src = new Uint8Array(typedArray.buffer);
+  heap.set(src, ptr);
+  // Return buffer object for compatibility with old code
+  return { ptr, size: nBytes };
+  }
+
+  /**
+   * Returns a view of the buffer at the given pointer, matching the type of the input array.
+   * Ported from fmi-old.js
+   */
+  viewBuffer(ptr, type = Float64Array, length = 0) {
+    // Return a Uint8Array view for compatibility with old code
+    if (typeof ptr === 'object' && ptr.ptr !== undefined && ptr.size !== undefined) {
+      return new Uint8Array(this.inst.HEAPU8.buffer, ptr.ptr, ptr.size);
+    }
+    // fallback: just return the pointer
+    return ptr;
+  }
+
+  /**
+   * Frees a buffer previously allocated in FMU memory.
+   * Ported from fmi-old.js
+   */
+  freeBuffer(ptr) {
+    if (typeof ptr === 'object' && ptr.ptr !== undefined) {
+      this.inst._free(ptr.ptr);
+      ptr.ptr = null;
+      ptr.size = null;
+    } else {
+      this.inst._free(ptr);
     }
   }
 
