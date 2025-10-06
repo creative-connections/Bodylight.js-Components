@@ -19,6 +19,7 @@ export function configure(config) {
     PLATFORM.moduleName('./elements/chartjs'),
     PLATFORM.moduleName('./elements/chartjs-time'),
     PLATFORM.moduleName('./elements/chartjs-time-error'),    
+    PLATFORM.moduleName('./elements/chartjs-time-ci'),
     PLATFORM.moduleName('./elements/chartjs-xy'),
     PLATFORM.moduleName('./elements/chartjs-xy-points'),
     PLATFORM.moduleName('./elements/chartjs-barplot'),

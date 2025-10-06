@@ -156,37 +156,27 @@ export class ChartjsXy extends ChartjsTime {
         // This runs after Chart.js processes the user event 
         // (mouse move, click, etc.) and determines active elements.
         afterEvent: function(chart, e) {
-          const active = chart.tooltip._active || [];
-          if (!active.length) {
-            // No nearest point
-            return;
-          }
-      
-          // The nearest point is active[0].
-          const nearest = active[0];
-          const datasetIndex = nearest._datasetIndex;
-          const dataIndex = nearest._index;
-      
-          // Access the raw data from the dataset
-          const pointData = chart.data.datasets[datasetIndex].data[dataIndex];
-      
-          // Do something with the nearest point...
-          //console.log('Nearest point data:', pointData,e);
-          // e.g., highlight it or store it
-          // chart.$myWrapper is the instance of MyChartWrapper
-          if (e.type==='click'||
-          e.type === 'touchstart' ||
-          e.type === 'pointerdown') {
-            //first click
-            //if (chart.$myWrapper.lastPositionName === 'leftPoint')
-              chart.$myWrapper.lastPositionName='noPoint';
-            //else 
-              //chart.$myWrapper.lastPositionName='leftPoint';
-            //lastPositionName?
-          }
-          chart.$myWrapper.setPointHighlight(null, dataIndex);
+  // Skip if no $myWrapper or method
+  if (!chart.$myWrapper || typeof chart.$myWrapper.setPointHighlight !== 'function') {
+    return;
+  }
 
-        }
+  const active = chart.tooltip._active || [];
+  if (!active.length) return;
+
+  const nearest = active[0];
+  const datasetIndex = nearest._datasetIndex;
+  const dataIndex = nearest._index;
+
+  const pointData = chart.data.datasets[datasetIndex].data[dataIndex];
+
+  if (e.type === 'click' || e.type === 'touchstart' || e.type === 'pointerdown') {
+    chart.$myWrapper.lastPositionName = 'noPoint';
+  }
+
+  chart.$myWrapper.setPointHighlight(null, dataIndex);
+}
+
       };
       Chart.pluginService.register(highlightNearestPlugin)
     }
