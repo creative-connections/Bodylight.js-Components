@@ -33,6 +33,7 @@ export class Chartjs {
   @bindable responsive = false; //false - to keep width and height, true - to rescale
 
   @bindable throttle = 200; //time to throttle chart update, if it is too much at once
+  @bindable trailing = false; //if true, updatechart only after no data for throttle ms
   @bindable precision = 4;
   @bindable min; //min for y axis - if chart has this axis
   @bindable max; //max for y axis - if chart has this axis
@@ -109,7 +110,7 @@ export class Chartjs {
    */
   //  const hue = (i - 1) * 137.508; // use golden angle approximation
   //  var color = `hsl(${hue},85%,91%)`;
-  selectColor(index, saturation = 55, lightness = 55,transparency=1) {
+  selectColor(index, saturation = 55, lightness = 55, transparency = 1) {
     const hue = (index - 1) * 137.508; // use golden angle approximation
     return `hsla(${hue},${saturation}%,${lightness}%,${transparency})`;
   }
@@ -274,10 +275,10 @@ export class Chartjs {
       legend: {
         display: !(this.minichart),
         position: 'top',
-        labels:{
-          boxWidth:8, //40 default
-          fontSize:10, //12 default
-          padding:2 //10 default
+        labels: {
+          boxWidth: 8, //40 default
+          fontSize: 10, //12 default
+          padding: 2 //10 default
         }
       },
       animation: animopts,
@@ -324,7 +325,7 @@ export class Chartjs {
       }
       this.options.events = ['mousemove', 'touchstart', 'touchmove', 'click'];
     } else {
-      this.options.tooltips = { enabled: false}
+      this.options.tooltips = { enabled: false }
       this.options.events = []
     }
     //sets boolean value - if verticalline attribute is set
@@ -359,7 +360,7 @@ export class Chartjs {
       //if (this.min) this.options.scales.yAxes[0].ticks.stepSize = (this.options.scales.yAxes[0].ticks.max - this.options.scales.yAxes[0].ticks.min) / 10;
     }
 
-    
+
     /*if (this.minichart) {
       this.options.plugins.legend.display = false
     }*/
@@ -371,28 +372,29 @@ export class Chartjs {
     if (fromel) {
       fromel.addEventListener('fmidata', this.handleValueChange);
       fromel.addEventListener('fmireset', this.handleReset);
-// Listen to your custom events (attach these listeners where appropriate)
-fromel.addEventListener('fmistart', () => {
-  if(this.chart) {
-    this.chart.options.tooltips.enabled = false;  // disable tooltips
-    this.chart.options.hover.mode = null;               // disable hover interaction
-    this.chart.options.hover.animationDuration = 0;     // disable hover animations    
-        // Disable interaction events on the canvas
-    this.chart.canvas.style.pointerEvents = 'none';
-    this.chart.update(0);                          // immediate update to apply change
-  }
-});
+      // Listen to your custom events (attach these listeners where appropriate)
+      fromel.addEventListener('fmistart', () => {
+        if (this.chart) {
+          this.chart.options.tooltips.enabled = false;  // disable tooltips
+          this.chart.options.hover.mode = null;               // disable hover interaction
+          this.chart.options.hover.animationDuration = 0;     // disable hover animations    
+          // Disable interaction events on the canvas
+          this.chart.canvas.style.pointerEvents = 'none';
+          this.chart.update(0);                          // immediate update to apply change
+        }
+      });
 
-fromel.addEventListener('fmistop', () => {
-  if(this.chart) {
-    this.chart.options.tooltips.enabled = true;   // re-enable tooltips
-    this.chart.options.hover.mode = 'nearest';           // restore hover mode
-//    this.chart.options.hover.animationDuration = 400;    // restore animation duration default    
-    this.chart.canvas.style.pointerEvents = 'auto'; // re-enable interactions
+      fromel.addEventListener('fmistop', () => {
+        if (this.chart) {
+          console.log('chartjs fmistop()');
+          this.chart.options.tooltips.enabled = true;   // re-enable tooltips
+          this.chart.options.hover.mode = 'nearest';           // restore hover mode
+          //    this.chart.options.hover.animationDuration = 400;    // restore animation duration default    
+          this.chart.canvas.style.pointerEvents = 'auto'; // re-enable interactions
 
-    this.chart.update(0);                          // immediate update to apply change
-  }
-});      
+          this.chart.update(0);                          // immediate update to apply change
+        }
+      });
     } else {
       console.warn('chartjs, null fromid element, waiting to be attached');
       document.addEventListener('fmiattached', this.handleFMIAttached);
@@ -628,24 +630,39 @@ fromel.addEventListener('fmistop', () => {
     });
     //register throttled update function
     if (typeof this.throttle === 'string') this.throttle = parseInt(this.throttle, 10);
+    let mytrailing = false;
+    if (typeof this.trailing === 'string') mytrailing = this.trailing === 'true';
+    else mytrailing = !!this.trailing;
 
-if (this.throttle > 0) {
-  this.updatechart = _.throttle(() => {
-    if (this.chart.tooltip) {
-      this.chart.tooltip._active = [];
-      this.chart.active = [];
+    if (this.throttle > 0) {
+      if (mytrailing) {
+        // trailing only: update only after no data for throttle ms
+        this.updatechart = _.throttle(() => {
+          if (this.chart.tooltip) {
+            this.chart.tooltip._active = [];
+            this.chart.active = [];
+          }
+          this.chart.update(0);
+        }, this.throttle, { leading: false, trailing: true });
+      } else {
+        // default throttle: update at most once per throttle ms
+        this.updatechart = _.throttle(() => {
+          if (this.chart.tooltip) {
+            this.chart.tooltip._active = [];
+            this.chart.active = [];
+          }
+          this.chart.update(0);
+        }, this.throttle);
+      }
+    } else {
+      this.updatechart = () => {
+        if (this.chart.tooltip) {
+          this.chart.tooltip._active = [];
+          this.chart.active = [];
+        }
+        this.chart.update(0);
+      };
     }
-    this.chart.update(0);
-  }, this.throttle);
-} else {
-  this.updatechart = () => {
-    if (this.chart.tooltip) {
-      this.chart.tooltip._active = [];
-      this.chart.active = [];
-    }
-    this.chart.update(0);
-  };
-}
     // console.log('chartjs data', this.data);
     /*    //now delay tooltip
         let originalShowTooltip = that.chart.showTooltip;

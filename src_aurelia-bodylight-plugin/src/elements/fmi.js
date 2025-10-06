@@ -28,7 +28,7 @@ export class Fmi {
   @bindable fpslimit = 60;
   @bindable showtime = false;
   @bindable showtimemultiply = 1;
-  @bindable eventlisten = 'input';
+  @bindable eventlisten = 'input'; //default 'input' or 'change'
   @bindable mode="continuous";
   @bindable stepsperframe = 1;
   @bindable startafter = 0;
@@ -81,7 +81,7 @@ export class Fmi {
     this.handleShot = (e) => this.eventHandlers.handleShot(e);
     this.handleStep = (e) => this.eventHandlers.handleStep(e);
     this.debounceStep = _.debounce(this.handleStep, 1000);
-    this.debounceShot = _.debounce(this.handleShot, 1000);
+    this.debounceShot = _.debounce(this.handleShot, 50);
     this.handleRegister = () => this.eventHandlers.handleRegister();
     this.inst = false;
   }
@@ -378,7 +378,8 @@ export class Fmi {
    * Sets input variables for the FMU, ported from fmi-old.js
    */
 
-  setInputVariables() {
+  setInputVariables(resetAfterChange = false) {
+    console.log('fmi.setInputVariables() '+resetAfterChange);
     for (let key in this.changeinputs) {
       let myinputs = this.changeinputs[key];
       if (this.inputreferences && this.inputreferences[myinputs.id]) {
@@ -390,7 +391,8 @@ export class Fmi {
       }
     }
     if (typeof this.flushRealQueue === 'function') this.flushRealQueue();
-    if (!this.isOneshot && !this.isOnestep) {
+    //TODO: investigate why this was here
+    if (resetAfterChange || (!this.isOneshot && !this.isOnestep)) {
       this.changeinputs = {};
     }
   }

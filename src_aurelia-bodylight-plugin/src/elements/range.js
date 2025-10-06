@@ -1,4 +1,4 @@
-import {bindable} from 'aurelia-framework';
+import { bindable } from 'aurelia-framework';
 import _ from "lodash";
 
 export class Range {
@@ -39,13 +39,13 @@ export class Range {
             if (this.fromid) {
                 if (this.refindex) {
                     if (this.refconditionvar) {
-                        console.log('range handleValueChange() conditionvar '+this.refconditionvar+' conditionvalue '+this.refconditionvalue+' actual value:'+e.detail.data[this.refconditionvar]);
-                        if (e.detail.data[this.refconditionvar]  != this.refconditionvalue) {
+                        console.log('range handleValueChange() conditionvar ' + this.refconditionvar + ' conditionvalue ' + this.refconditionvalue + ' actual value:' + e.detail.data[this.refconditionvar]);
+                        if (e.detail.data[this.refconditionvar] != this.refconditionvalue) {
                             console.log('range condition not met');
                             return;
                         }
                     }
-                    let rawdata = e.detail.data[this.refindex];                    
+                    let rawdata = e.detail.data[this.refindex];
                     this.value = this.operation[0](rawdata);
                     //  else this.value = rawdata;
                     //console.log('Range received rawdata '+rawdata+' converted value '+this.value);
@@ -125,6 +125,15 @@ export class Range {
             this.updatevalue = this.setCurrentValue.bind(this);
         }
         if (typeof this.initdefault === 'string') this.initdefault = this.initdefault === 'true';
+        // In bind()
+        this.debouncedDispatch = _.debounce(() => {
+            if (this.refinput) {
+                this.refinput.dispatchEvent(new Event(this.fireevent, {
+                    bubbles: true,
+                    cancelable: true
+                }));
+            }
+        }, 100); // 100ms debounce        
     }
 
     attached() {
@@ -139,17 +148,17 @@ export class Range {
             //add event listener
             const fromidel = document.getElementById(this.fromid)
             if (fromidel) fromidel.addEventListener('fmidata', this.handleValueChange)
-            else console.warn('range fromid element not found with id:',this.fromid);
+            else console.warn('range fromid element not found with id:', this.fromid);
 
         }
         //send event about default value        
-        if (this.initdefault) this.checkSetDefault(); 
+        if (this.initdefault) this.checkSetDefault();
     }
 
-    checkSetDefault(){
+    checkSetDefault() {
         if (window.thisfmi) this.setDefault();
         else {
-         if (this.counterToInit-- > 0 ) _.debounce(this.checkSetDefault.bind(this), 1000); //try after 1 s but only 5 times
+            if (this.counterToInit-- > 0) _.debounce(this.checkSetDefault.bind(this), 1000); //try after 1 s but only 5 times
         }
     }
 
@@ -161,10 +170,7 @@ export class Range {
         if (this.refnumber) this.refnumber.value = value;
         if (this.refinput) {
             this.refinput.value = value;
-            this.refinput.dispatchEvent(new Event(this.fireevent, {
-                bubbles: true,
-                cancelable: true                
-            }));
+            this.debouncedDispatch();
         }
     }
 
@@ -173,6 +179,9 @@ export class Range {
     }
 
     valueChanged(newValue, oldValue) {
+        console.log('range valueChanged() newValue,oldValue:', newValue, oldValue);
+        if (newValue === oldValue) return; // Only act on real changes  
+        //TODO check if it works in all cases - range is sometimes updated from outside
         //if (oldValue !== newValue)
         if (this.ids) {
             //semaphore only one change in time is allowed
@@ -183,11 +192,11 @@ export class Range {
                 for (let i = 0; i < this.ids2send.length; i++) {
                     let inputel = document.getElementById(this.ids2send[i]);
                     if (inputel) {
-                    inputel.value = this.operation[i](newValue);
-                    console.log('range valuechange id,converted value:', this.ids2send[i], inputel.value);
-                    let event = new Event(this.fireevent);
-                    inputel.dispatchEvent(event);
-                    } else { console.warn('inputel not found for id', this,ids2send[i])}
+                        inputel.value = this.operation[i](newValue);
+                        console.log('range valuechange id,converted value:', this.ids2send[i], inputel.value);
+                        let event = new Event(this.fireevent);
+                        inputel.dispatchEvent(event);
+                    } else { console.warn('inputel not found for id', this, ids2send[i]) }
                 }
                 window.rangebinding = false;
             }
@@ -197,7 +206,7 @@ export class Range {
             if (this.globalanim) {
                 if (this.animobj) {
                     //animate local object
-                    if (!window.ani.animationstarted ) window.ani.enableAnimation();
+                    if (!window.ani.animationstarted) window.ani.enableAnimation();
 
                     if (window.ani) window.ani.setAnimationValue(this.animobj, newValue);
                 }
@@ -205,8 +214,8 @@ export class Range {
                     //animate globally
                     if (window.ani && window.ani.exportRoot) {
                         for (animchild of window.ani.exportRoot.children) {
-                        if (typeof animchild.gotoAndStop === 'function')
-                           animchild.gotoAndStop (newValue);                    
+                            if (typeof animchild.gotoAndStop === 'function')
+                                animchild.gotoAndStop(newValue);
                         }
                     }
                 }
