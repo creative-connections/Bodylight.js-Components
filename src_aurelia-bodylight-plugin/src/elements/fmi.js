@@ -378,8 +378,8 @@ export class Fmi {
    * Sets input variables for the FMU, ported from fmi-old.js
    */
 
-  setInputVariables(resetAfterChange = false) {
-    console.log('fmi.setInputVariables() '+resetAfterChange);
+  setInputVariables() {
+    console.log('fmi.setInputVariables()');//+resetAfterChange);
     for (let key in this.changeinputs) {
       let myinputs = this.changeinputs[key];
       if (this.inputreferences && this.inputreferences[myinputs.id]) {
@@ -391,8 +391,8 @@ export class Fmi {
       }
     }
     if (typeof this.flushRealQueue === 'function') this.flushRealQueue();
-    //TODO: investigate why this was here
-    if (resetAfterChange || (!this.isOneshot && !this.isOnestep)) {
+    //TODO: investigate why this was here, because oneshot/onestep needs to keep changes
+    if (!this.isOneshot && !this.isOnestep) {
       this.changeinputs = {};
     }
   }

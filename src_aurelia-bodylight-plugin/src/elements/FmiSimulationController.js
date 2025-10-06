@@ -44,13 +44,15 @@ export class FmiSimulationController {
         if (this.fmi.resetBeforeChange) {
           this.fmi.instance.setupExperiment();
           this.fmi.fmiReset(this.fmi.fmiinst);
-          this.fmi.setInputVariables(true);
+          this.fmi.setInputVariables();
           this.fmi.instance.initialize();
           if (!this.fmi.isOnestep) this.fmi.fmiDoStep(this.fmi.fmiinst, this.fmi.starttime, this.fmi.stepTime, 1);
           else this.fmi.stepTime = this.fmi.starttime;
           this.fmi.resetBeforeChange = false;
         } else {
-          this.fmi.setInputVariables(true);
+
+          if (!this.fmi.isOneshot) //oneshot keeps changes,no need to set it each step
+            this.fmi.setInputVariables();
         }
         const res = this.fmi.fmiDoStep(this.fmi.fmiinst, this.fmi.stepTime, this.fmi.mystep, 1);
         this.fmi.stepTime = this.fmi.stepTime + this.fmi.mystep;
