@@ -5,6 +5,7 @@ import { FmiBufferManager } from './FmiBufferManager.js';
 import { FmiSimulationController } from './FmiSimulationController.js';
 import { FmiInstance } from './FmiInstance.js';
 import { FmiEventHandlers } from './FmiEventHandlers.js';
+import { FmiBufferUtils } from './FmiBufferUtils.js';
 
 export const thirdpartytimeout = 5000;
 
@@ -36,43 +37,19 @@ export class Fmi {
   @bindable fmuspeed2after=10;
   @bindable debug = 0;
 
-  // Expose all properties used in the template
-  animationstarted = false;
-  measurefps = false;
-  fps = 0;
-  simulationtime = '';
-  simplecontrols = false;
-
-  // Ensure compatibility with template bindings
-  get showcontrols() { return this._showcontrols; }
-  set showcontrols(val) { this._showcontrols = val; }
-  get fmuspeed() { return this._fmuspeed; }
-  set fmuspeed(val) { this._fmuspeed = val; }
-  get fpslimit() { return this._fpslimit; }
-  set fpslimit(val) { this._fpslimit = val; }
-  get showtime() { return this._showtime; }
-  set showtime(val) { this._showtime = val; }
-  get simulationtime() { return this._simulationtime; }
-  set simulationtime(val) { this._simulationtime = val; }
-  get animationstarted() { return this._animationstarted; }
-  set animationstarted(val) { this._animationstarted = val; }
-  get measurefps() { return this._measurefps; }
-  set measurefps(val) { this._measurefps = val; }
-  get fps() { return this._fps; }
-  set fps(val) { this._fps = val; }
-  get simplecontrols() { return this._simplecontrols; }
-  set simplecontrols(val) { this._simplecontrols = val; }
+  // Properties referenced in fmi.html (initialized in constructor)
 
   // Initialize backing fields in constructor
 
   constructor() {
+    // Submodules
     this.inputManager = new FmiInputManager(this);
     this.bufferManager = new FmiBufferManager(this);
     this.simulationController = new FmiSimulationController(this);
     this.instance = new FmiInstance(this);
     this.eventHandlers = new FmiEventHandlers(this);
 
-    // Backing fields for template properties
+    // State and backing fields (consolidated)
     this._showcontrols = true;
     this._fmuspeed = 1;
     this._fpslimit = 60;
@@ -82,8 +59,11 @@ export class Fmi {
     this._measurefps = false;
     this._fps = 0;
     this._simplecontrols = false;
-
-    // Original Fmi constructor logic
+    this.animationstarted = false;
+    this.measurefps = false;
+    this.fps = 0;
+    this.simulationtime = '';
+    this.simplecontrols = false;
     this.cosimulation = 1;
     this.stepSize = 0.01;
     this.doingstep = false;
@@ -93,33 +73,33 @@ export class Fmi {
     this.isOneshot = false;
     this.isOnestep = false;
     this.changeinputs = {};
-  // Register event handler methods as arrow functions for event listeners, delegating to eventHandlers
-  this.handleValueChange = (e) => this.eventHandlers.handleValueChange(e);
-  this.handleDetailChange = (e) => this.eventHandlers.handleDetailChange(e);
-  this.handleStart = (e) => this.eventHandlers.handleStart(e);
-  this.handleStop = (e) => this.eventHandlers.handleStop(e);
-  this.handleShot = (e) => this.eventHandlers.handleShot(e);
-  this.handleStep = (e) => this.eventHandlers.handleStep(e);
-  this.debounceStep = _.debounce(this.handleStep, 1000);
-  this.debounceShot = _.debounce(this.handleShot, 1000);
-  this.handleRegister = () => this.eventHandlers.handleRegister();
+    // Register event handler methods as arrow functions for event listeners, delegating to eventHandlers
+    this.handleValueChange = (e) => this.eventHandlers.handleValueChange(e);
+    this.handleDetailChange = (e) => this.eventHandlers.handleDetailChange(e);
+    this.handleStart = (e) => this.eventHandlers.handleStart(e);
+    this.handleStop = (e) => this.eventHandlers.handleStop(e);
+    this.handleShot = (e) => this.eventHandlers.handleShot(e);
+    this.handleStep = (e) => this.eventHandlers.handleStep(e);
+    this.debounceStep = _.debounce(this.handleStep, 1000);
+    this.debounceShot = _.debounce(this.handleShot, 1000);
+    this.handleRegister = () => this.eventHandlers.handleRegister();
     this.inst = false;
   }
   // Methods for template click.delegate bindings
-  startstop(...args) {
+  startstop() {
     if (this.simulationController && typeof this.simulationController.startstop === 'function') {
       return this.simulationController.startstop(...args);
     }
     // fallback: legacy logic if needed
   }
 
-  step(...args) {
+  step() {
     if (this.simulationController && typeof this.simulationController.step === 'function') {
       return this.simulationController.step(...args);
     }
   }
 
-  reset(...args) {
+  reset() {
     // Full reset logic, matching fmi-old.js
     this.stepTime = this.starttime;
     this.stepSize = this.fmuspeed * ((typeof(this.fstepsize) === 'string' ) ? parseFloat(this.fstepsize) : this.fstepsize);
@@ -147,9 +127,7 @@ export class Fmi {
     if (this.instance && typeof this.instance.initialize === 'function') {
       this.instance.initialize();
     }
-    // Dispatch reset event
-    let event = new CustomEvent('fmireset');
-    document.getElementById(this.id).dispatchEvent(event);
+  this.dispatchFmiEvent('fmireset');
   }
 // Aurelia lifecycle: bind
   bind() {
@@ -255,9 +233,7 @@ export class Fmi {
     }
     document.addEventListener('fmiregister', this.handleRegister);
     document.addEventListener('dostep', this.handleStep);
-    // Dispatch attached event
-    let event = new CustomEvent('fmiattached');
-    document.dispatchEvent(event);
+  this.dispatchFmiEvent('fmiattached', true);
   }
 
   // Aurelia lifecycle: detached
@@ -364,18 +340,29 @@ export class Fmi {
   sendStartEvent() {
     //create custom event
     console.log('fmi.sendStartEvent(). Sending start event for adobeobj');
-    let event = new CustomEvent('fmistart', {detail: {time: this.round(this.stepTime, this.pow)}});
-    //dispatch event - it should be listened by some other component
-    document.getElementById(this.id).dispatchEvent(event);
+    this.dispatchFmiEvent('fmistart', false, {time: this.round(this.stepTime, this.pow)});
     //animate using requestAnimationFrame
   }
 
   //sends fmistop event
   sendStopEvent() {
-    //create custom event
-    let event = new CustomEvent('fmistop', {detail: {time: this.round(this.stepTime, this.pow)}});
-    //dispatch event - it should be listened by some other component
-    document.getElementById(this.id).dispatchEvent(event);
+    this.dispatchFmiEvent('fmistop', false, {time: this.round(this.stepTime, this.pow)});
+  }
+
+  /**
+   * Helper to DRY event dispatching logic.
+   * @param {string} eventName - Name of the event to dispatch
+   * @param {boolean} [global=false] - If true, dispatches on document; else, on this.id element
+   * @param {object} [detail] - Optional detail for CustomEvent
+   */
+  dispatchFmiEvent(eventName, global = false, detail = undefined) {
+    const event = detail ? new CustomEvent(eventName, { detail }) : new CustomEvent(eventName);
+    if (global) {
+      document.dispatchEvent(event);
+    } else {
+      const el = document.getElementById(this.id);
+      if (el) el.dispatchEvent(event);
+    }
   }
   /**
    * Sets input variables for the FMU, ported from fmi-old.js
@@ -510,42 +497,15 @@ export class Fmi {
    * Ported from fmi-old.js
    */
   createAndFillBuffer(typedArray) {
-  // Allocate buffer in FMU memory (use buffer object for compatibility)
-  const nBytes = typedArray.length * typedArray.BYTES_PER_ELEMENT;
-  const ptr = this.inst._malloc(nBytes);
-  // Copy data to FMU memory
-  const heap = this.inst.HEAPU8;
-  const src = new Uint8Array(typedArray.buffer);
-  heap.set(src, ptr);
-  // Return buffer object for compatibility with old code
-  return { ptr, size: nBytes };
+    return FmiBufferUtils.createAndFillBuffer(this.inst, typedArray);
   }
 
-  /**
-   * Returns a view of the buffer at the given pointer, matching the type of the input array.
-   * Ported from fmi-old.js
-   */
   viewBuffer(ptr, type = Float64Array, length = 0) {
-    // Return a Uint8Array view for compatibility with old code
-    if (typeof ptr === 'object' && ptr.ptr !== undefined && ptr.size !== undefined) {
-      return new Uint8Array(this.inst.HEAPU8.buffer, ptr.ptr, ptr.size);
-    }
-    // fallback: just return the pointer
-    return ptr;
+    return FmiBufferUtils.viewBuffer(this.inst, ptr);
   }
 
-  /**
-   * Frees a buffer previously allocated in FMU memory.
-   * Ported from fmi-old.js
-   */
   freeBuffer(ptr) {
-    if (typeof ptr === 'object' && ptr.ptr !== undefined) {
-      this.inst._free(ptr.ptr);
-      ptr.ptr = null;
-      ptr.size = null;
-    } else {
-      this.inst._free(ptr);
-    }
+    FmiBufferUtils.freeBuffer(this.inst, ptr);
   }
 
 }
