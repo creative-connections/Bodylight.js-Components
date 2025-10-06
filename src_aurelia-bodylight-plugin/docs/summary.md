@@ -15,6 +15,7 @@
       * [Capillary](#usersguide/capillary.md)
       * [ChartJS](#usersguide/chartjs.md)
       * [ChartJS Barplot $CO_2$](#usersguide/chartjsbarplot.md)
+      * [ChartJS error band](#usersguide/chartjs_error_band.md)
       * [Dygraph](#usersguide/dygraph.md)
       * [Plotly](#usersguide/plotly.md)
       * [ECG](#usersguide/ecg.md)

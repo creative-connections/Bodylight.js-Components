@@ -109,9 +109,9 @@ export class Chartjs {
    */
   //  const hue = (i - 1) * 137.508; // use golden angle approximation
   //  var color = `hsl(${hue},85%,91%)`;
-  selectColor(index, saturation = 55, lightness = 55) {
+  selectColor(index, saturation = 55, lightness = 55,transparency=1) {
     const hue = (index - 1) * 137.508; // use golden angle approximation
-    return `hsl(${hue},${saturation}%,${lightness}%)`;
+    return `hsla(${hue},${saturation}%,${lightness}%,${transparency})`;
   }
 
 
@@ -273,7 +273,12 @@ export class Chartjs {
       responsive: this.responsive, //true - rescale, false - will keep canvas width and height
       legend: {
         display: !(this.minichart),
-        position: 'top'
+        position: 'top',
+        labels:{
+          boxWidth:8, //40 default
+          fontSize:10, //12 default
+          padding:2 //10 default
+        }
       },
       animation: animopts,
 
@@ -287,7 +292,9 @@ export class Chartjs {
         mode: 'index',
         intersect: false,
         titleFontFamily: 'Open Sans',
+        titleFontSize: 10,
         backgroundColor: 'rgba(0,0,0,0.3)',
+        bodyFontSize: 10,
         //titleFontColor: 'red',
         caretSize: 5,
         cornerRadius: 4,
@@ -302,7 +309,14 @@ export class Chartjs {
             if (typeof value === 'number') return value.toPrecision(4); //TODO this.precision is not accessible from here
             return value;
           }
-        }
+        },
+        // This is called when tooltip leaves an element
+        /*onLeave: function(event, tooltipItem) {
+          if (tooltipItem.length === 0) {
+            this._chart.tooltip._active = [];
+            this._chart.update();
+          }
+        }*/
       };
       this.options.hover = {
         animationDuration: 0, //disable animation on hover - e.g. for tooltips
@@ -357,6 +371,28 @@ export class Chartjs {
     if (fromel) {
       fromel.addEventListener('fmidata', this.handleValueChange);
       fromel.addEventListener('fmireset', this.handleReset);
+// Listen to your custom events (attach these listeners where appropriate)
+fromel.addEventListener('fmistart', () => {
+  if(this.chart) {
+    this.chart.options.tooltips.enabled = false;  // disable tooltips
+    this.chart.options.hover.mode = null;               // disable hover interaction
+    this.chart.options.hover.animationDuration = 0;     // disable hover animations    
+        // Disable interaction events on the canvas
+    this.chart.canvas.style.pointerEvents = 'none';
+    this.chart.update(0);                          // immediate update to apply change
+  }
+});
+
+fromel.addEventListener('fmistop', () => {
+  if(this.chart) {
+    this.chart.options.tooltips.enabled = true;   // re-enable tooltips
+    this.chart.options.hover.mode = 'nearest';           // restore hover mode
+//    this.chart.options.hover.animationDuration = 400;    // restore animation duration default    
+    this.chart.canvas.style.pointerEvents = 'auto'; // re-enable interactions
+
+    this.chart.update(0);                          // immediate update to apply change
+  }
+});      
     } else {
       console.warn('chartjs, null fromid element, waiting to be attached');
       document.addEventListener('fmiattached', this.handleFMIAttached);
@@ -555,6 +591,23 @@ export class Chartjs {
             for (let obj in window.lazyInitChart) obj.initChart().bind(obj);
         }
      */
+    //add listener to canvas to switch off tooltips on mouseout
+    /*if (this.chartcanvas) {
+      this.chartcanvas.addEventListener('mouseout', e => {
+        console.log('chartjs mouseout');
+        if (this.chart) {
+            // Safely clear active tooltip elements
+            this.chart.tooltip._active = [];//setActiveElements([], {x: 0, y: 0});
+            // Update chart immediately without animation
+            // Delay update to prevent race condition causing tooltip errors
+            setTimeout(() => {
+              //myChart.update(0);
+              this.chart.update({duration: 0});
+            }, 100); // a 10ms delay works reliably
+            
+        }
+      });
+    }*/
 
   }
 
@@ -576,11 +629,23 @@ export class Chartjs {
     //register throttled update function
     if (typeof this.throttle === 'string') this.throttle = parseInt(this.throttle, 10);
 
-    if (this.throttle > 0) {//throttle
-      this.updatechart = _.throttle(this.chart.update.bind(this.chart), this.throttle);
-    } else {//directly call chart update
-      this.updatechart = this.chart.update.bind(this.chart);
+if (this.throttle > 0) {
+  this.updatechart = _.throttle(() => {
+    if (this.chart.tooltip) {
+      this.chart.tooltip._active = [];
+      this.chart.active = [];
     }
+    this.chart.update(0);
+  }, this.throttle);
+} else {
+  this.updatechart = () => {
+    if (this.chart.tooltip) {
+      this.chart.tooltip._active = [];
+      this.chart.active = [];
+    }
+    this.chart.update(0);
+  };
+}
     // console.log('chartjs data', this.data);
     /*    //now delay tooltip
         let originalShowTooltip = that.chart.showTooltip;
