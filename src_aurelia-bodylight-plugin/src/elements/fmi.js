@@ -263,21 +263,31 @@ export class Fmi {
     // Fills variables into message returned by the FMU, the C way
     const formatMessage = (message1, other1) => {
       // get a new pointer
-      let ptr = this.fmi.inst._malloc(1);
+      let ptr = this.inst._malloc(1);
       // get the size of the resulting formated message
-      let num = this.fmi.inst._snprintf(ptr, 0, message1, other1);
-      this.fmi.inst._free(ptr);
+      let num = this.inst._snprintf(ptr, 0, message1, other1);
+      this.inst._free(ptr);
       num++; // TODO: Error handling num < 0
-      ptr = this.fmi.inst._malloc(num);
-      this.fmi.inst._snprintf(ptr, num, message1, other1);
+      ptr = this.inst._malloc(num);
+      this.inst._snprintf(ptr, num, message1, other1);
       // return pointer to the resulting message string
       return ptr;
     };
 
     // eslint-disable-next-line new-cap
-    console.log('FMU(' + this.fmi.inst.UTF8ToString(instanceName) +  ':' + status + ':' + this.fmi.inst.UTF8ToString(category) + ') msg: ' + this.fmi.inst.UTF8ToString(formatMessage(message, other))
-    );
-    this.fmi.inst._free(formatMessage);
+    console.log('FMU(' + this.inst.UTF8ToString(instanceName) +  
+    ' status:' + status + 
+    ' cat:' + this.inst.UTF8ToString(category) + 
+    ') msg: ' + this.inst.UTF8ToString(formatMessage(message, other))
+  );
+    /*console.log(
+      'FMU(' + 
+      instanceName +  ' status:' + 
+      status + ' cat:' + 
+      category + ') msg: ' + 
+      message + ' other:'+ other
+    );*/
+    this.inst._free(formatMessage);
   }  
 
   secondsToTime(sec, multiply = 1) {
