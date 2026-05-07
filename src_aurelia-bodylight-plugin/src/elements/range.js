@@ -33,6 +33,16 @@ export class Range {
     counterToInit = 5;
 
     constructor() {
+                // In bind()
+        this.debouncedDispatch = _.debounce(() => {
+            if (this.refinput) {
+                this.refinput.dispatchEvent(new Event(this.fireevent, {
+                    bubbles: true,
+                    cancelable: true
+                }));
+            }
+        }, 100); // 100ms debounce        
+
         this.handleValueChange = e => {
             //sets data to dataset
             //apply value convert among all data
@@ -125,15 +135,7 @@ export class Range {
             this.updatevalue = this.setCurrentValue.bind(this);
         }
         if (typeof this.initdefault === 'string') this.initdefault = this.initdefault === 'true';
-        // In bind()
-        this.debouncedDispatch = _.debounce(() => {
-            if (this.refinput) {
-                this.refinput.dispatchEvent(new Event(this.fireevent, {
-                    bubbles: true,
-                    cancelable: true
-                }));
-            }
-        }, 100); // 100ms debounce        
+        
     }
 
     attached() {
@@ -179,7 +181,7 @@ export class Range {
     }
 
     valueChanged(newValue, oldValue) {
-        console.log('range valueChanged() newValue,oldValue:', newValue, oldValue);
+        //console.log('range valueChanged() newValue,oldValue:', newValue, oldValue);
         if (newValue === oldValue) return; // Only act on real changes  
         //TODO check if it works in all cases - range is sometimes updated from outside
         //if (oldValue !== newValue)

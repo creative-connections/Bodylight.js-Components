@@ -4,9 +4,9 @@
  * send message to fb-send-message channel to sned the message to firebase
  */
 // Import the required functions from the Firebase SDK
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, deleteApp } from 'firebase/app';
 //import * as firebase from "firebase/app";
-import { getDatabase, ref, set, onValue, off, get, remove } from 'firebase/database';
+import { getDatabase, ref, set, onValue, off, get, remove, goOnline, goOffline } from 'firebase/database';
 //import * as firebasedb from 'firebase/database';
 import { inject, bindable } from "aurelia-framework";
 import { EventAggregator } from 'aurelia-event-aggregator';
@@ -76,8 +76,9 @@ export class FbConfig {
             console.warn('firebaseConfig does not have a defined property databaseURL');
             return
         }
-        this.app = initializeApp(firebaseConfig);
+        this.app = this._getOrCreateApp(firebaseConfig);
         this.database = getDatabase(this.app);
+        this._monitorConnection();
         if (typeof this.listen === 'string') {
             this.listen = this.listen === 'true';
         }
@@ -101,12 +102,98 @@ export class FbConfig {
     }
 
     detached() {
-        //this.ea.
+        this._stopConnectionMonitor();
+    }
+
+    /**
+     * Get existing Firebase app or create a new one.
+     * Prevents "Firebase App already exists" errors on refresh.
+     */
+    _getOrCreateApp(config) {
+        const existingApps = getApps();
+        if (existingApps.length > 0) {
+            // Delete existing app to force a fresh connection
+            for (const app of existingApps) {
+                try { deleteApp(app); } catch (e) { /* ignore */ }
+            }
+        }
+        return initializeApp(config);
+    }
+
+    /**
+     * Monitor Firebase connection state.
+     * If disconnected, force reconnect after a short delay.
+     */
+    _monitorConnection() {
+        const connectedRef = ref(this.database, '.info/connected');
+        this._connectedListener = (snap) => {
+            if (snap.val() === true) {
+                console.log('Firebase: connected');
+                this._reconnectAttempts = 0;
+            } else {
+                console.warn('Firebase: disconnected');
+                this._scheduleReconnect();
+            }
+        };
+        onValue(connectedRef, this._connectedListener);
+
+        // Periodic keep-alive: force reconnect if disconnected for too long
+        this._keepAliveInterval = setInterval(() => {
+            const connRef = ref(this.database, '.info/connected');
+            get(connRef).then(snap => {
+                if (snap.val() !== true) {
+                    console.warn('Firebase keep-alive: not connected, forcing reconnect');
+                    this._forceReconnect();
+                }
+            }).catch(() => {
+                console.warn('Firebase keep-alive: error checking connection, forcing reconnect');
+                this._forceReconnect();
+            });
+        }, 5 * 60 * 1000); // Check every 5 minutes
+    }
+
+    _stopConnectionMonitor() {
+        if (this._connectedListener && this.database) {
+            const connectedRef = ref(this.database, '.info/connected');
+            off(connectedRef, 'value', this._connectedListener);
+            this._connectedListener = null;
+        }
+        if (this._keepAliveInterval) {
+            clearInterval(this._keepAliveInterval);
+            this._keepAliveInterval = null;
+        }
+        if (this._reconnectTimeout) {
+            clearTimeout(this._reconnectTimeout);
+            this._reconnectTimeout = null;
+        }
+    }
+
+    _scheduleReconnect() {
+        if (this._reconnectTimeout) return;
+        this._reconnectAttempts = (this._reconnectAttempts || 0) + 1;
+        const delay = Math.min(5000 * this._reconnectAttempts, 30000); // backoff up to 30s
+        this._reconnectTimeout = setTimeout(() => {
+            this._reconnectTimeout = null;
+            this._forceReconnect();
+        }, delay);
+    }
+
+    _forceReconnect() {
+        console.log('Firebase: forcing reconnect (goOffline then goOnline)');
+        try {
+            goOffline(this.database);
+            setTimeout(() => {
+                goOnline(this.database);
+            }, 1000);
+        } catch (e) {
+            console.error('Firebase reconnect error:', e);
+        }
     }
     unbind() {
-        this.subscription.dispose();
-        this.subsendanswer.dispose();
-        this.subprocessanswer.dispose();
+        this._stopConnectionMonitor();
+        if (this.subscription) this.subscription.dispose();
+        if (this.subsendanswer) this.subsendanswer.dispose();
+        if (this.subscription4) this.subscription4.dispose();
         if (this.listen) {
             const messagesRef = ref(this.database, 'messages');
 
